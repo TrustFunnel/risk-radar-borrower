@@ -21,14 +21,23 @@ Until Supabase is configured the app runs in demo mode: data stays in the browse
 
 ## Lender prices
 
-`scripts/scrape-lenders.mjs` searches and scrapes each lender in `src/data/lenders.json` with Firecrawl
-and writes `src/data/lender-products.json`. The GitHub Action `Refresh lender prices` runs it every Monday;
-it needs the repository secret `FIRECRAWL_API_KEY`.
+`scripts/scrape-lenders.mjs` uses Firecrawl to scrape the Kenya Bankers Association
+[Total Cost of Credit interest-rate report](https://www.costofcredit.co.ke/site/interest-rate), where every bank
+and microfinance bank reports its loan rates, and writes `src/data/lender-products.json` (one scrape, about 41
+lenders). The GitHub Action `Refresh lender prices` runs it every Monday; it needs the repository secret
+`FIRECRAWL_API_KEY`. SACCOs and mobile lenders don't report to KBA; they are listed in `src/data/lenders.json`.
 
 ```bash
-FIRECRAWL_API_KEY=fc-... npm run scrape            # all lenders
-FIRECRAWL_API_KEY=fc-... npm run scrape kcb tala   # some lenders
+FIRECRAWL_API_KEY=fc-... npm run scrape
+node scripts/scrape-lenders.mjs --from-file scripts/fixtures/kba-interest-rate-2026-10-21.md   # offline
 ```
+
+## Getting help (remediation)
+
+- **Affordable plan:** reads monthly income from an M-Pesa or bank statement CSV (parsed in the browser) or typed
+  figures, sizes the plan on the slower months with a 20% buffer, and proposes a payment and term per loan.
+- **Cheaper lender:** proposes a buyout (refinance) by lenders whose typical rate beats the loan after fees.
+- **Talk to us:** settlement or advice requests. Every request asks for consent to share that loan only.
 
 ## Database
 

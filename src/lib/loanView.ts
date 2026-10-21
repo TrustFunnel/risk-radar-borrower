@@ -35,8 +35,16 @@ export function balance(loan: Loan, today = new Date()): number {
   return rows.at(Math.min(k, rows.length) - 1)?.balance ?? 0;
 }
 
+export function monthsLeft(loan: Loan, today = new Date()): number {
+  if (loan.status === "closed") return 0;
+  const left = dueDates(loan).length - installmentsElapsed(loan, today);
+  if (loan.terms.frequency === "weekly") return Math.max(1, Math.ceil((left * 12) / 52));
+  return Math.max(1, left);
+}
+
 export function view(loan: Loan, today = new Date()) {
   return {
+    monthsLeft: monthsLeft(loan, today),
     loan,
     apr: apr(loan.terms),
     installment: installment(loan.terms),

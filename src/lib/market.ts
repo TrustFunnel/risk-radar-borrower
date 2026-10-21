@@ -2,35 +2,31 @@ import type { LoanTerms, RateType } from "./finance";
 import { apr, installment, totalCostOfCredit } from "./finance";
 import type { LenderType } from "./types";
 
-// One loan product as published by a lender, written by scripts/scrape-lenders.mjs.
+// One lender's published pricing, written by scripts/scrape-lenders.mjs.
 export interface LenderProduct {
   lenderId: string;
   lender: string;
   lenderType: LenderType;
   product: string;
-  minAmount?: number;
-  maxAmount?: number;
-  minTermMonths?: number;
-  maxTermMonths?: number;
-  rate: number; // percent
+  rate: number; // percent per year
+  rateMin?: number;
+  rateMax?: number;
   rateType: RateType;
-  feePct?: number; // upfront fees as % of principal, incl. insurance and excise
-  feeFlat?: number; // fixed upfront fees, KES
-  collateral?: string;
+  feesIncluded: boolean; // KBA reports interest only
   sourceUrl: string;
-  checkedOn: string; // ISO date of the scrape
+  rateUpdatedOn?: string; // when the lender last updated the rate
+  checkedOn: string; // when we last scraped it
 }
 
-export function quote(p: LenderProduct, amount: number, months: number) {
-  const digitalShortTerm = p.rateType === "per_term" && (p.maxTermMonths ?? 1) <= 1;
-  const terms: LoanTerms = digitalShortTerm
-    ? { principal: amount, rate: p.rate, rateType: p.rateType, frequency: "bullet", installments: 1, termDays: 30 }
-    : { principal: amount, rate: p.rate, rateType: p.rateType, frequency: "monthly", installments: months };
-  terms.upfrontFees = (amount * (p.feePct ?? 0)) / 100 + (p.feeFlat ?? 0);
+// Typical upfront costs on a Kenyan bank personal loan (processing fee,
+// credit life insurance, excise duty). An assumption the borrower can change,
+// used only where the lender's fees are not published.
+export const DEFAULT_FEE_PCT = 3;
+
+export function quote(p: LenderProduct, amount: number, months: number, feePct = DEFAULT_FEE_PCT) {
+  const terms: LoanTerms = {
+    principal: amount, rate: p.rate, rateType: p.rateType, frequency: "monthly", installments: Math.max(1, months),
+    upfrontFees: p.feesIncluded ? 0 : (amount * feePct) / 100,
+  };
   return { terms, apr: apr(terms), installment: installment(terms), totalCost: totalCostOfCredit(terms) };
-}
-
-export function fits(p: LenderProduct, amount: number, months: number) {
-  return (p.minAmount == null || amount >= p.minAmount) && (p.maxAmount == null || amount <= p.maxAmount) &&
-    (p.rateType === "per_term" || ((p.minTermMonths == null || months >= p.minTermMonths) && (p.maxTermMonths == null || months <= p.maxTermMonths)));
 }

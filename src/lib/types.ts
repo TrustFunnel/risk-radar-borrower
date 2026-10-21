@@ -1,4 +1,5 @@
 import type { LoanTerms } from "./finance";
+import type { MonthFlow } from "./remediation";
 
 export type LenderType = "bank" | "sacco" | "mfi" | "digital" | "chama" | "other";
 
@@ -33,6 +34,9 @@ export interface Profile {
   displayName: string;
   monthlyIncome: number;
   phone?: string;
+  incomeFlows?: MonthFlow[]; // monthly totals from statements or typed in
+  incomeSource?: "statement" | "manual";
+  essentials?: number; // KES per month: rent, food, transport, school fees
 }
 
 // Each purpose is consented to separately (Kenya Data Protection Act 2019,
@@ -74,7 +78,9 @@ export interface ConsentRecord {
 export interface DistressRequest {
   id: string;
   loanId: string;
-  goal: "restructure" | "settlement" | "advice";
+  goal: "affordable_plan" | "refinance" | "settlement" | "advice";
+  targetLender?: string; // refinance: the lender asked to buy the loan out
+  proposedMonthly?: number; // affordable_plan / refinance: the payment proposed
   message: string;
   status: "submitted" | "in_review" | "closed";
   createdAt: string;
