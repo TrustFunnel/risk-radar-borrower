@@ -3,6 +3,8 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Gate } from "@/components/Gate";
+import { useSession } from "@/components/Session";
+import { supabase } from "@/lib/supabase";
 import { store } from "@/lib/store";
 import { CONSENT_TEXT, type ConsentPurpose } from "@/lib/types";
 import { useDb } from "@/lib/useStore";
@@ -16,6 +18,19 @@ export default function Account() {
 function AccountInner() {
   const { db } = useDb();
   const router = useRouter();
+  const session = useSession();
+  const [deleteError, setDeleteError] = useState("");
+  const localDemo = session.status === "signedIn" ? store.localDemoData() : null;
+
+  async function deleteEverything() {
+    if (!confirm("Delete all your loans, consents and profile? This cannot be undone.")) return;
+    try {
+      await store.deleteAll();
+      router.replace(session.status === "demo" ? "/welcome" : "/login");
+    } catch (e) {
+      setDeleteError(`Couldn't delete your account: ${(e as Error).message}`);
+    }
+  }
   const [income, setIncome] = useState(String(db.profile?.monthlyIncome ?? ""));
 
   function download() {
@@ -30,6 +45,18 @@ function AccountInner() {
   return (
     <div className="space-y-4 py-2">
       <h1 className="text-xl font-bold">Account and privacy</h1>
+      {session.status === "signedIn" ? (
+        <section className="card flex items-center justify-between gap-3">
+          <div><p className="text-xs text-muted">Signed in as</p><p className="num font-semibold">{db.profile?.phone ?? session.phone}</p></div>
+          <button className="btn-ghost" onClick={() => supabase?.auth.signOut()}>Sign out</button>
+        </section>
+      ) : null}
+      {localDemo ? (
+        <section className="card flex items-center justify-between gap-3 text-sm">
+          <span>{localDemo.loans.length} loan(s) from before you signed in are still on this phone.</span>
+          <button className="btn-ghost" onClick={() => store.importLocal().catch((e) => setDeleteError((e as Error).message))}>Copy to account</button>
+        </section>
+      ) : null}
       <section className="card space-y-2">
         <label className="block"><span className="label">Monthly take-home income (KES)</span>
           <input className="input num" inputMode="numeric" value={income} onChange={(e) => setIncome(e.target.value.replace(/[^\d]/g, ""))} />
@@ -63,8 +90,9 @@ function AccountInner() {
         <p className="text-xs text-muted">Download a copy of everything we hold about you, or delete it all. Deleting also withdraws the consent to store your loans.</p>
         <div className="flex gap-2">
           <button className="btn-ghost" onClick={download}>Download my data</button>
-          <button className="btn-ghost text-bad" onClick={() => { if (confirm("Delete all your loans, consents and profile? This cannot be undone.")) { store.deleteAll(); router.replace("/welcome"); } }}>Delete everything</button>
+          <button className="btn-ghost text-bad" onClick={deleteEverything}>{session.status === "signedIn" ? "Delete my account" : "Delete everything"}</button>
         </div>
+        {deleteError ? <p className="text-xs text-bad">{deleteError}</p> : null}
       </section>
     </div>
   );

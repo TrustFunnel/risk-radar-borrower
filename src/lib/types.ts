@@ -58,7 +58,7 @@ export const CONSENT_TEXT: Record<ConsentPurpose, { title: string; body: string;
   },
   reminders: {
     title: "Send me reminders",
-    body: "Message me by SMS or email before a repayment is due.",
+    body: "Text me 3 days before and on the day each repayment is due.",
     required: false,
   },
   share_partner: {
@@ -82,6 +82,6 @@ export interface DistressRequest {
   targetLender?: string; // refinance: the lender asked to buy the loan out
   proposedMonthly?: number; // affordable_plan / refinance: the payment proposed
   message: string;
-  status: "submitted" | "in_review" | "closed";
+  status: "submitted" | "in_review" | "closed" | "withdrawn";
   createdAt: string;
 }

@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import Link from "next/link";
 import { Nav } from "@/components/Nav";
+import { SaveErrors, SessionProvider } from "@/components/Session";
 
 export const metadata: Metadata = {
   title: "Risk Radar: Loan Wallet",
@@ -19,6 +20,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="en">
       <body className="antialiased">
+        <SessionProvider>
         <div className="mx-auto min-h-screen max-w-3xl pb-24">
           <header className="flex items-center justify-between px-4 pb-2 pt-5">
             <Link href="/" className="flex items-center gap-2 font-semibold">
@@ -27,9 +29,11 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             </Link>
             <Link href="/account" className="text-sm text-muted">Account</Link>
           </header>
+          <SaveErrors />
           <main className="px-4">{children}</main>
         </div>
         <Nav />
+        </SessionProvider>
       </body>
     </html>
   );

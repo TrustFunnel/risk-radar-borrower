@@ -13,7 +13,7 @@ const items = [
 
 export function Nav() {
   const path = usePathname();
-  if (path.startsWith("/welcome")) return null;
+  if (path.startsWith("/welcome") || path.startsWith("/login")) return null;
   return (
     <nav className="fixed inset-x-0 bottom-0 border-t border-line bg-card">
       <ul className="mx-auto flex max-w-3xl justify-between px-2">

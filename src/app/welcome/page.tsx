@@ -1,7 +1,8 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useSession } from "@/components/Session";
 import { store } from "@/lib/store";
 import { CONSENT_TEXT, CONSENT_VERSION, type ConsentPurpose } from "@/lib/types";
 
@@ -9,17 +10,35 @@ const PURPOSES: ConsentPurpose[] = ["store", "analyse", "reminders"];
 
 export default function Welcome() {
   const router = useRouter();
+  const session = useSession();
   const [name, setName] = useState("");
+  const [importing, setImporting] = useState(false);
+  const [importError, setImportError] = useState("");
+  const demo = session.status === "signedIn" ? store.localDemoData() : null;
+
+  useEffect(() => {
+    if (session.status === "signedOut") router.replace("/login");
+  }, [session.status, router]);
   const [income, setIncome] = useState("");
   const [picked, setPicked] = useState<Record<ConsentPurpose, boolean>>({ store: false, analyse: true, reminders: true, share_partner: false });
 
   const canStart = picked.store && name.trim().length > 0;
 
-  function start() {
+  async function start() {
     for (const p of PURPOSES) store.setConsent(p, picked[p]);
-    store.saveProfile({ displayName: name.trim(), monthlyIncome: Number(income) || 0 });
+    store.saveProfile({ displayName: name.trim(), monthlyIncome: Number(income) || 0, phone: session.phone });
+    if (demo && importing) {
+      try {
+        await store.importLocal();
+      } catch (e) {
+        setImportError(`We couldn't copy your loans from this phone: ${(e as Error).message}. They're still here; try again from Account.`);
+        return;
+      }
+    }
     router.replace("/");
   }
+
+  if (session.status === "loading" || session.status === "signedOut") return <p className="py-10 text-center text-sm text-muted">Loading…</p>;
 
   return (
     <div className="space-y-5 py-4">
@@ -63,8 +82,16 @@ export default function Welcome() {
         <p className="text-xs text-muted">Sharing a loan with a help partner is asked separately, each time you request help. Consent version {CONSENT_VERSION}.</p>
       </section>
 
+      {demo ? (
+        <label className="card flex items-start gap-3 text-sm">
+          <input type="checkbox" className="mt-1" checked={importing} onChange={(e) => setImporting(e.target.checked)} />
+          <span>Copy the {demo.loans.length} loan{demo.loans.length === 1 ? "" : "s"} you added on this phone before signing in into my account.</span>
+        </label>
+      ) : null}
+      {importError ? <p className="text-sm text-bad">{importError}</p> : null}
+
       <button className="btn w-full" disabled={!canStart} onClick={start}>Start my loan wallet</button>
-      <p className="text-center text-xs text-muted">Demo mode: your data stays in this browser until accounts are switched on.</p>
+      {session.status === "demo" ? <p className="text-center text-xs text-muted">Demo mode: your data stays in this browser until accounts are switched on.</p> : null}
     </div>
   );
 }
