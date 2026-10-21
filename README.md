@@ -1,36 +1,41 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Risk Radar: Loan Wallet
 
-## Getting Started
+Borrower-side app for Risk Radar EWS (Kenya). Borrowers add every loan they hold, with consent, and get:
 
-First, run the development server:
+- one view of balances, repayments and due dates
+- the true APR and total cost of each loan, whatever way the lender quotes it
+- a rules-based loan health score (early warning)
+- a payoff planner (costliest first or smallest first)
+- a consent-gated request for help restructuring or settling a loan in trouble
+- a comparison of loan costs across Kenyan lenders, refreshed weekly with Firecrawl
+
+## Run it
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev      # http://localhost:3000
+npm test         # loan maths tests
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Until Supabase is configured the app runs in demo mode: data stays in the browser's localStorage.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Lender prices
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+`scripts/scrape-lenders.mjs` searches and scrapes each lender in `src/data/lenders.json` with Firecrawl
+and writes `src/data/lender-products.json`. The GitHub Action `Refresh lender prices` runs it every Monday;
+it needs the repository secret `FIRECRAWL_API_KEY`.
 
-## Learn More
+```bash
+FIRECRAWL_API_KEY=fc-... npm run scrape            # all lenders
+FIRECRAWL_API_KEY=fc-... npm run scrape kcb tala   # some lenders
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Database
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+`supabase/migrations/0001_init.sql` holds the schema for accounts mode, with row-level security on every
+table that stores personal data and an append-only consent log.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Compliance notes (Kenya Data Protection Act 2019)
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Before public launch: register with the ODPC as a data controller, complete a DPIA, publish a privacy
+notice, and document the basis for any cross-border hosting.

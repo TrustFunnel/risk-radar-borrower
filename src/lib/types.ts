@@ -1,0 +1,81 @@
+import type { LoanTerms } from "./finance";
+
+export type LenderType = "bank" | "sacco" | "mfi" | "digital" | "chama" | "other";
+
+export const LENDER_TYPES: { value: LenderType; label: string }[] = [
+  { value: "bank", label: "Bank" },
+  { value: "sacco", label: "SACCO" },
+  { value: "mfi", label: "Microfinance" },
+  { value: "digital", label: "Digital / mobile app" },
+  { value: "chama", label: "Chama / group" },
+  { value: "other", label: "Other" },
+];
+
+export type LoanStatus = "current" | "late" | "defaulted" | "closed";
+
+export interface Loan {
+  id: string;
+  lender: string;
+  lenderType: LenderType;
+  productName?: string;
+  terms: LoanTerms;
+  disbursedOn: string; // ISO date
+  firstDueDate: string; // ISO date
+  outstandingBalance?: number; // from the latest statement, if known
+  arrearsDays: number;
+  status: LoanStatus;
+  notes?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface Profile {
+  displayName: string;
+  monthlyIncome: number;
+  phone?: string;
+}
+
+// Each purpose is consented to separately (Kenya Data Protection Act 2019,
+// s.30 and s.32): storing is required to use the wallet; the rest are optional.
+export type ConsentPurpose = "store" | "analyse" | "reminders" | "share_partner";
+
+export const CONSENT_VERSION = "2026-10-21";
+
+export const CONSENT_TEXT: Record<ConsentPurpose, { title: string; body: string; required: boolean }> = {
+  store: {
+    title: "Store my loan details",
+    body: "Keep the loans, schedules and statements I add so I can see them in one place. Needed to use the loan wallet.",
+    required: true,
+  },
+  analyse: {
+    title: "Analyse my loans",
+    body: "Calculate my true loan cost, debt-to-income and loan health score from what I add. Nothing leaves the app.",
+    required: false,
+  },
+  reminders: {
+    title: "Send me reminders",
+    body: "Message me by SMS or email before a repayment is due.",
+    required: false,
+  },
+  share_partner: {
+    title: "Share a loan I flag for help",
+    body: "When I ask for help with a specific loan, share that loan's details with the partner I choose. Asked again each time.",
+    required: false,
+  },
+};
+
+export interface ConsentRecord {
+  purpose: ConsentPurpose;
+  granted: boolean;
+  version: string;
+  at: string; // ISO timestamp
+}
+
+export interface DistressRequest {
+  id: string;
+  loanId: string;
+  goal: "restructure" | "settlement" | "advice";
+  message: string;
+  status: "submitted" | "in_review" | "closed";
+  createdAt: string;
+}
