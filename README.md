@@ -18,6 +18,8 @@ npm test         # loan maths tests
 ```
 
 Until Supabase is configured the app runs in demo mode: data stays in the browser's localStorage.
+With Supabase configured, borrowers sign in with their phone number (SMS code via Africa's Talking), their
+data is stored in their account, and they get SMS repayment reminders. Setup: [docs/SETUP-accounts.md](docs/SETUP-accounts.md).
 
 ## Lender prices
 
@@ -42,7 +44,9 @@ node scripts/scrape-lenders.mjs --from-file scripts/fixtures/kba-interest-rate-2
 ## Database
 
 `supabase/migrations/0001_init.sql` holds the schema for accounts mode, with row-level security on every
-table that stores personal data and an append-only consent log.
+table that stores personal data, an append-only consent log, and database-enforced consent: loans can't be
+saved without the "store" consent, nor help requests without "share_partner". `delete_my_account()` erases
+the borrower and everything linked to them.
 
 ## Compliance notes (Kenya Data Protection Act 2019)
 

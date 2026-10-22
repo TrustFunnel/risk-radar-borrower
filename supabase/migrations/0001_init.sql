@@ -9,6 +9,10 @@ create table public.profiles (
   user_id uuid primary key references auth.users on delete cascade,
   display_name text not null,
   monthly_income numeric(14,2) not null default 0,
+  phone text, -- E.164, copied from auth at onboarding; used for SMS reminders
+  essentials numeric(14,2),
+  income_flows jsonb, -- [{month, inflow, outflow}] from statements or typed in
+  income_source text check (income_source in ('statement','manual')),
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
@@ -66,10 +70,11 @@ create table public.distress_requests (
   id uuid primary key default gen_random_uuid(),
   user_id uuid not null references auth.users on delete cascade,
   loan_id uuid not null references public.loans on delete cascade,
-  goal text not null check (goal in ('restructure','settlement','advice')),
+  goal text not null check (goal in ('affordable_plan','refinance','settlement','advice')),
   message text,
+  target_lender text, -- refinance: the lender asked to buy the loan out
+  proposed_monthly numeric(14,2),
   status text not null default 'submitted' check (status in ('submitted','in_review','closed','withdrawn')),
-  consent_id bigint not null references public.consents,
   created_at timestamptz not null default now()
 );
 
@@ -80,6 +85,17 @@ create table public.share_log (
   partner text not null,
   shared_at timestamptz not null default now(),
   shared_by uuid
+);
+
+-- One row per reminder sent, so the daily job never texts twice for the same due date.
+create table public.reminder_log (
+  id bigint generated always as identity primary key,
+  loan_id uuid not null references public.loans on delete cascade,
+  due_date date not null,
+  kind text not null check (kind in ('due_3d','due_today')),
+  sent_at timestamptz not null default now(),
+  provider_status text,
+  unique (loan_id, due_date, kind)
 );
 
 -- Public reference data for the Compare page (no personal data).
@@ -106,6 +122,7 @@ alter table public.statements enable row level security;
 alter table public.distress_requests enable row level security;
 alter table public.share_log enable row level security;
 alter table public.lender_products enable row level security;
+alter table public.reminder_log enable row level security; -- service role only
 
 create policy own_profile on public.profiles for all using (auth.uid() = user_id) with check (auth.uid() = user_id);
 create policy own_consents_read on public.consents for select using (auth.uid() = user_id);
@@ -123,3 +140,14 @@ create or replace function public.has_consent(p text) returns boolean language s
   select coalesce((select granted from public.consents where user_id = auth.uid() and purpose = p order by at desc limit 1), false)
 $$;
 create policy loans_need_consent on public.loans as restrictive for insert with check (public.has_consent('store'));
+
+-- Sharing a loan with a partner requires the latest 'share_partner' consent.
+create policy requests_need_consent on public.distress_requests as restrictive for insert with check (public.has_consent('share_partner'));
+
+-- Right to erasure (Kenya DPA 2019 s.40): deleting the auth user cascades to
+-- every table above.
+create or replace function public.delete_my_account() returns void language sql security definer set search_path = public, auth as $$
+  delete from auth.users where id = auth.uid()
+$$;
+revoke all on function public.delete_my_account() from public, anon;
+grant execute on function public.delete_my_account() to authenticated;
