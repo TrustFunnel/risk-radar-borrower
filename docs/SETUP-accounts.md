@@ -6,8 +6,9 @@ done in any order; accounts switch on when the Supabase variables are set and th
 ## 1. Supabase (database and phone login)
 
 1. In Vercel, open the project → **Storage** → **Create Database** → **Supabase**, and connect it to
-   `risk-radar-borrower`. Vercel adds `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY` and
-   `SUPABASE_SERVICE_ROLE_KEY` to the project for you.
+   `risk-radar-borrower`. Vercel adds `SUPABASE_URL`, `SUPABASE_ANON_KEY` and
+   `SUPABASE_SERVICE_ROLE_KEY` to the project for you (leave the custom prefix empty);
+   `next.config.ts` exposes the first two to the browser.
    (Or create a project at supabase.com and add those three variables by hand.)
 2. In Supabase, open **SQL Editor**, paste all of `supabase/migrations/0001_init.sql` and run it.
 3. **Authentication → Sign In / Providers → Phone**: turn it on. Leave the SMS provider unset; step 3 below
