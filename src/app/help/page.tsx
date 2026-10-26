@@ -101,7 +101,7 @@ function AffordablePlanTab({ onSent }: { onSent: (s: string) => void }) {
     <div className="space-y-4">
       <section className="card space-y-3">
         <h2 className="font-semibold">1. Your income</h2>
-        <p className="text-xs text-muted">Upload 3 to 6 months of M-Pesa or bank statements as CSV, or your business sales records. We read the money coming in each month. The file is read on your phone and never uploaded.</p>
+        <p className="text-xs text-muted">Upload 3 to 6 months of M-Pesa or bank statements as CSV, or your business sales records. We read the money coming in each month. The file is read on your phone and never uploaded. For PDF statements, use <Link className="text-brand underline" href="/profile">My details</Link>.</p>
         <input type="file" accept=".csv,text/csv" className="block w-full text-sm" onChange={(e) => e.target.files?.[0] && onFile(e.target.files[0])} />
         {csvError ? <p className="text-xs text-bad">{csvError}</p> : null}
         <div>

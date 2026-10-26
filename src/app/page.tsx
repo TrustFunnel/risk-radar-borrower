@@ -29,6 +29,13 @@ function Dashboard() {
     <div className="space-y-4 py-2">
       <h1 className="text-xl font-bold">Hi {db.profile?.displayName}</h1>
 
+      {!db.profile?.work || !db.documents.length ? (
+        <Link href="/profile" className="card block border-brand">
+          <p className="font-semibold">Complete your details</p>
+          <p className="mt-1 text-sm text-muted">Add your work, CRB report and M-PESA or bank statements so we can spot trouble early and check your loans are listed correctly.</p>
+        </Link>
+      ) : null}
+
       {active.length === 0 ? (
         <section className="card text-center">
           <p className="font-semibold">Add your first loan</p>

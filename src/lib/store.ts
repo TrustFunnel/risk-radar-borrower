@@ -1,8 +1,8 @@
 "use client";
 
-import { consentFromRow, loanFromRow, loanToRow, profileFromRow, profileToRow, requestFromRow, requestToRow } from "./rows";
+import { consentFromRow, docFromRow, docToRow, loanFromRow, loanToRow, profileFromRow, profileToRow, requestFromRow, requestToRow } from "./rows";
 import { supabase } from "./supabase";
-import type { ConsentPurpose, ConsentRecord, DistressRequest, Loan, Profile } from "./types";
+import type { ConsentPurpose, ConsentRecord, DistressRequest, DocRecord, Loan, Profile } from "./types";
 import { CONSENT_VERSION } from "./types";
 
 // One store, two backends:
@@ -18,9 +18,10 @@ export interface Db {
   consents: ConsentRecord[];
   loans: Loan[];
   requests: DistressRequest[];
+  documents: DocRecord[];
 }
 
-const empty = (): Db => ({ profile: null, consents: [], loans: [], requests: [] });
+const empty = (): Db => ({ profile: null, consents: [], loans: [], requests: [], documents: [] });
 
 let remoteUser: string | null = null; // set while signed in
 let cache: Db | null = null;
@@ -77,13 +78,14 @@ export const store = {
   // Load the signed-in borrower's data from Supabase.
   async signIn(userId: string) {
     if (!supabase) return;
-    const [p, c, l, r] = await Promise.all([
+    const [p, c, l, r, d] = await Promise.all([
       supabase.from("profiles").select("*").maybeSingle(),
       supabase.from("consents").select("*").order("at"),
       supabase.from("loans").select("*").order("created_at"),
       supabase.from("distress_requests").select("*").order("created_at"),
+      supabase.from("documents").select("*").order("created_at"),
     ]);
-    const err = p.error ?? c.error ?? l.error ?? r.error;
+    const err = p.error ?? c.error ?? l.error ?? r.error ?? d.error;
     if (err) throw new Error(err.message);
     remoteUser = userId;
     cache = {
@@ -91,6 +93,7 @@ export const store = {
       consents: (c.data ?? []).map(consentFromRow),
       loans: (l.data ?? []).map(loanFromRow),
       requests: (r.data ?? []).map(requestFromRow),
+      documents: (d.data ?? []).map(docFromRow),
     };
     emit();
   },
@@ -162,6 +165,27 @@ export const store = {
     const req: DistressRequest = { ...r, id: newId(), status: "submitted", createdAt: new Date().toISOString() };
     commit({ ...db, requests: [...db.requests, req] });
     persist("your request", () => supabase!.from("distress_requests").insert(requestToRow(req, remoteUser!)));
+  },
+
+  addDocument(d: Omit<DocRecord, "id" | "createdAt">) {
+    const db = current();
+    const doc: DocRecord = { ...d, id: newId(), createdAt: new Date().toISOString() };
+    commit({ ...db, documents: [...db.documents, doc] });
+    persist("the document", () => supabase!.from("documents").insert(docToRow(doc, remoteUser!)));
+    return doc;
+  },
+
+  deleteDocument(id: string) {
+    const db = current();
+    commit({ ...db, documents: db.documents.filter((d) => d.id !== id) });
+    persist("the deletion", () => supabase!.from("documents").delete().eq("id", id));
+  },
+
+  // Supabase access token for calls to our own API routes.
+  async token(): Promise<string | undefined> {
+    if (!supabase) return undefined;
+    const { data } = await supabase.auth.getSession();
+    return data.session?.access_token;
   },
 
   exportAll(): string {

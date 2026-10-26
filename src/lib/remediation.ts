@@ -129,16 +129,23 @@ export function parseStatementCsv(text: string): MonthFlow[] {
     let inflow = 0, outflow = 0;
     if (iIn >= 0) { inflow = Math.abs(num(iIn)); outflow = Math.abs(num(iOut)); }
     else { const a = num(iAmt); if (a >= 0) inflow = a; else outflow = -a; }
-    const desc = (iDesc >= 0 ? r.at(iDesc) ?? "" : "").toLowerCase();
-    if (/loan|fuliza|m-shwari|repay|overdraft/.test(desc)) outflow = 0;
-    // Money moved between the borrower's own accounts is not income.
-    if (/reversal|own account|m-shwari withdraw/.test(desc)) inflow = 0;
-    const m = byMonth.get(month) ?? { month, inflow: 0, outflow: 0 };
-    m.inflow += inflow; m.outflow += outflow;
-    byMonth.set(month, m);
+    addToMonth(byMonth, month, inflow, outflow, iDesc >= 0 ? r.at(iDesc) ?? "" : "");
   }
-  return [...byMonth.values()].sort((a, b) => a.month.localeCompare(b.month));
+  return sortedFlows(byMonth);
 }
+
+// Adds one transaction to its month. Loan repayments are not spending, and
+// money borrowed or moved between the borrower's own accounts is not income.
+export function addToMonth(byMonth: Map<string, MonthFlow>, month: string, inflow: number, outflow: number, details: string) {
+  const desc = details.toLowerCase();
+  if (/loan|fuliza|m-shwari|repay|overdraft/.test(desc)) outflow = 0;
+  if (/reversal|own account|m-shwari withdraw|overdraft of credit|loan disburs|m-shwari loan|m-?pesa loan/.test(desc)) inflow = 0;
+  const m = byMonth.get(month) ?? { month, inflow: 0, outflow: 0 };
+  m.inflow += inflow; m.outflow += outflow;
+  byMonth.set(month, m);
+}
+
+export const sortedFlows = (byMonth: Map<string, MonthFlow>) => [...byMonth.values()].sort((a, b) => a.month.localeCompare(b.month));
 
 function splitCsv(line: string): string[] {
   const out: string[] = [];

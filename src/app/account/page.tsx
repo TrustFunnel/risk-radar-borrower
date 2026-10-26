@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Gate } from "@/components/Gate";
@@ -57,6 +58,11 @@ function AccountInner() {
           <button className="btn-ghost" onClick={() => store.importLocal().catch((e) => setDeleteError((e as Error).message))}>Copy to account</button>
         </section>
       ) : null}
+      <Link href="/profile" className="card flex items-center justify-between gap-3 text-sm">
+        <span><span className="block font-medium">My details</span><span className="text-xs text-muted">Work, CRB report, M-PESA and bank statements</span></span>
+        <span className="text-brand">Open</span>
+      </Link>
+
       <section className="card space-y-2">
         <label className="block"><span className="label">Monthly take-home income (KES)</span>
           <input className="input num" inputMode="numeric" value={income} onChange={(e) => setIncome(e.target.value.replace(/[^\d]/g, ""))} />

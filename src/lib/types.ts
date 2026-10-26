@@ -1,4 +1,5 @@
 import type { LoanTerms } from "./finance";
+import type { EmploymentType, Industry } from "./industry";
 import type { MonthFlow } from "./remediation";
 
 export type LenderType = "bank" | "sacco" | "mfi" | "digital" | "chama" | "other";
@@ -37,6 +38,53 @@ export interface Profile {
   incomeFlows?: MonthFlow[]; // monthly totals from statements or typed in
   incomeSource?: "statement" | "manual";
   essentials?: number; // KES per month: rent, food, transport, school fees
+  work?: WorkDetails;
+}
+
+export interface WorkDetails {
+  employmentType: EmploymentType;
+  employer: string; // or business name
+  jobTitle: string;
+  industry: Industry;
+  industrySource: "auto" | "manual";
+  since?: string; // YYYY-MM, started with this employer or business
+}
+
+// ---------- Documents the borrower uploads ----------
+
+export type DocKind = "crb" | "mpesa" | "bank";
+
+export type CrbBureau = "Metropol" | "TransUnion" | "Creditinfo" | "Other";
+
+export interface CrbAccount {
+  lender: string;
+  accountType: string; // e.g. personal loan, mobile loan, overdraft, credit card
+  openedOn?: string; // YYYY-MM-DD
+  principal?: number;
+  balance: number;
+  arrearsDays: number;
+  status: "performing" | "non_performing" | "written_off" | "closed" | "settled";
+  negative: boolean; // listed as a negative (default) entry
+}
+
+export interface CrbReport {
+  bureau: CrbBureau;
+  reportDate?: string;
+  score?: number;
+  scoreBand?: string;
+  accounts: CrbAccount[];
+}
+
+// A document the borrower read into the app. Only what was read out is kept;
+// the file itself stays on their phone.
+export interface DocRecord {
+  id: string;
+  kind: DocKind;
+  fileName: string;
+  crb?: CrbReport;
+  flows?: MonthFlow[];
+  summary: string; // one line shown in the list, e.g. "6 months, KES 312,400 in"
+  createdAt: string;
 }
 
 // Each purpose is consented to separately (Kenya Data Protection Act 2019,

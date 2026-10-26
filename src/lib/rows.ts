@@ -1,5 +1,5 @@
 // Mapping between app objects and Supabase rows (snake_case, numeric strings).
-import type { ConsentRecord, DistressRequest, Loan, Profile } from "./types";
+import type { ConsentRecord, DistressRequest, DocRecord, Loan, Profile } from "./types";
 
 type Row = Record<string, unknown>;
 const num = (v: unknown) => (v == null ? undefined : Number(v));
@@ -64,6 +64,7 @@ export function profileFromRow(r: Row): Profile {
     essentials: num(r.essentials),
     incomeFlows: (r.income_flows as Profile["incomeFlows"]) ?? undefined,
     incomeSource: (r.income_source as Profile["incomeSource"]) ?? undefined,
+    work: (r.work as Profile["work"]) ?? undefined,
   };
 }
 
@@ -76,6 +77,7 @@ export function profileToRow(p: Profile, userId: string): Row {
     essentials: p.essentials ?? null,
     income_flows: p.incomeFlows ?? null,
     income_source: p.incomeSource ?? null,
+    work: p.work ?? null,
     updated_at: new Date().toISOString(),
   };
 }
@@ -110,3 +112,23 @@ export function requestToRow(r: DistressRequest, userId: string): Row {
     status: r.status,
   };
 }
+
+export const docFromRow = (r: Row): DocRecord => ({
+  id: r.id as string,
+  kind: r.kind as DocRecord["kind"],
+  fileName: r.file_name as string,
+  summary: (r.summary as string) ?? "",
+  crb: ((r.parsed as { crb?: DocRecord["crb"] }) ?? {}).crb,
+  flows: ((r.parsed as { flows?: DocRecord["flows"] }) ?? {}).flows,
+  createdAt: r.created_at as string,
+});
+
+export const docToRow = (d: DocRecord, userId: string): Row => ({
+  id: d.id,
+  user_id: userId,
+  kind: d.kind,
+  file_name: d.fileName,
+  summary: d.summary,
+  parsed: { crb: d.crb ?? null, flows: d.flows ?? null },
+  created_at: d.createdAt,
+});

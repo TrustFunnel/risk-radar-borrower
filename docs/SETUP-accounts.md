@@ -37,3 +37,15 @@ due date.
 Vercel → Deployments → the latest one → **Redeploy**, so the new variables take effect.
 
 All variables are listed in `.env.example`.
+
+## 5. Work details and document uploads (My details screen)
+
+1. In Supabase **SQL Editor**, run `supabase/migrations/0002_work_and_documents.sql`. It adds work details to
+   the profile and a `documents` table for what is read from uploads.
+2. Create an API key at console.anthropic.com and add it in Vercel as `ANTHROPIC_API_KEY`, then redeploy.
+   CRB reports and bank statement PDFs are read with it (roughly US$0.05 to 0.30 per document, depending on
+   length). M-PESA statements are read on the phone and need no key.
+
+PDFs are opened in the borrower's browser, including password-protected ones (the M-PESA SMS code, a bank's
+ID-number password). Only the text of CRB reports and bank PDFs is sent to `/api/extract`; no file is
+stored anywhere, and the password never leaves the phone.
