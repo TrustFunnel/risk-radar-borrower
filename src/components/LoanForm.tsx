@@ -53,9 +53,11 @@ function toTerms(f: Form): LoanTerms {
   };
 }
 
-export function LoanForm({ loan }: { loan?: Loan }) {
+export type LoanDraft = Partial<Pick<Form, "lender" | "lenderType" | "principal" | "outstandingBalance" | "arrearsDays" | "status" | "disbursedOn" | "notes">>;
+
+export function LoanForm({ loan, draft }: { loan?: Loan; draft?: LoanDraft }) {
   const router = useRouter();
-  const [f, setF] = useState<Form>(() => toForm(loan));
+  const [f, setF] = useState<Form>(() => ({ ...toForm(loan), ...draft }));
   const set = <K extends keyof Form>(k: K, v: Form[K]) => setF((x) => ({ ...x, [k]: v }));
   const terms = useMemo(() => toTerms(f), [f]);
   const valid = f.lender.trim() && terms.principal > 0 && (f.knowsInstallment ? (terms.installmentAmount ?? 0) > 0 : terms.rate > 0);
