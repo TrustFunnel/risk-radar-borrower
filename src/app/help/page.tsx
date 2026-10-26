@@ -28,7 +28,7 @@ function HelpInner() {
       <h1 className="text-xl font-bold">Get help with your loans</h1>
       <div className="grid grid-cols-3 gap-1 rounded-xl border border-line bg-card p-1 text-sm">
         {([["plan", "Affordable plan"], ["refinance", "Cheaper lender"], ["talk", "Talk to us"]] as const).map(([k, label]) => (
-          <button key={k} onClick={() => { setTab(k); setSent(null); }} className={`rounded-lg py-2 font-medium ${tab === k ? "bg-brand text-white dark:text-black" : "text-muted"}`}>{label}</button>
+          <button key={k} onClick={() => { setTab(k); setSent(null); }} className={`rounded-lg py-2 font-medium ${tab === k ? "bg-brand text-[#181a20]" : "text-muted"}`}>{label}</button>
         ))}
       </div>
       {sent ? (

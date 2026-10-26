@@ -3,10 +3,18 @@
 import Link from "next/link";
 import { Gate } from "@/components/Gate";
 import { HealthCard } from "@/components/HealthCard";
+import { CompareIcon, HelpIcon, PlanIcon, PlusIcon } from "@/components/Icons";
 import { healthScore, kes, monthlyObligation } from "@/lib/finance";
 import { daysUntil, fmtDate, view } from "@/lib/loanView";
 import { store } from "@/lib/store";
 import { useDb } from "@/lib/useStore";
+
+const ACTIONS = [
+  { href: "/loans/new", label: "Add loan", Icon: PlusIcon },
+  { href: "/plan", label: "Plan", Icon: PlanIcon },
+  { href: "/compare", label: "Compare", Icon: CompareIcon },
+  { href: "/help", label: "Get help", Icon: HelpIcon },
+];
 
 export default function Home() {
   return <Gate><Dashboard /></Gate>;
@@ -27,7 +35,7 @@ function Dashboard() {
 
   return (
     <div className="space-y-4 py-2">
-      <h1 className="text-xl font-bold">Hi {db.profile?.displayName}</h1>
+      <h1 className="text-lg font-semibold">Hi {db.profile?.displayName}</h1>
 
       {!db.profile?.work || !db.documents.length ? (
         <Link href="/profile" className="card block border-brand">
@@ -44,10 +52,22 @@ function Dashboard() {
         </section>
       ) : (
         <>
-          <section className="grid grid-cols-2 gap-3">
-            <div className="card"><p className="text-xs text-muted">Total owed</p><p className="num text-lg font-bold">{kes(owed)}</p></div>
-            <div className="card"><p className="text-xs text-muted">Repayments per month</p><p className="num text-lg font-bold">{kes(monthly)}</p></div>
+          <section className="pb-1 pt-2">
+            <p className="text-sm text-muted">Total owed</p>
+            <p className="num mt-1 text-4xl font-bold tracking-tight">{kes(owed)}</p>
+            <p className="mt-1 text-sm text-muted">
+              <span className="num font-semibold text-foreground">{kes(monthly)}</span> a month across {active.length} loan{active.length === 1 ? "" : "s"}
+            </p>
           </section>
+
+          <nav className="grid grid-cols-4 gap-2 text-center text-xs font-medium" aria-label="Quick actions">
+            {ACTIONS.map(({ href, label, Icon }) => (
+              <Link key={href} href={href} className="flex flex-col items-center gap-1.5 rounded-xl py-2 hover:bg-card">
+                <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-raised text-brand"><Icon /></span>
+                {label}
+              </Link>
+            ))}
+          </nav>
 
           {analyse ? <HealthCard h={h} /> : (
             <section className="card text-sm text-muted">Turn on “Analyse my loans” in <Link className="text-brand underline" href="/account">Account</Link> to see your loan health score.</section>
