@@ -1,37 +1,26 @@
 @import "tailwindcss";
 
+/* Dark, layered charcoal with gold accents. One theme: the app is always dark. */
 :root {
-  --background: #f6f7f5;
-  --foreground: #14201b;
-  --card: #ffffff;
-  --muted: #5d6b64;
-  --line: #e2e6e3;
-  --brand: #0f766e;
-  --brand-soft: #e6f4f1;
-  --good: #15803d;
-  --warn: #b45309;
-  --bad: #b91c1c;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0d1311;
-    --foreground: #e7eeea;
-    --card: #151d1a;
-    --muted: #9aa8a1;
-    --line: #26322d;
-    --brand: #2dd4bf;
-    --brand-soft: #123330;
-    --good: #4ade80;
-    --warn: #fbbf24;
-    --bad: #f87171;
-  }
+  color-scheme: dark;
+  --background: #0b0e11;
+  --foreground: #eaecef;
+  --card: #181a20;
+  --raised: #1e2329;
+  --muted: #848e9c;
+  --line: #2b3139;
+  --brand: #f0b90b;
+  --brand-soft: #2b2611;
+  --good: #0ecb81;
+  --warn: #ff8f1f;
+  --bad: #f6465d;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
+  --color-raised: var(--raised);
   --color-muted: var(--muted);
   --color-line: var(--line);
   --color-brand: var(--brand);
@@ -44,12 +33,16 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  font-family: "IBM Plex Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
 }
 
-.card { @apply rounded-2xl border border-line bg-card p-4; }
-.btn { @apply inline-flex items-center justify-center rounded-xl bg-brand px-4 py-2.5 text-sm font-semibold text-white disabled:opacity-50 dark:text-black; }
-.btn-ghost { @apply inline-flex items-center justify-center rounded-xl border border-line px-4 py-2.5 text-sm font-semibold; }
-.input { @apply w-full rounded-xl border border-line bg-card px-3 py-2.5 text-sm outline-none focus:border-brand; }
+.card { @apply rounded-xl border border-line bg-card p-4; }
+.btn { @apply inline-flex items-center justify-center rounded-lg bg-brand px-4 py-2.5 text-sm font-semibold text-[#181a20] transition-colors hover:bg-[#fcd535] disabled:opacity-40; }
+.btn-ghost { @apply inline-flex items-center justify-center rounded-lg bg-raised px-4 py-2.5 text-sm font-semibold text-foreground transition-colors hover:bg-line; }
+.input { @apply w-full rounded-lg border border-line bg-raised px-3 py-2.5 text-sm outline-none placeholder:text-muted/70 focus:border-brand; }
 .label { @apply mb-1 block text-xs font-medium text-muted; }
 .num { font-variant-numeric: tabular-nums; }
+
+::selection { background: var(--brand); color: #181a20; }
+input[type="file"] { @apply text-sm text-muted; }
+input[type="file"]::file-selector-button { @apply mr-3 cursor-pointer rounded-lg border-0 bg-raised px-3 py-2 text-sm font-semibold text-brand; }

@@ -1,6 +1,12 @@
 import type { Metadata, Viewport } from "next";
+import "@fontsource/ibm-plex-sans/latin-400.css";
+import "@fontsource/ibm-plex-sans/latin-500.css";
+import "@fontsource/ibm-plex-sans/latin-600.css";
+import "@fontsource/ibm-plex-sans/latin-700.css";
 import "./globals.css";
 import Link from "next/link";
+import { HeartIcon, UserIcon } from "@/components/Icons";
+import { Logo } from "@/components/Logo";
 import { Nav } from "@/components/Nav";
 import { SaveErrors, SessionProvider } from "@/components/Session";
 
@@ -11,7 +17,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0f766e",
+  themeColor: "#0b0e11",
   width: "device-width",
   initialScale: 1,
 };
@@ -22,13 +28,16 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <body className="antialiased">
         <SessionProvider>
         <div className="mx-auto min-h-screen max-w-3xl pb-24">
-          <header className="flex items-center justify-between px-4 pb-2 pt-5">
-            <Link href="/" className="flex items-center gap-2 font-semibold">
-              <span className="inline-block h-6 w-6 rounded-full border-4 border-brand" aria-hidden />
-              Risk Radar
+          <header className="sticky top-0 z-10 flex items-center justify-between bg-background/95 px-4 py-3 backdrop-blur">
+            <Link href="/"><Logo /></Link>
+            <Link href="/account" aria-label="Account" className="flex h-9 w-9 items-center justify-center rounded-full bg-raised text-muted hover:text-brand">
+              <UserIcon />
             </Link>
-            <Link href="/account" className="text-sm text-muted">Account</Link>
           </header>
+          <p className="mx-4 mb-2 flex items-center justify-center gap-1.5 rounded-lg bg-brand-soft px-3 py-1.5 text-xs text-brand">
+            <HeartIcon className="h-3.5 w-3.5" />
+            <span><span className="font-semibold">We care.</span> We&apos;re on your side with every loan.</span>
+          </p>
           <SaveErrors />
           <main className="px-4">{children}</main>
         </div>
