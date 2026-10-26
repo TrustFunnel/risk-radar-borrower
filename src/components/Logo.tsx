@@ -1,19 +1,18 @@
-import { useId } from "react";
-
-// Risk Radar mark: a speech bubble holding a person flanked by two others,
-// "we're here to talk and to help". Gold tones on dark.
+// Risk Radar mark: a speech bubble holding an open hand reaching forward,
+// "we're here to talk and to help". Gold on dark.
 export function BubbleMark({ className = "h-8 w-8" }: { className?: string }) {
-  const clip = useId();
-  const body = "M45 46Q52 40 59 46L66 64Q52 67.5 38 64Z";
   return (
     <svg viewBox="6 6 88 88" className={className} aria-hidden>
-      <defs><clipPath id={clip}><circle cx="52" cy="40" r="8.5" /></clipPath></defs>
       <path d="M39.7 79.8A36 36 0 1 0 20.8 64L10 88Z" fill="none" stroke="#f0b90b" strokeWidth="4.5" strokeLinejoin="round" />
-      <circle cx="33" cy="41" r="6" fill="#c99a08" />
-      <circle cx="71" cy="41" r="6" fill="#c99a08" />
-      <circle cx="52" cy="40" r="8.5" fill="#f0b90b" />
-      <path d={body} fill="#fcd535" />
-      <path d={body} fill="#a87d05" clipPath={`url(#${clip})`} />
+      <g fill="#f0b90b" transform="translate(28.2 21.8) scale(.95)">
+        <rect x="2" y="21" width="6" height="18" rx="2" />
+        <path d="M10 23.5c0-1.4 1.1-2.5 2.5-2.5H22v17.5H12.5c-1.4 0-2.5-1.1-2.5-2.5z" />
+        <rect x="19" y="21" width="25" height="3.8" rx="1.9" />
+        <rect x="19" y="25.7" width="23.5" height="3.8" rx="1.9" />
+        <rect x="19" y="30.4" width="21" height="3.8" rx="1.9" />
+        <rect x="19" y="35.1" width="17" height="3.4" rx="1.7" />
+        <rect x="16" y="13" width="4.4" height="12" rx="2.2" transform="rotate(38 18.2 23)" />
+      </g>
     </svg>
   );
 }
