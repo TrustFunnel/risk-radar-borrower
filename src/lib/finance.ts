@@ -183,6 +183,8 @@ export interface PlanResult {
   totalInterest: number;
   payoffOrder: { id: string; name: string; month: number }[];
   capped: boolean; // true if the plan never finishes (payments below interest)
+  firstMonth: { id: string; name: string; pay: number }[]; // what to pay each loan now
+  uncleared: string[]; // loans still owing when the plan stops (capped plans)
 }
 
 // Month-by-month payoff simulation. Every loan gets its minimum; the extra
@@ -194,6 +196,8 @@ export function payoffPlan(loans: PlanLoan[], extraPerMonth: number, strategy: S
   let totalInterest = 0;
   const payoffOrder: PlanResult["payoffOrder"] = [];
   let month = 0;
+  const firstMonth = new Map<string, number>();
+  const paid = (id: string, x: number) => { if (month === 1) firstMonth.set(id, (firstMonth.get(id) ?? 0) + x); };
 
   while (ls.some((l) => l.balance > 0.005) && month < maxMonths) {
     month++;
@@ -209,6 +213,7 @@ export function payoffPlan(loans: PlanLoan[], extraPerMonth: number, strategy: S
       const pay = Math.min(l.minPayment, l.balance, left);
       l.balance -= pay;
       left -= pay;
+      paid(l.id, pay);
     }
     const order = ls
       .filter((l) => l.balance > 0)
@@ -218,6 +223,7 @@ export function payoffPlan(loans: PlanLoan[], extraPerMonth: number, strategy: S
       const pay = Math.min(l.balance, left);
       l.balance -= pay;
       left -= pay;
+      paid(l.id, pay);
     }
     for (const l of ls) {
       if (l.balance <= 0.005 && !payoffOrder.some((p) => p.id === l.id)) {
@@ -226,7 +232,14 @@ export function payoffPlan(loans: PlanLoan[], extraPerMonth: number, strategy: S
       }
     }
   }
-  return { months: month, totalInterest: round2(totalInterest), payoffOrder, capped: ls.some((l) => l.balance > 0.005) };
+  return {
+    months: month,
+    totalInterest: round2(totalInterest),
+    payoffOrder,
+    capped: ls.some((l) => l.balance > 0.005),
+    firstMonth: ls.filter((l) => firstMonth.has(l.id)).map((l) => ({ id: l.id, name: l.name, pay: round2(firstMonth.get(l.id)!) })),
+    uncleared: ls.filter((l) => l.balance > 0.005).map((l) => l.name),
+  };
 }
 
 export const kes = (x: number) =>

@@ -29,22 +29,29 @@ export function parseKbaReport(markdown) {
   return tabs;
 }
 
-// One row per bank that reports a personal-loan rate.
-export function personalRates(tabs) {
+// Report columns borrowers can hold, mapped to the app's product kinds.
+export const KINDS = { personal: "personal", digital: "mobile", asset: "asset", mortgage: "mortgage", business: "business" };
+
+// One row per bank per product it reports a rate for.
+export function productRates(tabs, cols = Object.keys(KINDS)) {
   const avg = tabs.average ?? {};
-  return Object.entries(avg)
-    .filter(([, v]) => v.personal && v.personal.rate > 0)
+  return cols.flatMap((col) => Object.entries(avg)
+    .filter(([, v]) => v[col] && v[col].rate > 0)
     .map(([name, v]) => {
-      const lo = tabs.minimum?.[name]?.personal?.rate;
-      const hi = tabs.maximum?.[name]?.personal?.rate;
-      const all = [v.personal.rate, lo, hi].filter((x) => typeof x === "number" && x > 0);
+      const lo = tabs.minimum?.[name]?.[col]?.rate;
+      const hi = tabs.maximum?.[name]?.[col]?.rate;
+      const all = [v[col].rate, lo, hi].filter((x) => typeof x === "number" && x > 0);
       return {
         bank: name,
+        kind: KINDS[col],
         sourceUrl: v.url,
-        rate: v.personal.rate,
+        rate: v[col].rate,
         rateMin: Math.min(...all),
         rateMax: Math.max(...all),
-        updatedOn: v.personal.updatedOn,
+        updatedOn: v[col].updatedOn,
       };
-    });
+    }));
 }
+
+// One row per bank that reports a personal-loan rate.
+export const personalRates = (tabs) => productRates(tabs, ["personal"]);
