@@ -20,7 +20,12 @@ async function extract<T>(body: Record<string, unknown>): Promise<T> {
     body: JSON.stringify(body),
   });
   const json = await res.json().catch(() => ({}));
-  if (!res.ok) throw new Error(json.error ?? "We couldn't read that document.");
+  if (!res.ok) {
+    if (json.error) throw new Error(json.error);
+    // No JSON back means the server gave up before our route could answer.
+    if (res.status === 504) throw new Error("Reading that document took too long. Try again in a minute.");
+    throw new Error(`We couldn't read that document (error ${res.status}). Try again in a minute.`);
+  }
   return json as T;
 }
 
