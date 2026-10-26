@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import { parseKbaReport, productRates } from "../../../scripts/kba-parse.mjs";
 import { allOffers, compareLoan, detailsOf, loanKind, quoteOffer, sameLender } from "../compare";
 import type { LenderProduct } from "../market";
+import { planScenarios } from "../scenarios";
 import type { Loan } from "../types";
 
 const kba = (lenderId: string, lender: string, rate: number, kind: LenderProduct["kind"] = "personal"): LenderProduct => ({
@@ -85,5 +86,29 @@ describe("comparing a loan", () => {
     expect(c.current.totalCost).toBeCloseTo(750);
     expect(c.rows.find((r) => r.offer.lenderId === "tala")?.yours).toBe(true);
     expect(c.rows[0].quote.totalCost).toBeLessThan(750);
+  });
+});
+
+describe("ready-made payoff plans", () => {
+  const loans = [
+    { id: "a", name: "Tala", balance: 20000, aprPct: 120, minPayment: 2500 },
+    { id: "b", name: "KCB", balance: 200000, aprPct: 16, minPayment: 9800 },
+  ];
+  it("offers minimums, two steps up and a budget plan, and recommends one", () => {
+    const s = planScenarios(loans, { income: 80000, essentials: 30000 });
+    expect(s.map((x) => x.key)).toEqual(["minimums", "small", "bigger", "budget"]);
+    expect(s[1].extra).toBe(1500); // 10% of 12,300, rounded up to 500
+    expect(s.filter((x) => x.recommended).map((x) => x.key)).toEqual(["budget"]);
+    expect(s[3].plan.months).toBeLessThan(s[0].plan.months);
+  });
+  it("says what to pay each loan now, extra to the costliest", () => {
+    const [, small] = planScenarios(loans);
+    expect(small.plan.firstMonth.find((p) => p.id === "a")?.pay).toBe(4000);
+    expect(small.plan.firstMonth.find((p) => p.id === "b")?.pay).toBe(9800);
+  });
+  it("names loans that never clear", () => {
+    const [min] = planScenarios([{ id: "x", name: "Fuliza", balance: 100000, aprPct: 120, minPayment: 100 }]);
+    expect(min.plan.capped).toBe(true);
+    expect(min.plan.uncleared).toEqual(["Fuliza"]);
   });
 });
