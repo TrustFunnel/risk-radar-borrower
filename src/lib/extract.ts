@@ -59,7 +59,7 @@ async function parse<T>(schema: z.ZodType<T>, system: string, text: string): Pro
     max_tokens: 16000,
     betas: ["server-side-fallback-2026-07-01"],
     fallbacks: "default",
-    output_config: { effort: "medium", format: betaZodOutputFormat(schema) },
+    output_config: { effort: "low", format: betaZodOutputFormat(schema) },
     system,
     messages: [{ role: "user", content: `<document>\n${text}\n</document>` }],
   });
