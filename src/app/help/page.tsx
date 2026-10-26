@@ -7,11 +7,14 @@ import { Gate } from "@/components/Gate";
 import products from "@/data/lender-products.json";
 import { kes, monthlyObligation } from "@/lib/finance";
 import { view } from "@/lib/loanView";
-import { DEFAULT_FEE_PCT, type LenderProduct } from "@/lib/market";
+import { DEFAULT_FEE_PCT, kindOf, type LenderProduct } from "@/lib/market";
 import { affordableBudget, affordablePlan, MIN_REFINANCE_BALANCE, MIN_REFINANCE_MONTHS, parseStatementCsv, refinanceOffers, summariseIncome, type MonthFlow } from "@/lib/remediation";
 import { store } from "@/lib/store";
 import type { DistressRequest, Loan } from "@/lib/types";
 import { useDb } from "@/lib/useStore";
+
+// Buyouts are priced as bank personal loans.
+const personalProducts = (products as LenderProduct[]).filter((p) => kindOf(p) === "personal");
 
 type Tab = "plan" | "refinance" | "talk";
 
@@ -173,7 +176,7 @@ function RefinanceTab({ onSent, preselect }: { onSent: (s: string) => void; pres
 
   const withOffers = loans.map((l) => {
     const v = view(l);
-    return { loan: l, v, offers: refinanceOffers({ balance: v.balance, aprPct: v.apr, monthsLeft: v.monthsLeft, currentMonthly: monthlyObligation(l.terms) }, products as LenderProduct[], Number(feePct) || 0) };
+    return { loan: l, v, offers: refinanceOffers({ balance: v.balance, aprPct: v.apr, monthsLeft: v.monthsLeft, currentMonthly: monthlyObligation(l.terms) }, personalProducts, Number(feePct) || 0) };
   });
 
   function send() {

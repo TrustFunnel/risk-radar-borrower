@@ -10,7 +10,7 @@
 //        node scripts/scrape-lenders.mjs --from-file report.md   (no API call)
 
 import { readFile, writeFile } from "node:fs/promises";
-import { parseKbaReport, personalRates } from "./kba-parse.mjs";
+import { parseKbaReport, productRates } from "./kba-parse.mjs";
 import { lenderType, slug } from "./kba-types.mjs";
 
 const REPORT = "https://www.costofcredit.co.ke/site/interest-rate";
@@ -36,14 +36,23 @@ async function fetchReport() {
   throw new Error("Firecrawl failed after 3 attempts");
 }
 
-const rows = personalRates(parseKbaReport(await fetchReport()));
-if (rows.length < 10) throw new Error(`Only ${rows.length} lenders parsed; the report layout may have changed. Keeping the old file.`);
+const PRODUCT = {
+  personal: "Personal loan",
+  mobile: "Digital (mobile) loan",
+  asset: "Asset finance (car or equipment)",
+  mortgage: "Mortgage",
+  business: "Business (SME) loan",
+};
+
+const rows = productRates(parseKbaReport(await fetchReport()));
+if (rows.filter((r) => r.kind === "personal").length < 10) throw new Error(`Only ${rows.length} lenders parsed; the report layout may have changed. Keeping the old file.`);
 
 const products = rows.map((r) => ({
   lenderId: slug(r.bank),
   lender: r.bank,
   lenderType: lenderType(r.bank),
-  product: "Personal loan, average reported rate",
+  kind: r.kind,
+  product: `${PRODUCT[r.kind]}, average reported rate`,
   rate: r.rate,
   rateMin: r.rateMin,
   rateMax: r.rateMax,
@@ -55,4 +64,4 @@ const products = rows.map((r) => ({
 }));
 
 await writeFile(outFile, JSON.stringify(products, null, 2) + "\n");
-console.log(`Wrote ${products.length} lenders`);
+console.log(`Wrote ${products.length} rates from ${new Set(products.map((p) => p.lenderId)).size} lenders`);
