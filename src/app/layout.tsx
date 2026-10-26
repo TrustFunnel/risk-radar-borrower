@@ -5,7 +5,7 @@ import "@fontsource/ibm-plex-sans/latin-600.css";
 import "@fontsource/ibm-plex-sans/latin-700.css";
 import "./globals.css";
 import Link from "next/link";
-import { UserIcon } from "@/components/Icons";
+import { HeartIcon, UserIcon } from "@/components/Icons";
 import { Logo } from "@/components/Logo";
 import { Nav } from "@/components/Nav";
 import { SaveErrors, SessionProvider } from "@/components/Session";
@@ -34,6 +34,10 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
               <UserIcon />
             </Link>
           </header>
+          <p className="mx-4 mb-2 flex items-center justify-center gap-1.5 rounded-lg bg-brand-soft px-3 py-1.5 text-xs text-brand">
+            <HeartIcon className="h-3.5 w-3.5" />
+            <span><span className="font-semibold">We care.</span> We&apos;re on your side with every loan.</span>
+          </p>
           <SaveErrors />
           <main className="px-4">{children}</main>
         </div>
