@@ -6,7 +6,7 @@ import { useSession } from "@/components/Session";
 import { store } from "@/lib/store";
 import { CONSENT_TEXT, CONSENT_VERSION, type ConsentPurpose } from "@/lib/types";
 
-const PURPOSES: ConsentPurpose[] = ["store", "analyse", "reminders"];
+const PURPOSES: ConsentPurpose[] = ["store", "analyse", "ai_read", "reminders"];
 
 export default function Welcome() {
   const router = useRouter();
@@ -20,7 +20,7 @@ export default function Welcome() {
     if (session.status === "signedOut") router.replace("/login");
   }, [session.status, router]);
   const [income, setIncome] = useState("");
-  const [picked, setPicked] = useState<Record<ConsentPurpose, boolean>>({ store: false, analyse: true, reminders: true, share_partner: false });
+  const [picked, setPicked] = useState<Record<ConsentPurpose, boolean>>({ store: false, analyse: true, ai_read: false, reminders: true, share_partner: false });
 
   const canStart = picked.store && name.trim().length > 0;
 

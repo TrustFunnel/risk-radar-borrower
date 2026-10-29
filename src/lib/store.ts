@@ -184,6 +184,7 @@ export const store = {
   // Supabase access token for calls to our own API routes.
   async token(): Promise<string | undefined> {
     if (!supabase) return undefined;
+    await queue; // a consent just given must reach the server before we act on it
     const { data } = await supabase.auth.getSession();
     return data.session?.access_token;
   },

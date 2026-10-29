@@ -9,6 +9,12 @@ export const accountsEnabled = !!(url && anonKey);
 
 export const supabase: SupabaseClient | null = accountsEnabled ? createClient(url!, anonKey!) : null;
 
+// Server-side client acting as one signed-in borrower, so row-level security
+// and has_consent() see their records.
+export function userClient(token: string): SupabaseClient {
+  return createClient(url!, anonKey!, { auth: { persistSession: false }, global: { headers: { authorization: `Bearer ${token}` } } });
+}
+
 // Server-only client that bypasses row-level security (cron jobs, hooks).
 export function serviceClient(): SupabaseClient {
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY;

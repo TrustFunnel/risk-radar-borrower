@@ -10,7 +10,7 @@ import { store } from "@/lib/store";
 import { CONSENT_TEXT, type ConsentPurpose } from "@/lib/types";
 import { useDb } from "@/lib/useStore";
 
-const TOGGLES: ConsentPurpose[] = ["analyse", "reminders"];
+const TOGGLES: ConsentPurpose[] = ["analyse", "ai_read", "reminders"];
 
 export default function Account() {
   return <Gate><AccountInner /></Gate>;

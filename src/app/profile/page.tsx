@@ -9,7 +9,7 @@ import { kes } from "@/lib/finance";
 import { EMPLOYMENT_TYPES, guessIndustry, INDUSTRIES, isIndustry, type EmploymentType, type Industry } from "@/lib/industry";
 import { PdfPasswordError } from "@/lib/pdfText";
 import { store } from "@/lib/store";
-import type { CrbReport, DocKind, DocRecord, WorkDetails } from "@/lib/types";
+import { CONSENT_TEXT, type CrbReport, type DocKind, type DocRecord, type WorkDetails } from "@/lib/types";
 import { useDb } from "@/lib/useStore";
 
 export default function Profile() {
@@ -21,7 +21,7 @@ function ProfileInner() {
   return (
     <div className="space-y-4 py-2">
       <h1 className="text-xl font-bold">My details</h1>
-      <p className="text-sm text-muted">The more we know, the earlier we can warn you. Files are opened on your phone and are never uploaded; we keep only the figures we read from them.</p>
+      <p className="text-sm text-muted">The more we know, the earlier we can warn you. Files are opened on your phone and the file itself is never uploaded. For CRB reports and bank statements, the text is read by our AI provider, Anthropic, in the United States, only if you agree. We keep only the figures. M-PESA statements are read on your phone.</p>
       <WorkCard />
       <CrbCard />
       <MpesaCard />
@@ -55,7 +55,7 @@ function WorkCard() {
   }
 
   async function lookUp() {
-    if (source === "manual" || industry || (!employer && !jobTitle)) return;
+    if (source === "manual" || industry || (!employer && !jobTitle) || !store.hasConsent("ai_read")) return;
     setGuessing(true);
     const i = await aiIndustry(employer, jobTitle);
     setGuessing(false);
@@ -105,11 +105,12 @@ function WorkCard() {
 
 // ---------- Shared upload control ----------
 
-function Upload({ accept, passwordLabel, passwordHint, otp, onRead, cta }: {
+function Upload({ accept, passwordLabel, passwordHint, otp, ai, onRead, cta }: {
   accept: string;
   passwordLabel: string;
   passwordHint?: string;
   otp?: boolean;
+  ai?: (file: File) => boolean; // true when this file's text goes to our AI provider
   onRead: (file: File, password: string) => Promise<void>;
   cta: string;
 }) {
@@ -119,11 +120,15 @@ function Upload({ accept, passwordLabel, passwordHint, otp, onRead, cta }: {
   const [error, setError] = useState("");
   const [needsPassword, setNeedsPassword] = useState(!!otp);
   const [inputKey, setInputKey] = useState(0); // clears the file picker after a read
+  const { db } = useDb();
+  const [agree, setAgree] = useState(false);
+  const askConsent = !!file && !!ai?.(file) && !store.hasConsent("ai_read", db);
 
   async function go() {
     if (!file) return;
     setBusy(true); setError("");
     try {
+      if (askConsent) store.setConsent("ai_read", true);
       await onRead(file, password);
       setFile(null); setPassword(""); setInputKey((k) => k + 1);
     } catch (e) {
@@ -144,7 +149,13 @@ function Upload({ accept, passwordLabel, passwordHint, otp, onRead, cta }: {
           {passwordHint ? <span className="mt-1 block text-xs text-muted">{passwordHint}</span> : null}
         </label>
       ) : null}
-      <button className="btn-ghost" disabled={!file || busy || (otp && !password && /\.pdf$/i.test(file.name))} onClick={go}>{busy ? "Reading…" : cta}</button>
+      {askConsent ? (
+        <label className="flex items-start gap-3 rounded-xl border border-line p-3">
+          <input type="checkbox" className="mt-1 h-4 w-4 accent-[var(--brand)]" checked={agree} onChange={(e) => setAgree(e.target.checked)} />
+          <span><span className="block text-sm font-medium">{CONSENT_TEXT.ai_read.title}</span><span className="block text-xs text-muted">{CONSENT_TEXT.ai_read.body}</span></span>
+        </label>
+      ) : null}
+      <button className="btn-ghost" disabled={!file || busy || (askConsent && !agree) || (otp && !password && /\.pdf$/i.test(file.name))} onClick={go}>{busy ? "Reading…" : cta}</button>
       {error ? <p className="text-xs text-bad">{error}</p> : null}
     </div>
   );
@@ -168,7 +179,7 @@ function CrbCard() {
         You can get one free report a year from each credit bureau: Metropol, TransUnion and Creditinfo. Ask for the PDF report
         through their app, website or SMS service, then upload it here. We&apos;ll check it against your loans and flag anything missing or wrong.
       </p>
-      <Upload accept="application/pdf,.pdf" passwordLabel="Report password" passwordHint="Bureaus often use your ID number." cta="Read my CRB report"
+      <Upload accept="application/pdf,.pdf" passwordLabel="Report password" passwordHint="Bureaus often use your ID number." ai={() => true} cta="Read my CRB report"
         onRead={async (file, pw) => {
           const crb = await readCrbFile(file, pw);
           const negatives = crb.accounts.filter((a) => a.negative).length;
@@ -249,7 +260,7 @@ function BankCard() {
     <section className="card space-y-3">
       <h2 className="font-semibold">Bank statement</h2>
       <p className="text-xs text-muted">Download 3 to 6 months of statements from your bank app or internet banking (PDF or CSV). If the PDF has a password, your bank&apos;s email usually says what it is, often your ID number.</p>
-      <Upload accept="application/pdf,.pdf,.csv,text/csv" passwordLabel="Statement password" cta="Read my bank statement"
+      <Upload accept="application/pdf,.pdf,.csv,text/csv" passwordLabel="Statement password" ai={(f) => !/\.csv$/i.test(f.name) && f.type !== "text/csv"} cta="Read my bank statement"
         onRead={async (file, pw) => {
           const r = await readBankFile(file, pw);
           saveStatement("bank", file.name, r);
