@@ -89,9 +89,9 @@ export interface DocRecord {
 
 // Each purpose is consented to separately (Kenya Data Protection Act 2019,
 // s.30 and s.32): storing is required to use the wallet; the rest are optional.
-export type ConsentPurpose = "store" | "analyse" | "reminders" | "share_partner";
+export type ConsentPurpose = "store" | "analyse" | "ai_read" | "reminders" | "share_partner";
 
-export const CONSENT_VERSION = "2026-10-21";
+export const CONSENT_VERSION = "2026-10-29";
 
 export const CONSENT_TEXT: Record<ConsentPurpose, { title: string; body: string; required: boolean }> = {
   store: {
@@ -101,7 +101,12 @@ export const CONSENT_TEXT: Record<ConsentPurpose, { title: string; body: string;
   },
   analyse: {
     title: "Analyse my loans",
-    body: "Calculate my true loan cost, debt-to-income and loan health score from what I add. Nothing leaves the app.",
+    body: "Calculate my true loan cost, debt-to-income and loan health score from the details I add. This happens within Risk Radar.",
+    required: false,
+  },
+  ai_read: {
+    title: "Read my documents with AI",
+    body: "When I upload a CRB report or bank statement, or ask for my industry to be filled in, send that text to our AI provider, Anthropic (in the United States), to read the figures. The file stays on my phone. Only the figures are kept, and I can type them in instead.",
     required: false,
   },
   reminders: {

@@ -1,11 +1,12 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { NextResponse } from "next/server";
 import { extractEnabled, MAX_TEXT, readBank, readCrb, readIndustry } from "@/lib/extract";
-import { accountsEnabled, supabase } from "@/lib/supabase";
+import { accountsEnabled, supabase, userClient } from "@/lib/supabase";
 
 // Reads the text of an uploaded CRB report or bank statement, or names an
 // industry. The browser opens the PDF and sends only its text; nothing is
-// stored here. With accounts on, only signed-in borrowers can call it.
+// stored here. With accounts on, only signed-in borrowers who have agreed to
+// "Read my documents with AI" can call it, because the text goes to Anthropic.
 // A long CRB report can take over a minute to read, so allow Vercel's
 // maximum (300s with Fluid compute, the default for new projects).
 export const maxDuration = 300;
@@ -16,6 +17,8 @@ export async function POST(req: Request) {
     const token = req.headers.get("authorization")?.replace(/^Bearer /, "");
     const { data } = token ? await supabase!.auth.getUser(token) : { data: { user: null } };
     if (!data.user) return NextResponse.json({ error: "Please sign in again." }, { status: 401 });
+    const { data: agreed } = await userClient(token!).rpc("has_consent", { p: "ai_read" });
+    if (!agreed) return NextResponse.json({ error: "Turn on \"Read my documents with AI\" first, or type the figures in yourself." }, { status: 403 });
   }
 
   const body = (await req.json().catch(() => ({}))) as { kind?: string; text?: string; employer?: string; jobTitle?: string };
