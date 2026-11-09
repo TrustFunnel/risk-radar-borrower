@@ -5,14 +5,14 @@
     "lenderType": "bank",
     "kind": "personal",
     "product": "Personal loan, average reported rate",
-    "rate": 17.08,
+    "rate": 17.48,
     "rateMin": 14.5,
-    "rateMax": 21.49,
+    "rateMax": 21.97,
     "rateType": "reducing_annual",
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/6",
-    "rateUpdatedOn": "2026-10-06",
-    "checkedOn": "2026-11-02"
+    "rateUpdatedOn": "2026-11-05",
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "access",
@@ -27,7 +27,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/53",
     "rateUpdatedOn": "2026-05-05",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "african-banking-corporation",
@@ -41,8 +41,8 @@
     "rateType": "reducing_annual",
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/22",
-    "rateUpdatedOn": "2026-10-05",
-    "checkedOn": "2026-11-02"
+    "rateUpdatedOn": "2026-11-05",
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "africa",
@@ -57,7 +57,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/5",
     "rateUpdatedOn": "2026-04-13",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "baroda-k",
@@ -72,7 +72,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/23",
     "rateUpdatedOn": "2026-03-31",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "india",
@@ -87,7 +87,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/13",
     "rateUpdatedOn": "2026-09-08",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "branch-microfinance",
@@ -102,7 +102,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/80",
     "rateUpdatedOn": "2026-09-21",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "caritas-microfinance",
@@ -117,7 +117,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/67",
     "rateUpdatedOn": "2026-05-14",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "choice-microfinance",
@@ -132,7 +132,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/70",
     "rateUpdatedOn": "2026-07-03",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "co-operative",
@@ -147,7 +147,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/3",
     "rateUpdatedOn": "2026-10-06",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "consolidated",
@@ -162,7 +162,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/35",
     "rateUpdatedOn": "2026-10-12",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "credit",
@@ -177,7 +177,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/25",
     "rateUpdatedOn": "2026-04-01",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "development",
@@ -192,7 +192,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/29",
     "rateUpdatedOn": "2026-09-04",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "diamond-trust",
@@ -206,8 +206,8 @@
     "rateType": "reducing_annual",
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/8",
-    "rateUpdatedOn": "2026-10-02",
-    "checkedOn": "2026-11-02"
+    "rateUpdatedOn": "2026-11-03",
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "dib",
@@ -222,7 +222,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/61",
     "rateUpdatedOn": "2026-08-13",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "ecobank",
@@ -237,7 +237,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/58",
     "rateUpdatedOn": "2026-09-11",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "equity",
@@ -252,7 +252,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/2",
     "rateUpdatedOn": "2026-09-04",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "family",
@@ -267,7 +267,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/37",
     "rateUpdatedOn": "2026-03-31",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "guaranty-trust",
@@ -282,7 +282,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/39",
     "rateUpdatedOn": "2026-04-07",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "guardian",
@@ -290,14 +290,14 @@
     "lenderType": "bank",
     "kind": "personal",
     "product": "Personal loan, average reported rate",
-    "rate": 21.75,
-    "rateMin": 20,
-    "rateMax": 23.5,
+    "rate": 21.46,
+    "rateMin": 19.23,
+    "rateMax": 23.68,
     "rateType": "reducing_annual",
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/24",
-    "rateUpdatedOn": "2026-10-02",
-    "checkedOn": "2026-11-02"
+    "rateUpdatedOn": "2026-11-06",
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "gulf-african",
@@ -312,7 +312,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/9",
     "rateUpdatedOn": "2026-03-31",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "habib-a-g-zurich",
@@ -327,7 +327,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/18",
     "rateUpdatedOn": "2026-06-09",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "hfcb",
@@ -342,7 +342,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/28",
     "rateUpdatedOn": "2026-09-04",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "iandm",
@@ -356,8 +356,8 @@
     "rateType": "reducing_annual",
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/57",
-    "rateUpdatedOn": "2026-10-06",
-    "checkedOn": "2026-11-02"
+    "rateUpdatedOn": "2026-11-05",
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "kcb",
@@ -372,7 +372,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/1",
     "rateUpdatedOn": "2026-09-24",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "women-microfinance",
@@ -386,8 +386,8 @@
     "rateType": "reducing_annual",
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/16",
-    "rateUpdatedOn": "2026-10-05",
-    "checkedOn": "2026-11-02"
+    "rateUpdatedOn": "2026-11-05",
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "kingdom",
@@ -402,7 +402,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/63",
     "rateUpdatedOn": "2026-09-23",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "m-oriental",
@@ -417,7 +417,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/59",
     "rateUpdatedOn": "2026-04-24",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "middle-east-k",
@@ -432,7 +432,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/47",
     "rateUpdatedOn": "2026-03-31",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "national",
@@ -446,8 +446,8 @@
     "rateType": "reducing_annual",
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/21",
-    "rateUpdatedOn": "2026-10-05",
-    "checkedOn": "2026-11-02"
+    "rateUpdatedOn": "2026-11-05",
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "ncba",
@@ -461,8 +461,8 @@
     "rateType": "reducing_annual",
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/64",
-    "rateUpdatedOn": "2026-10-05",
-    "checkedOn": "2026-11-02"
+    "rateUpdatedOn": "2026-11-05",
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "paramount",
@@ -477,7 +477,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/49",
     "rateUpdatedOn": "2026-04-10",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "prime",
@@ -492,7 +492,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/27",
     "rateUpdatedOn": "2026-03-31",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "sbm",
@@ -500,14 +500,14 @@
     "lenderType": "bank",
     "kind": "personal",
     "product": "Personal loan, average reported rate",
-    "rate": 14.64,
-    "rateMin": 10.56,
-    "rateMax": 21.32,
+    "rate": 14.39,
+    "rateMin": 10.33,
+    "rateMax": 21.46,
     "rateType": "reducing_annual",
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/4",
-    "rateUpdatedOn": "2026-10-19",
-    "checkedOn": "2026-11-02"
+    "rateUpdatedOn": "2026-11-05",
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "sidian",
@@ -522,7 +522,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/15",
     "rateUpdatedOn": "2026-09-22",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "smep-microfinance",
@@ -537,7 +537,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/79",
     "rateUpdatedOn": "2026-09-30",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "stanbic",
@@ -552,7 +552,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/33",
     "rateUpdatedOn": "2026-10-06",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "standard-chartered-k",
@@ -566,8 +566,8 @@
     "rateType": "reducing_annual",
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/20",
-    "rateUpdatedOn": "2026-10-02",
-    "checkedOn": "2026-11-02"
+    "rateUpdatedOn": "2026-11-05",
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "uandi-microfinance",
@@ -582,7 +582,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/73",
     "rateUpdatedOn": "2026-07-03",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "uba",
@@ -597,7 +597,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/14",
     "rateUpdatedOn": "2026-10-02",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "victoria-commercial",
@@ -605,14 +605,14 @@
     "lenderType": "bank",
     "kind": "personal",
     "product": "Personal loan, average reported rate",
-    "rate": 14.91,
+    "rate": 14.92,
     "rateMin": 12.75,
     "rateMax": 15.95,
     "rateType": "reducing_annual",
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/19",
-    "rateUpdatedOn": "2026-10-02",
-    "checkedOn": "2026-11-02"
+    "rateUpdatedOn": "2026-11-05",
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "branch-microfinance",
@@ -627,7 +627,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/80",
     "rateUpdatedOn": "2026-09-21",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "co-operative",
@@ -642,7 +642,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/3",
     "rateUpdatedOn": "2026-10-06",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "equity",
@@ -656,8 +656,8 @@
     "rateType": "reducing_annual",
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/2",
-    "rateUpdatedOn": "2026-10-05",
-    "checkedOn": "2026-11-02"
+    "rateUpdatedOn": "2026-11-05",
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "family",
@@ -672,7 +672,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/37",
     "rateUpdatedOn": "2026-03-31",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "hfcb",
@@ -687,7 +687,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/28",
     "rateUpdatedOn": "2026-09-04",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "ncba",
@@ -701,8 +701,8 @@
     "rateType": "reducing_annual",
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/64",
-    "rateUpdatedOn": "2026-10-05",
-    "checkedOn": "2026-11-02"
+    "rateUpdatedOn": "2026-11-05",
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "salaam-microfinance",
@@ -717,7 +717,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/69",
     "rateUpdatedOn": "2026-04-14",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "smep-microfinance",
@@ -732,7 +732,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/79",
     "rateUpdatedOn": "2026-09-30",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "stanbic",
@@ -747,7 +747,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/33",
     "rateUpdatedOn": "2026-10-06",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "uandi-microfinance",
@@ -762,7 +762,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/73",
     "rateUpdatedOn": "2026-07-03",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "absa",
@@ -770,14 +770,14 @@
     "lenderType": "bank",
     "kind": "asset",
     "product": "Asset finance (car or equipment), average reported rate",
-    "rate": 16.24,
-    "rateMin": 14.43,
+    "rate": 16.32,
+    "rateMin": 15.21,
     "rateMax": 18.47,
     "rateType": "reducing_annual",
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/6",
-    "rateUpdatedOn": "2026-10-06",
-    "checkedOn": "2026-11-02"
+    "rateUpdatedOn": "2026-11-05",
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "africa",
@@ -792,7 +792,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/5",
     "rateUpdatedOn": "2026-04-13",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "baroda-k",
@@ -806,8 +806,8 @@
     "rateType": "reducing_annual",
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/23",
-    "rateUpdatedOn": "2026-10-04",
-    "checkedOn": "2026-11-02"
+    "rateUpdatedOn": "2026-11-05",
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "branch-microfinance",
@@ -822,7 +822,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/80",
     "rateUpdatedOn": "2026-09-21",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "caritas-microfinance",
@@ -837,7 +837,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/67",
     "rateUpdatedOn": "2026-05-14",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "choice-microfinance",
@@ -852,7 +852,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/70",
     "rateUpdatedOn": "2026-07-03",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "co-operative",
@@ -867,7 +867,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/3",
     "rateUpdatedOn": "2026-10-06",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "commercial-international",
@@ -882,7 +882,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/68",
     "rateUpdatedOn": "2026-10-08",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "consolidated",
@@ -897,7 +897,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/35",
     "rateUpdatedOn": "2026-10-12",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "credit",
@@ -912,7 +912,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/25",
     "rateUpdatedOn": "2026-04-01",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "diamond-trust",
@@ -926,8 +926,8 @@
     "rateType": "reducing_annual",
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/8",
-    "rateUpdatedOn": "2026-10-02",
-    "checkedOn": "2026-11-02"
+    "rateUpdatedOn": "2026-11-03",
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "dib",
@@ -942,7 +942,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/61",
     "rateUpdatedOn": "2026-08-13",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "ecobank",
@@ -957,7 +957,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/58",
     "rateUpdatedOn": "2026-09-11",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "equity",
@@ -971,8 +971,8 @@
     "rateType": "reducing_annual",
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/2",
-    "rateUpdatedOn": "2026-10-05",
-    "checkedOn": "2026-11-02"
+    "rateUpdatedOn": "2026-11-05",
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "family",
@@ -987,7 +987,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/37",
     "rateUpdatedOn": "2026-03-31",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "guardian",
@@ -995,14 +995,14 @@
     "lenderType": "bank",
     "kind": "asset",
     "product": "Asset finance (car or equipment), average reported rate",
-    "rate": 21.75,
-    "rateMin": 20,
-    "rateMax": 23.5,
+    "rate": 21.46,
+    "rateMin": 19.23,
+    "rateMax": 23.68,
     "rateType": "reducing_annual",
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/24",
-    "rateUpdatedOn": "2026-10-02",
-    "checkedOn": "2026-11-02"
+    "rateUpdatedOn": "2026-11-06",
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "gulf-african",
@@ -1010,14 +1010,14 @@
     "lenderType": "bank",
     "kind": "asset",
     "product": "Asset finance (car or equipment), average reported rate",
-    "rate": 18.1,
-    "rateMin": 13.75,
-    "rateMax": 21.88,
+    "rate": 18.84,
+    "rateMin": 14,
+    "rateMax": 23.83,
     "rateType": "reducing_annual",
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/9",
-    "rateUpdatedOn": "2026-10-05",
-    "checkedOn": "2026-11-02"
+    "rateUpdatedOn": "2026-11-04",
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "hfcb",
@@ -1032,7 +1032,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/28",
     "rateUpdatedOn": "2026-08-25",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "iandm",
@@ -1046,8 +1046,8 @@
     "rateType": "reducing_annual",
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/57",
-    "rateUpdatedOn": "2026-10-06",
-    "checkedOn": "2026-11-02"
+    "rateUpdatedOn": "2026-11-05",
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "kcb",
@@ -1062,7 +1062,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/1",
     "rateUpdatedOn": "2026-09-24",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "kingdom",
@@ -1077,7 +1077,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/63",
     "rateUpdatedOn": "2026-09-23",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "m-oriental",
@@ -1092,7 +1092,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/59",
     "rateUpdatedOn": "2026-04-24",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "middle-east-k",
@@ -1107,7 +1107,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/47",
     "rateUpdatedOn": "2026-03-31",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "ncba",
@@ -1115,14 +1115,14 @@
     "lenderType": "bank",
     "kind": "asset",
     "product": "Asset finance (car or equipment), average reported rate",
-    "rate": 17.34,
-    "rateMin": 10.6,
+    "rate": 17.31,
+    "rateMin": 10,
     "rateMax": 26.4,
     "rateType": "reducing_annual",
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/64",
-    "rateUpdatedOn": "2026-10-05",
-    "checkedOn": "2026-11-02"
+    "rateUpdatedOn": "2026-11-05",
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "prime",
@@ -1137,7 +1137,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/27",
     "rateUpdatedOn": "2026-03-31",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "salaam-microfinance",
@@ -1152,7 +1152,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/69",
     "rateUpdatedOn": "2026-04-14",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "sbm",
@@ -1160,14 +1160,14 @@
     "lenderType": "bank",
     "kind": "asset",
     "product": "Asset finance (car or equipment), average reported rate",
-    "rate": 17.29,
-    "rateMin": 12.52,
-    "rateMax": 21.21,
+    "rate": 16.92,
+    "rateMin": 12.63,
+    "rateMax": 20.64,
     "rateType": "reducing_annual",
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/4",
-    "rateUpdatedOn": "2026-10-19",
-    "checkedOn": "2026-11-02"
+    "rateUpdatedOn": "2026-11-05",
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "sidian",
@@ -1182,7 +1182,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/15",
     "rateUpdatedOn": "2026-09-22",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "smep-microfinance",
@@ -1197,7 +1197,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/79",
     "rateUpdatedOn": "2026-09-29",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "stanbic",
@@ -1212,7 +1212,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/33",
     "rateUpdatedOn": "2026-10-06",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "uandi-microfinance",
@@ -1227,7 +1227,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/73",
     "rateUpdatedOn": "2026-07-03",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "victoria-commercial",
@@ -1241,8 +1241,8 @@
     "rateType": "reducing_annual",
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/19",
-    "rateUpdatedOn": "2026-10-02",
-    "checkedOn": "2026-11-02"
+    "rateUpdatedOn": "2026-11-05",
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "absa",
@@ -1250,14 +1250,14 @@
     "lenderType": "bank",
     "kind": "mortgage",
     "product": "Mortgage, average reported rate",
-    "rate": 13.32,
-    "rateMin": 12,
-    "rateMax": 16.18,
+    "rate": 13.59,
+    "rateMin": 12.57,
+    "rateMax": 15.18,
     "rateType": "reducing_annual",
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/6",
-    "rateUpdatedOn": "2026-10-06",
-    "checkedOn": "2026-11-02"
+    "rateUpdatedOn": "2026-11-05",
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "african-banking-corporation",
@@ -1271,8 +1271,8 @@
     "rateType": "reducing_annual",
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/22",
-    "rateUpdatedOn": "2026-10-05",
-    "checkedOn": "2026-11-02"
+    "rateUpdatedOn": "2026-11-05",
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "africa",
@@ -1287,7 +1287,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/5",
     "rateUpdatedOn": "2026-04-13",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "baroda-k",
@@ -1301,8 +1301,8 @@
     "rateType": "reducing_annual",
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/23",
-    "rateUpdatedOn": "2026-10-04",
-    "checkedOn": "2026-11-02"
+    "rateUpdatedOn": "2026-11-05",
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "india",
@@ -1317,7 +1317,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/13",
     "rateUpdatedOn": "2026-09-08",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "co-operative",
@@ -1332,7 +1332,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/3",
     "rateUpdatedOn": "2026-10-06",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "consolidated",
@@ -1347,7 +1347,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/35",
     "rateUpdatedOn": "2026-10-12",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "development",
@@ -1362,7 +1362,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/29",
     "rateUpdatedOn": "2026-09-04",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "diamond-trust",
@@ -1376,8 +1376,8 @@
     "rateType": "reducing_annual",
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/8",
-    "rateUpdatedOn": "2026-10-02",
-    "checkedOn": "2026-11-02"
+    "rateUpdatedOn": "2026-11-03",
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "dib",
@@ -1392,7 +1392,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/61",
     "rateUpdatedOn": "2026-08-13",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "ecobank",
@@ -1407,7 +1407,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/58",
     "rateUpdatedOn": "2026-09-11",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "equity",
@@ -1422,7 +1422,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/2",
     "rateUpdatedOn": "2026-09-04",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "family",
@@ -1437,7 +1437,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/37",
     "rateUpdatedOn": "2026-03-31",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "guaranty-trust",
@@ -1452,7 +1452,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/39",
     "rateUpdatedOn": "2026-04-07",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "guardian",
@@ -1460,14 +1460,14 @@
     "lenderType": "bank",
     "kind": "mortgage",
     "product": "Mortgage, average reported rate",
-    "rate": 21.75,
-    "rateMin": 20,
-    "rateMax": 23.5,
+    "rate": 21.46,
+    "rateMin": 19.23,
+    "rateMax": 23.68,
     "rateType": "reducing_annual",
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/24",
-    "rateUpdatedOn": "2026-10-02",
-    "checkedOn": "2026-11-02"
+    "rateUpdatedOn": "2026-11-06",
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "gulf-african",
@@ -1475,14 +1475,14 @@
     "lenderType": "bank",
     "kind": "mortgage",
     "product": "Mortgage, average reported rate",
-    "rate": 16.8,
-    "rateMin": 15,
-    "rateMax": 20.01,
+    "rate": 18.06,
+    "rateMin": 17,
+    "rateMax": 19.11,
     "rateType": "reducing_annual",
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/9",
-    "rateUpdatedOn": "2026-10-05",
-    "checkedOn": "2026-11-02"
+    "rateUpdatedOn": "2026-11-04",
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "hfcb",
@@ -1496,8 +1496,8 @@
     "rateType": "reducing_annual",
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/28",
-    "rateUpdatedOn": "2026-10-01",
-    "checkedOn": "2026-11-02"
+    "rateUpdatedOn": "2026-11-03",
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "iandm",
@@ -1511,8 +1511,8 @@
     "rateType": "reducing_annual",
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/57",
-    "rateUpdatedOn": "2026-10-06",
-    "checkedOn": "2026-11-02"
+    "rateUpdatedOn": "2026-11-05",
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "kcb",
@@ -1527,7 +1527,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/1",
     "rateUpdatedOn": "2026-06-11",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "kingdom",
@@ -1542,7 +1542,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/63",
     "rateUpdatedOn": "2026-09-23",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "national",
@@ -1556,8 +1556,8 @@
     "rateType": "reducing_annual",
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/21",
-    "rateUpdatedOn": "2026-10-05",
-    "checkedOn": "2026-11-02"
+    "rateUpdatedOn": "2026-11-05",
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "ncba",
@@ -1571,8 +1571,8 @@
     "rateType": "reducing_annual",
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/64",
-    "rateUpdatedOn": "2026-10-05",
-    "checkedOn": "2026-11-02"
+    "rateUpdatedOn": "2026-11-05",
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "prime",
@@ -1587,7 +1587,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/27",
     "rateUpdatedOn": "2026-03-31",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "sbm",
@@ -1595,14 +1595,14 @@
     "lenderType": "bank",
     "kind": "mortgage",
     "product": "Mortgage, average reported rate",
-    "rate": 16.92,
-    "rateMin": 13.49,
-    "rateMax": 20.32,
+    "rate": 17.12,
+    "rateMin": 13.46,
+    "rateMax": 19.92,
     "rateType": "reducing_annual",
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/4",
-    "rateUpdatedOn": "2026-10-19",
-    "checkedOn": "2026-11-02"
+    "rateUpdatedOn": "2026-11-05",
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "smep-microfinance",
@@ -1617,7 +1617,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/79",
     "rateUpdatedOn": "2026-09-30",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "stanbic",
@@ -1632,7 +1632,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/33",
     "rateUpdatedOn": "2026-10-06",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "standard-chartered-k",
@@ -1646,8 +1646,8 @@
     "rateType": "reducing_annual",
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/20",
-    "rateUpdatedOn": "2026-10-02",
-    "checkedOn": "2026-11-02"
+    "rateUpdatedOn": "2026-11-05",
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "victoria-commercial",
@@ -1661,8 +1661,8 @@
     "rateType": "reducing_annual",
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/19",
-    "rateUpdatedOn": "2026-10-02",
-    "checkedOn": "2026-11-02"
+    "rateUpdatedOn": "2026-11-05",
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "absa",
@@ -1670,14 +1670,14 @@
     "lenderType": "bank",
     "kind": "business",
     "product": "Business (SME) loan, average reported rate",
-    "rate": 17.15,
-    "rateMin": 14,
-    "rateMax": 21.45,
+    "rate": 14.3,
+    "rateMin": 11.25,
+    "rateMax": 21.97,
     "rateType": "reducing_annual",
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/6",
-    "rateUpdatedOn": "2026-10-06",
-    "checkedOn": "2026-11-02"
+    "rateUpdatedOn": "2026-11-05",
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "african-banking-corporation",
@@ -1691,8 +1691,8 @@
     "rateType": "reducing_annual",
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/22",
-    "rateUpdatedOn": "2026-10-05",
-    "checkedOn": "2026-11-02"
+    "rateUpdatedOn": "2026-11-05",
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "baroda-k",
@@ -1706,8 +1706,8 @@
     "rateType": "reducing_annual",
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/23",
-    "rateUpdatedOn": "2026-10-04",
-    "checkedOn": "2026-11-02"
+    "rateUpdatedOn": "2026-11-05",
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "caritas-microfinance",
@@ -1722,7 +1722,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/67",
     "rateUpdatedOn": "2026-05-14",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "choice-microfinance",
@@ -1737,7 +1737,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/70",
     "rateUpdatedOn": "2026-07-03",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "co-operative",
@@ -1752,7 +1752,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/3",
     "rateUpdatedOn": "2026-10-06",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "commercial-international",
@@ -1767,7 +1767,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/68",
     "rateUpdatedOn": "2026-04-02",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "consolidated",
@@ -1782,7 +1782,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/35",
     "rateUpdatedOn": "2026-10-12",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "credit",
@@ -1797,7 +1797,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/25",
     "rateUpdatedOn": "2026-04-01",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "development",
@@ -1812,7 +1812,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/29",
     "rateUpdatedOn": "2026-09-04",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "diamond-trust",
@@ -1826,8 +1826,8 @@
     "rateType": "reducing_annual",
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/8",
-    "rateUpdatedOn": "2026-10-02",
-    "checkedOn": "2026-11-02"
+    "rateUpdatedOn": "2026-11-03",
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "dib",
@@ -1842,7 +1842,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/61",
     "rateUpdatedOn": "2026-08-13",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "ecobank",
@@ -1857,7 +1857,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/58",
     "rateUpdatedOn": "2026-09-11",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "equity",
@@ -1871,8 +1871,8 @@
     "rateType": "reducing_annual",
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/2",
-    "rateUpdatedOn": "2026-10-05",
-    "checkedOn": "2026-11-02"
+    "rateUpdatedOn": "2026-11-05",
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "family",
@@ -1887,7 +1887,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/37",
     "rateUpdatedOn": "2026-03-31",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "guardian",
@@ -1895,14 +1895,14 @@
     "lenderType": "bank",
     "kind": "business",
     "product": "Business (SME) loan, average reported rate",
-    "rate": 21.75,
-    "rateMin": 20,
-    "rateMax": 23.5,
+    "rate": 21.46,
+    "rateMin": 19.23,
+    "rateMax": 23.68,
     "rateType": "reducing_annual",
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/24",
-    "rateUpdatedOn": "2026-10-02",
-    "checkedOn": "2026-11-02"
+    "rateUpdatedOn": "2026-11-06",
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "gulf-african",
@@ -1910,14 +1910,14 @@
     "lenderType": "bank",
     "kind": "business",
     "product": "Business (SME) loan, average reported rate",
-    "rate": 18.77,
+    "rate": 19.09,
     "rateMin": 13.75,
-    "rateMax": 23.83,
+    "rateMax": 27.08,
     "rateType": "reducing_annual",
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/9",
-    "rateUpdatedOn": "2026-10-05",
-    "checkedOn": "2026-11-02"
+    "rateUpdatedOn": "2026-11-04",
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "habib-a-g-zurich",
@@ -1932,7 +1932,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/18",
     "rateUpdatedOn": "2026-04-14",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "hfcb",
@@ -1947,7 +1947,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/28",
     "rateUpdatedOn": "2026-09-04",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "iandm",
@@ -1961,8 +1961,8 @@
     "rateType": "reducing_annual",
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/57",
-    "rateUpdatedOn": "2026-10-06",
-    "checkedOn": "2026-11-02"
+    "rateUpdatedOn": "2026-11-05",
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "kcb",
@@ -1977,7 +1977,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/1",
     "rateUpdatedOn": "2026-09-24",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "women-microfinance",
@@ -1992,7 +1992,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/16",
     "rateUpdatedOn": "2026-06-04",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "kingdom",
@@ -2007,7 +2007,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/63",
     "rateUpdatedOn": "2026-09-23",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "m-oriental",
@@ -2022,7 +2022,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/59",
     "rateUpdatedOn": "2026-04-24",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "middle-east-k",
@@ -2037,7 +2037,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/47",
     "rateUpdatedOn": "2026-03-31",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "national",
@@ -2051,8 +2051,8 @@
     "rateType": "reducing_annual",
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/21",
-    "rateUpdatedOn": "2026-10-05",
-    "checkedOn": "2026-11-02"
+    "rateUpdatedOn": "2026-11-05",
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "ncba",
@@ -2060,14 +2060,14 @@
     "lenderType": "bank",
     "kind": "business",
     "product": "Business (SME) loan, average reported rate",
-    "rate": 20,
+    "rate": 20.1,
     "rateMin": 14,
     "rateMax": 30,
     "rateType": "reducing_annual",
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/64",
-    "rateUpdatedOn": "2026-10-05",
-    "checkedOn": "2026-11-02"
+    "rateUpdatedOn": "2026-11-05",
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "paramount",
@@ -2082,7 +2082,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/49",
     "rateUpdatedOn": "2026-04-10",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "prime",
@@ -2097,7 +2097,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/27",
     "rateUpdatedOn": "2026-03-31",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "salaam-microfinance",
@@ -2112,7 +2112,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/69",
     "rateUpdatedOn": "2026-04-14",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "sbm",
@@ -2120,14 +2120,14 @@
     "lenderType": "bank",
     "kind": "business",
     "product": "Business (SME) loan, average reported rate",
-    "rate": 17.35,
-    "rateMin": 10.48,
-    "rateMax": 21.85,
+    "rate": 17.87,
+    "rateMin": 10.39,
+    "rateMax": 20.85,
     "rateType": "reducing_annual",
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/4",
-    "rateUpdatedOn": "2026-10-19",
-    "checkedOn": "2026-11-02"
+    "rateUpdatedOn": "2026-11-05",
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "sidian",
@@ -2142,7 +2142,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/15",
     "rateUpdatedOn": "2026-09-22",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "smep-microfinance",
@@ -2157,7 +2157,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/79",
     "rateUpdatedOn": "2026-09-30",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "stanbic",
@@ -2172,7 +2172,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/33",
     "rateUpdatedOn": "2026-10-06",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "standard-chartered-k",
@@ -2186,8 +2186,8 @@
     "rateType": "reducing_annual",
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/20",
-    "rateUpdatedOn": "2026-10-02",
-    "checkedOn": "2026-11-02"
+    "rateUpdatedOn": "2026-11-05",
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "uba",
@@ -2202,7 +2202,7 @@
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/14",
     "rateUpdatedOn": "2026-10-02",
-    "checkedOn": "2026-11-02"
+    "checkedOn": "2026-11-09"
   },
   {
     "lenderId": "victoria-commercial",
@@ -2210,13 +2210,13 @@
     "lenderType": "bank",
     "kind": "business",
     "product": "Business (SME) loan, average reported rate",
-    "rate": 14.69,
+    "rate": 14.67,
     "rateMin": 8.76,
     "rateMax": 18,
     "rateType": "reducing_annual",
     "feesIncluded": false,
     "sourceUrl": "https://www.costofcredit.co.ke/site/bank-interest-rate/19",
-    "rateUpdatedOn": "2026-10-02",
-    "checkedOn": "2026-11-02"
+    "rateUpdatedOn": "2026-11-05",
+    "checkedOn": "2026-11-09"
   }
 ]
