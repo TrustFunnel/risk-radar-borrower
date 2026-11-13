@@ -1,8 +1,9 @@
 "use client";
 
-import { consentFromRow, docFromRow, docToRow, loanFromRow, loanToRow, profileFromRow, profileToRow, requestFromRow, requestToRow } from "./rows";
+import type { MoneyEvent } from "./money/parse";
+import { consentFromRow, docFromRow, docToRow, loanFromRow, loanToRow, moneyFromRow, moneyToRow, profileFromRow, profileToRow, requestFromRow, requestToRow } from "./rows";
 import { supabase } from "./supabase";
-import type { ConsentPurpose, ConsentRecord, DistressRequest, DocRecord, Loan, Profile } from "./types";
+import type { ConsentPurpose, ConsentRecord, DistressRequest, DocRecord, Loan, MoneyRecord, Profile } from "./types";
 import { CONSENT_VERSION } from "./types";
 
 // One store, two backends:
@@ -19,9 +20,10 @@ export interface Db {
   loans: Loan[];
   requests: DistressRequest[];
   documents: DocRecord[];
+  money: MoneyRecord[]; // transactions read from money SMS
 }
 
-const empty = (): Db => ({ profile: null, consents: [], loans: [], requests: [], documents: [] });
+const empty = (): Db => ({ profile: null, consents: [], loans: [], requests: [], documents: [], money: [] });
 
 let remoteUser: string | null = null; // set while signed in
 let cache: Db | null = null;
@@ -78,15 +80,19 @@ export const store = {
   // Load the signed-in borrower's data from Supabase.
   async signIn(userId: string) {
     if (!supabase) return;
-    const [p, c, l, r, d] = await Promise.all([
+    const [p, c, l, r, d, m] = await Promise.all([
       supabase.from("profiles").select("*").maybeSingle(),
       supabase.from("consents").select("*").order("at"),
       supabase.from("loans").select("*").order("created_at"),
       supabase.from("distress_requests").select("*").order("created_at"),
       supabase.from("documents").select("*").order("created_at"),
+      // Last 13 months is enough for the plan and the warnings.
+      supabase.from("money_events").select("*").gte("occurred_at", new Date(Date.now() - 400 * 86_400_000).toISOString()).order("occurred_at"),
     ]);
     const err = p.error ?? c.error ?? l.error ?? r.error ?? d.error;
     if (err) throw new Error(err.message);
+    // Until migration 0005 is run the table is missing: carry on without it.
+    if (m.error) console.warn("money_events:", m.error.message);
     remoteUser = userId;
     cache = {
       profile: p.data ? profileFromRow(p.data) : null,
@@ -94,6 +100,7 @@ export const store = {
       loans: (l.data ?? []).map(loanFromRow),
       requests: (r.data ?? []).map(requestFromRow),
       documents: (d.data ?? []).map(docFromRow),
+      money: (m.data ?? []).map(moneyFromRow),
     };
     emit();
   },
@@ -179,6 +186,40 @@ export const store = {
     const db = current();
     commit({ ...db, documents: db.documents.filter((d) => d.id !== id) });
     persist("the deletion", () => supabase!.from("documents").delete().eq("id", id));
+  },
+
+  // Money SMS read on the phone. Skips ones already captured (same hash) and
+  // returns how many were new. Needs the sms_read consent.
+  addMoney(events: MoneyEvent[], channel: MoneyRecord["channel"]): MoneyRecord[] {
+    const db = current();
+    if (!store.hasConsent("sms_read", db)) return [];
+    const seen = new Set(db.money.map((m) => m.refHash));
+    const now = new Date().toISOString();
+    const added: MoneyRecord[] = [];
+    for (const e of events) {
+      if (seen.has(e.refHash)) continue;
+      seen.add(e.refHash);
+      added.push({ ...e, id: newId(), channel, createdAt: now });
+    }
+    if (!added.length) return [];
+    commit({ ...db, money: [...db.money, ...added].sort((a, b) => a.occurredAt.localeCompare(b.occurredAt)) });
+    persist("your money messages", () => supabase!.from("money_events").upsert(added.map((m) => moneyToRow(m, remoteUser!)), { onConflict: "user_id,ref_hash", ignoreDuplicates: true }));
+    return added;
+  },
+
+  deleteMoney(id: string) {
+    const db = current();
+    commit({ ...db, money: db.money.filter((m) => m.id !== id) });
+    persist("the deletion", () => supabase!.from("money_events").delete().eq("id", id));
+  },
+
+  // Switching off: record the withdrawal and delete everything captured.
+  // The database also deletes on withdrawal (trigger in migration 0005).
+  stopMoney() {
+    store.setConsent("sms_read", false);
+    const db = current();
+    commit({ ...db, money: [] });
+    persist("the deletion", () => supabase!.from("money_events").delete().eq("user_id", remoteUser!));
   },
 
   // Supabase access token for calls to our own API routes.

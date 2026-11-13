@@ -1,5 +1,6 @@
 import type { LoanTerms } from "./finance";
 import type { EmploymentType, Industry } from "./industry";
+import type { MoneyEvent } from "./money/parse";
 import type { MonthFlow } from "./remediation";
 
 export type LenderType = "bank" | "sacco" | "mfi" | "digital" | "chama" | "other";
@@ -89,7 +90,7 @@ export interface DocRecord {
 
 // Each purpose is consented to separately (Kenya Data Protection Act 2019,
 // s.30 and s.32): storing is required to use the wallet; the rest are optional.
-export type ConsentPurpose = "store" | "analyse" | "ai_read" | "reminders" | "share_partner";
+export type ConsentPurpose = "store" | "analyse" | "ai_read" | "reminders" | "share_partner" | "sms_read";
 
 export const CONSENT_VERSION = "2026-10-29";
 
@@ -114,6 +115,11 @@ export const CONSENT_TEXT: Record<ConsentPurpose, { title: string; body: string;
     body: "Text me 3 days before and on the day each repayment is due.",
     required: false,
   },
+  sms_read: {
+    title: "Read my money messages",
+    body: "Read the SMS that M-PESA, Airtel Money, banks and lenders send me, as they arrive on the Afueni Android app or when I share or paste them. They are read on my phone: only the amount, date, type, balance and the business or lender name are kept. The message text, personal messages and the names and numbers of people I send money to are never kept or uploaded. I can switch this off at any time and what was captured is deleted.",
+    required: false,
+  },
   share_partner: {
     title: "Share a loan I flag for help",
     body: "When I ask for help with a specific loan, share that loan's details with the partner I choose. Asked again each time.",
@@ -126,6 +132,13 @@ export interface ConsentRecord {
   granted: boolean;
   version: string;
   at: string; // ISO timestamp
+}
+
+// A transaction read from a money SMS, as stored. See src/lib/money/parse.ts.
+export interface MoneyRecord extends MoneyEvent {
+  id: string;
+  channel: "auto" | "share" | "paste";
+  createdAt: string;
 }
 
 export interface DistressRequest {
