@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "test": "vitest run",
-    "scrape": "node scripts/scrape-lenders.mjs"
+    "scrape": "node scripts/scrape-lenders.mjs",
+    "wa:simulate": "node scripts/wa-simulate.mjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^1.3.0",

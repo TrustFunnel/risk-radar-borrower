@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { Suspense, useMemo, useState } from "react";
 import { Gate } from "@/components/Gate";
+import { WhatsAppLink } from "@/components/WhatsAppLink";
 import products from "@/data/lender-products.json";
 import { kes, monthlyObligation } from "@/lib/finance";
 import { view } from "@/lib/loanView";
@@ -29,6 +30,7 @@ function HelpInner() {
   return (
     <div className="space-y-4 py-2">
       <h1 className="text-xl font-bold">Get help with your loans</h1>
+      <WhatsAppLink />
       <div className="grid grid-cols-3 gap-1 rounded-xl border border-line bg-card p-1 text-sm">
         {([["plan", "Affordable plan"], ["refinance", "Cheaper lender"], ["talk", "Talk to us"]] as const).map(([k, label]) => (
           <button key={k} onClick={() => { setTab(k); setSent(null); }} className={`rounded-lg py-2 font-medium ${tab === k ? "bg-brand text-[#181a20]" : "text-muted"}`}>{label}</button>
