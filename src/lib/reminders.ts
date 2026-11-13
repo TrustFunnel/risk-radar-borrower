@@ -30,8 +30,8 @@ export function remindersFor(loans: Loan[], today: Date): Reminder[] {
     if (!kind) continue;
     const amount = kes(installment(l.terms));
     const message = kind === "due_3d"
-      ? `Risk Radar: your ${l.lender} repayment of ${amount} is due on ${fmtDate(due)}, in 3 days. Paying on time protects your CRB record.`
-      : `Risk Radar: your ${l.lender} repayment of ${amount} is due today. If you can't pay, open the app and tap Get help before it goes overdue.`;
+      ? `Afueni by Risk Radar: your ${l.lender} repayment of ${amount} is due on ${fmtDate(due)}, in 3 days. Paying on time protects your CRB record.`
+      : `Afueni by Risk Radar: your ${l.lender} repayment of ${amount} is due today. If you can't pay, open the app and tap Get help before it goes overdue.`;
     out.push({ loanId: l.id, dueDate: isoDay(due), kind, message });
   }
   return out;

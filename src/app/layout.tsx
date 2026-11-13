@@ -11,7 +11,7 @@ import { Nav } from "@/components/Nav";
 import { SaveErrors, SessionProvider } from "@/components/Session";
 
 export const metadata: Metadata = {
-  title: "Risk Radar: Loan Wallet",
+  title: "Afueni by Risk Radar",
   description: "See all your loans in one place, know what they really cost, and get help before a loan goes bad.",
   manifest: "/manifest.webmanifest",
 };
