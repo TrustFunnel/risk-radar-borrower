@@ -20,7 +20,7 @@ export default function Welcome() {
     if (session.status === "signedOut") router.replace("/login");
   }, [session.status, router]);
   const [income, setIncome] = useState("");
-  const [picked, setPicked] = useState<Record<ConsentPurpose, boolean>>({ store: false, analyse: true, ai_read: false, reminders: true, share_partner: false });
+  const [picked, setPicked] = useState<Record<ConsentPurpose, boolean>>({ store: false, analyse: true, ai_read: false, reminders: true, share_partner: false, sms_read: false });
 
   const canStart = picked.store && name.trim().length > 0;
 

@@ -1,0 +1,37 @@
+name: Android app
+
+# Builds the Afueni Android app (android/) so it can be installed for testing.
+# The APK is attached to each run under "Artifacts". Play Store releases need
+# a signed bundle: see docs/ANDROID-sms.md.
+on:
+  pull_request:
+    paths: ["android/**", "android-shell/**", "capacitor.config.ts", "package.json", ".github/workflows/android.yml"]
+  push:
+    branches: [main]
+    paths: ["android/**", "android-shell/**", "capacitor.config.ts", "package.json", ".github/workflows/android.yml"]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+          cache: gradle
+      - run: npm ci
+      - run: npx cap sync android
+      - name: Build debug APK
+        working-directory: android
+        run: ./gradlew --no-daemon assembleDebug lintDebug
+      - uses: actions/upload-artifact@v4
+        with:
+          name: afueni-debug-apk
+          path: android/app/build/outputs/apk/debug/app-debug.apk
+          retention-days: 30

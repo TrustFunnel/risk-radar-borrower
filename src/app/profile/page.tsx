@@ -24,6 +24,10 @@ function ProfileInner() {
       <p className="text-sm text-muted">The more we know, the earlier we can warn you. Files are opened on your phone and the file itself is never uploaded. For CRB reports and bank statements, the text is read by our AI provider, Anthropic, in the United States, only if you agree. We keep only the figures. M-PESA statements are read on your phone.</p>
       <WorkCard />
       <CrbCard />
+      <Link href="/money" className="card flex items-center justify-between gap-3 text-sm">
+        <span><span className="block font-medium">Money messages</span><span className="text-xs text-muted">Read M-PESA, bank and lender SMS as they arrive, instead of a monthly statement</span></span>
+        <span className="text-brand">Open</span>
+      </Link>
       <MpesaCard />
       <BankCard />
       {db.documents.length ? <DocList docs={db.documents} /> : null}
