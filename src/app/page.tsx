@@ -44,6 +44,18 @@ function Dashboard() {
         </Link>
       ) : null}
 
+      {!store.hasConsent("sms_read", db) ? (
+        <Link href="/money" className="card block">
+          <p className="font-semibold">Read my money messages</p>
+          <p className="mt-1 text-sm text-muted">Let Afueni read your M-PESA, bank and lender SMS as they arrive, so we can warn you early without a monthly statement.</p>
+        </Link>
+      ) : (
+        <Link href="/money" className="card flex items-center justify-between text-sm">
+          <span><span className="block font-medium">Money messages</span><span className="text-xs text-muted">{db.money.length} transactions captured</span></span>
+          <span className="text-brand">Open</span>
+        </Link>
+      )}
+
       {active.length === 0 ? (
         <section className="card text-center">
           <p className="font-semibold">Add your first loan</p>

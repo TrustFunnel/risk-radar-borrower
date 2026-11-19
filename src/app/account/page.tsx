@@ -10,7 +10,7 @@ import { store } from "@/lib/store";
 import { CONSENT_TEXT, type ConsentPurpose } from "@/lib/types";
 import { useDb } from "@/lib/useStore";
 
-const TOGGLES: ConsentPurpose[] = ["analyse", "ai_read", "reminders"];
+const TOGGLES: ConsentPurpose[] = ["analyse", "ai_read", "reminders", "sms_read"];
 
 export default function Account() {
   return <Gate><AccountInner /></Gate>;
@@ -77,7 +77,7 @@ function AccountInner() {
           return (
             <div key={p} className="flex items-start justify-between gap-3">
               <div><p className="text-sm font-medium">{CONSENT_TEXT[p].title}</p><p className="text-xs text-muted">{CONSENT_TEXT[p].body}</p></div>
-              <button className={on ? "btn" : "btn-ghost"} onClick={() => store.setConsent(p, !on)}>{on ? "On" : "Off"}</button>
+              <button className={on ? "btn" : "btn-ghost"} onClick={() => (p === "sms_read" && on ? store.stopMoney() : store.setConsent(p, !on))}>{on ? "On" : "Off"}</button>
             </div>
           );
         })}

@@ -1,5 +1,5 @@
 // Mapping between app objects and Supabase rows (snake_case, numeric strings).
-import type { ConsentRecord, DistressRequest, DocRecord, Loan, Profile } from "./types";
+import type { ConsentRecord, DistressRequest, DocRecord, Loan, MoneyRecord, Profile } from "./types";
 
 type Row = Record<string, unknown>;
 const num = (v: unknown) => (v == null ? undefined : Number(v));
@@ -131,4 +131,49 @@ export const docToRow = (d: DocRecord, userId: string): Row => ({
   summary: d.summary,
   parsed: { crb: d.crb ?? null, flows: d.flows ?? null },
   created_at: d.createdAt,
+});
+
+export const moneyFromRow = (r: Row): MoneyRecord => {
+  const m: MoneyRecord = {
+    id: r.id as string,
+    refHash: r.ref_hash as string,
+    source: r.source as MoneyRecord["source"],
+    kind: r.kind as MoneyRecord["kind"],
+    direction: r.direction as MoneyRecord["direction"],
+    amount: Number(r.amount),
+    fee: num(r.fee),
+    balance: num(r.balance),
+    occurredAt: r.occurred_at as string,
+    counterparty: (r.counterparty as string) ?? undefined,
+    category: r.category as MoneyRecord["category"],
+    lender: (r.lender as string) ?? undefined,
+    dueDate: (r.due_date as string) ?? undefined,
+    outstanding: num(r.outstanding),
+    daysOverdue: num(r.days_overdue),
+    channel: r.channel as MoneyRecord["channel"],
+    createdAt: r.created_at as string,
+  };
+  for (const k of Object.keys(m) as (keyof MoneyRecord)[]) if (m[k] === undefined) delete m[k];
+  return m;
+};
+
+export const moneyToRow = (m: MoneyRecord, userId: string): Row => ({
+  id: m.id,
+  user_id: userId,
+  ref_hash: m.refHash,
+  source: m.source,
+  kind: m.kind,
+  direction: m.direction,
+  amount: m.amount,
+  fee: m.fee ?? null,
+  balance: m.balance ?? null,
+  occurred_at: m.occurredAt,
+  counterparty: m.counterparty ?? null,
+  category: m.category,
+  lender: m.lender ?? null,
+  due_date: m.dueDate ?? null,
+  outstanding: m.outstanding ?? null,
+  days_overdue: m.daysOverdue ?? null,
+  channel: m.channel,
+  created_at: m.createdAt,
 });
