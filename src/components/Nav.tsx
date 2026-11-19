@@ -2,19 +2,18 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { CompareIcon, HelpIcon, HomeIcon, PlanIcon, WalletIcon } from "./Icons";
+import { HelpIcon, HomeIcon, PlanIcon, WalletIcon } from "./Icons";
 
 const items = [
   { href: "/", label: "Home", Icon: HomeIcon },
   { href: "/loans", label: "Loans", Icon: WalletIcon },
-  { href: "/plan", label: "Plan", Icon: PlanIcon },
-  { href: "/compare", label: "Compare", Icon: CompareIcon },
+  { href: "/plan", label: "My plan", Icon: PlanIcon },
   { href: "/help", label: "Get help", Icon: HelpIcon },
 ];
 
 export function Nav() {
   const path = usePathname();
-  if (path.startsWith("/welcome") || path.startsWith("/login")) return null;
+  if (path.startsWith("/welcome") || path.startsWith("/login") || path.startsWith("/coach")) return null;
   return (
     <nav className="fixed inset-x-0 bottom-0 border-t border-line bg-card pb-[env(safe-area-inset-bottom)]">
       <ul className="mx-auto flex max-w-3xl justify-between px-2">

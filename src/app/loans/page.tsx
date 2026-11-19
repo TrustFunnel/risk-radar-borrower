@@ -22,7 +22,9 @@ function LoanList() {
         <h1 className="text-xl font-bold">My loans</h1>
         <Link href="/loans/new" className="btn">Add loan</Link>
       </div>
-      {views.length === 0 ? <p className="card text-sm text-muted">No loans yet.</p> : null}
+      {views.length === 0 ? (
+        <p className="card text-sm text-muted">No loans yet. The quickest way to find them all is your <Link className="text-brand underline" href="/profile#crb">CRB report</Link> or <Link className="text-brand underline" href="/profile#mpesa">M-PESA statement</Link>.</p>
+      ) : null}
       <p className="text-xs text-muted">Sorted by true cost, most expensive first.</p>
       <ul className="space-y-2">
         {views.map((v) => (
@@ -41,6 +43,7 @@ function LoanList() {
           </li>
         ))}
       </ul>
+      {views.length ? <Link href="/compare" className="block text-center text-xs text-muted underline">Compare what other lenders charge</Link> : null}
     </div>
   );
 }

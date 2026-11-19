@@ -7,11 +7,12 @@ import "./globals.css";
 import Link from "next/link";
 import { HeartIcon, UserIcon } from "@/components/Icons";
 import { Logo } from "@/components/Logo";
+import { MoneyCapture } from "@/components/MoneyCapture";
 import { Nav } from "@/components/Nav";
 import { SaveErrors, SessionProvider } from "@/components/Session";
 
 export const metadata: Metadata = {
-  title: "Risk Radar: Loan Wallet",
+  title: "Afueni by Risk Radar",
   description: "See all your loans in one place, know what they really cost, and get help before a loan goes bad.",
   manifest: "/manifest.webmanifest",
 };
@@ -42,6 +43,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           <main className="px-4">{children}</main>
         </div>
         <Nav />
+        <MoneyCapture />
         </SessionProvider>
       </body>
     </html>

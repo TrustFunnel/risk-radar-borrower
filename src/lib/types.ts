@@ -1,5 +1,6 @@
 import type { LoanTerms } from "./finance";
 import type { EmploymentType, Industry } from "./industry";
+import type { MoneyEvent } from "./money/parse";
 import type { MonthFlow } from "./remediation";
 
 export type LenderType = "bank" | "sacco" | "mfi" | "digital" | "chama" | "other";
@@ -89,9 +90,9 @@ export interface DocRecord {
 
 // Each purpose is consented to separately (Kenya Data Protection Act 2019,
 // s.30 and s.32): storing is required to use the wallet; the rest are optional.
-export type ConsentPurpose = "store" | "analyse" | "ai_read" | "reminders" | "share_partner";
+export type ConsentPurpose = "store" | "analyse" | "ai_read" | "reminders" | "share_partner" | "sms_read" | "share_plan" | "act_for_me" | "graduates";
 
-export const CONSENT_VERSION = "2026-10-29";
+export const CONSENT_VERSION = "2026-11-19";
 
 export const CONSENT_TEXT: Record<ConsentPurpose, { title: string; body: string; required: boolean }> = {
   store: {
@@ -101,7 +102,7 @@ export const CONSENT_TEXT: Record<ConsentPurpose, { title: string; body: string;
   },
   analyse: {
     title: "Analyse my loans",
-    body: "Calculate my true loan cost, debt-to-income and loan health score from the details I add. This happens within Risk Radar.",
+    body: "Work out my true loan cost, my Safe Payment and a plain status (on track, stretched or behind) from the details I add. This happens within Afueni by Risk Radar.",
     required: false,
   },
   ai_read: {
@@ -112,6 +113,26 @@ export const CONSENT_TEXT: Record<ConsentPurpose, { title: string; body: string;
   reminders: {
     title: "Send me reminders",
     body: "Text me 3 days before and on the day each repayment is due.",
+    required: false,
+  },
+  sms_read: {
+    title: "Read my money messages",
+    body: "Read the SMS that M-PESA, Airtel Money, banks and lenders send me, as they arrive on the Afueni Android app or when I share or paste them. They are read on my phone: only the amount, date, type, balance and the business or lender name are kept. The message text, personal messages and the names and numbers of people I send money to are never kept or uploaded. I can switch this off at any time and what was captured is deleted.",
+    required: false,
+  },
+  share_plan: {
+    title: "Share my One Plan with my lenders",
+    body: "Send each lender in my plan a Plan Proposal: my name, phone, ID number, what I owe them and what I can pay. Each lender sees only its own loan and the plan total, never my other lenders' details.",
+    required: false,
+  },
+  act_for_me: {
+    title: "Talk to my lenders for me",
+    body: "Let Afueni by Risk Radar speak to the lenders in my plan on my behalf (a letter of authority): ask for statements, agree the plan, ask for a Pause and dispute wrong CRB listings. Afueni never agrees anything new without asking me, and I can stop this at any time.",
+    required: false,
+  },
+  graduates: {
+    title: "Join Afueni Graduates",
+    body: "Once I finish my plan, or pay on time for 12 months, keep a Graduate profile I can see and edit. A partner bank only sees it if I ask for a referral or approve a bank's request. The bank pays Afueni a fixed referral fee, the same for every bank, only if it approves a loan. I can leave and delete the profile at any time.",
     required: false,
   },
   share_partner: {
@@ -128,13 +149,71 @@ export interface ConsentRecord {
   at: string; // ISO timestamp
 }
 
+// A transaction read from a money SMS, as stored. See src/lib/money/parse.ts.
+export interface MoneyRecord extends MoneyEvent {
+  id: string;
+  channel: "auto" | "share" | "paste";
+  createdAt: string;
+}
+
 export interface DistressRequest {
   id: string;
   loanId: string;
-  goal: "affordable_plan" | "refinance" | "settlement" | "advice";
-  targetLender?: string; // refinance: the lender asked to buy the loan out
+  goal: "affordable_plan" | "refinance" | "settlement" | "advice" | "one_plan" | "pause" | "clean_slate" | "missed_payment";
+  targetLender?: string; // refinance: the lender asked to pay off the loan
   proposedMonthly?: number; // affordable_plan / refinance: the payment proposed
   message: string;
   status: "submitted" | "in_review" | "closed" | "withdrawn";
   createdAt: string;
+}
+
+// ---------- Afueni One Plan ----------
+
+export type ProposalStatus = "not_sent" | "sent" | "accepted" | "countered" | "declined";
+
+export interface OnePlanLender {
+  loanId: string;
+  lender: string;
+  balance: number;
+  amountPerPayment: number;
+  payments: number;
+  proposal: ProposalStatus;
+  proposalAt?: string;
+  note?: string; // e.g. what a lender countered with
+}
+
+export interface OnePlanPayment {
+  n: number;
+  due: string; // ISO date
+  status: "paid" | "missed" | "part";
+  amount?: number;
+  at: string;
+}
+
+export interface PauseRequest {
+  reason: "illness" | "death" | "job_loss" | "theft" | "harvest" | "other";
+  details: string;
+  proof: string; // what proof the borrower will send, e.g. "hospital bill"
+  days: number; // up to 30
+  requestedAt: string;
+  status: "requested" | "granted" | "declined" | "ended";
+}
+
+export interface OnePlan {
+  id: string;
+  ref: string; // AFUENI-XXXXXX, the reference a borrower gives a collector
+  status: "draft" | "active" | "paused" | "completed" | "ended";
+  rhythm: "daily" | "weekly" | "monthly";
+  split: "fair" | "small_first";
+  safePayment: number; // KES a month
+  amount: number; // KES per payment
+  startDate: string; // ISO date of payment 1
+  totalPayments: number;
+  lenders: OnePlanLender[];
+  payments: OnePlanPayment[];
+  pause?: PauseRequest;
+  signedAt?: string;
+  keep?: { optedIn: boolean; at: string };
+  createdAt: string;
+  updatedAt: string;
 }

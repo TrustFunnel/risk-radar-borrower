@@ -23,7 +23,7 @@ done in any order; accounts switch on when the Supabase variables are set and th
 2. For testing, use the **sandbox**: `AT_USERNAME=sandbox` and the sandbox API key. Messages appear in the
    sandbox simulator, not on real phones.
 3. For real phones, go live, top up airtime, and use your live app username and API key.
-4. Optional: request an alphanumeric sender ID (e.g. `RISKRADAR`) and set `AT_SENDER_ID` once approved.
+4. Optional: request an alphanumeric sender ID (e.g. `AFUENI`, once the name is cleared) and set `AT_SENDER_ID` once approved.
    Without it, messages come from Africa's Talking's shared short code.
 
 ## 3. Reminder job
