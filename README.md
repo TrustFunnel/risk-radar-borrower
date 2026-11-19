@@ -21,6 +21,14 @@ Until Supabase is configured the app runs in demo mode: data stays in the browse
 With Supabase configured, borrowers sign in with their phone number (SMS code via Africa's Talking), their
 data is stored in their account, and they get SMS repayment reminders. Setup: [docs/SETUP-accounts.md](docs/SETUP-accounts.md).
 
+## WhatsApp (Afueni)
+
+Borrowers can message Afueni on WhatsApp (Meta's Cloud API). A rules-based assistant welcomes them in English
+or Kiswahili, asks for consent, runs a short financial distress check, gives guidance, and hands anyone who needs
+it to a coach, who replies from the `/coach` inbox. Consent, messages, delivery statuses and cases are stored in
+Supabase; `DELETE` erases a borrower's WhatsApp data. Setup steps and costs: [docs/SETUP-whatsapp.md](docs/SETUP-whatsapp.md).
+`npm run wa:simulate` runs a full conversation against a local app with Meta simulated.
+
 ## Lender prices
 
 `scripts/scrape-lenders.mjs` uses Firecrawl to scrape the Kenya Bankers Association
