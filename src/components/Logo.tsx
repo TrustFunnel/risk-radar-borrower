@@ -1,4 +1,4 @@
-// Risk Radar mark: a speech bubble holding an open hand reaching forward,
+// Afueni by Risk Radar mark: a speech bubble holding an open hand reaching forward,
 // "we're here to talk and to help". Gold on dark.
 export function BubbleMark({ className = "h-8 w-8" }: { className?: string }) {
   return (
@@ -17,16 +17,17 @@ export function BubbleMark({ className = "h-8 w-8" }: { className?: string }) {
   );
 }
 
-export const TAGLINE = "Personal Debt Management";
+// Borrower-facing brand. "Risk Radar EWS" stays the lender-facing platform name.
+export const BRAND = "Afueni by Risk Radar";
 
 export function Logo({ size = "md" }: { size?: "md" | "lg" }) {
   const lg = size === "lg";
   return (
-    <span className="inline-flex items-center gap-2.5" aria-label={`Risk Radar, ${TAGLINE}`}>
+    <span className="inline-flex items-center gap-2.5" aria-label={BRAND}>
       <BubbleMark className={lg ? "h-12 w-12" : "h-9 w-9"} />
       <span className="flex flex-col">
-        <span className={`font-bold uppercase leading-none tracking-[0.08em] text-brand ${lg ? "text-2xl" : "text-lg"}`}>Risk Radar</span>
-        <span className={`mt-1 uppercase leading-none tracking-[0.22em] text-[#c99a08] ${lg ? "text-[11px]" : "text-[8.5px]"}`}>{TAGLINE}</span>
+        <span className={`font-bold uppercase leading-none tracking-[0.08em] text-brand ${lg ? "text-2xl" : "text-lg"}`}>Afueni</span>
+        <span className={`mt-1 uppercase leading-none tracking-[0.22em] text-[#c99a08] ${lg ? "text-[11px]" : "text-[8.5px]"}`}>by Risk Radar</span>
       </span>
     </span>
   );

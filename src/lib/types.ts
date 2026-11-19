@@ -101,7 +101,7 @@ export const CONSENT_TEXT: Record<ConsentPurpose, { title: string; body: string;
   },
   analyse: {
     title: "Analyse my loans",
-    body: "Calculate my true loan cost, debt-to-income and loan health score from the details I add. This happens within Risk Radar.",
+    body: "Calculate my true loan cost, debt-to-income and loan health score from the details I add. This happens within Afueni by Risk Radar.",
     required: false,
   },
   ai_read: {

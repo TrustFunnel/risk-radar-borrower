@@ -44,7 +44,7 @@ function HelpInner() {
   );
 }
 
-const PILOT_NOTE = "During the pilot, the Risk Radar team reviews every request and calls you on your registered number before anything is shared with a lender or partner.";
+const PILOT_NOTE = "During the pilot, the Afueni by Risk Radar team reviews every request and calls you on your registered number before anything is shared with a lender or partner.";
 
 function ShareConsent({ checked, onChange, who }: { checked: boolean; onChange: (v: boolean) => void; who: string }) {
   return (
@@ -155,7 +155,7 @@ function AffordablePlanTab({ onSent }: { onSent: (s: string) => void }) {
           {!plan.fitsToday && plan.maxMonths ? <p className="text-xs text-muted">Debt-free in about {plan.maxMonths} months on this plan.</p> : null}
           {!plan.fitsToday ? (
             <>
-              <ShareConsent checked={share} onChange={setShare} who="Risk Radar and the lenders named above" />
+              <ShareConsent checked={share} onChange={setShare} who="Afueni by Risk Radar and the lenders named above" />
               <button className="btn w-full" disabled={!share} onClick={send}>Ask my lenders for this plan</button>
             </>
           ) : null}
@@ -223,7 +223,7 @@ function RefinanceTab({ onSent, preselect }: { onSent: (s: string) => void; pres
         <section className="card space-y-3">
           <p className="text-sm">Ask <b>{chosen.lender}</b> to buy out your <b>{chosen.loan.lender}</b> loan at about {kes(chosen.monthly)} a month.</p>
           <p className="text-xs text-muted">The new lender will check your credit as usual. Offers are priced at the middle of the rates each bank reports to KBA; your actual quote depends on your credit record.</p>
-          <ShareConsent checked={share} onChange={setShare} who={`Risk Radar and ${chosen.lender}`} />
+          <ShareConsent checked={share} onChange={setShare} who={`Afueni by Risk Radar and ${chosen.lender}`} />
           <button className="btn w-full" disabled={!share} onClick={send}>Request a buyout quote</button>
         </section>
       ) : null}
@@ -264,7 +264,7 @@ function TalkTab({ onSent, preselect }: { onSent: (s: string) => void; preselect
       <label className="block"><span className="label">Anything we should know? (optional)</span>
         <textarea className="input min-h-20" value={message} onChange={(e) => setMessage(e.target.value)} placeholder="e.g. I lost my job in August and can pay KES 3,000 a month" />
       </label>
-      <ShareConsent checked={share} onChange={setShare} who="a Risk Radar resolution partner" />
+      <ShareConsent checked={share} onChange={setShare} who="an Afueni by Risk Radar resolution partner" />
       <button className="btn w-full" disabled={!loanId || !share} onClick={() => { store.setConsent("share_partner", true); store.addRequest({ loanId, goal, message }); onSent(PILOT_NOTE); }}>Ask for help</button>
     </section>
   );

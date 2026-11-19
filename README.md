@@ -1,6 +1,6 @@
-# Risk Radar: Loan Wallet
+# Afueni by Risk Radar: Loan Wallet
 
-Borrower-side app for Risk Radar EWS (Kenya). Borrowers add every loan they hold, with consent, and get:
+Borrower-side app, branded **Afueni by Risk Radar**, that sits alongside the lender-facing Risk Radar EWS platform (Kenya). Borrowers add every loan they hold, with consent, and get:
 
 - one view of balances, repayments and due dates
 - the true APR and total cost of each loan, whatever way the lender quotes it
