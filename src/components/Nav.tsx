@@ -2,13 +2,12 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { CompareIcon, HelpIcon, HomeIcon, PlanIcon, WalletIcon } from "./Icons";
+import { HelpIcon, HomeIcon, PlanIcon, WalletIcon } from "./Icons";
 
 const items = [
   { href: "/", label: "Home", Icon: HomeIcon },
   { href: "/loans", label: "Loans", Icon: WalletIcon },
-  { href: "/plan", label: "Plan", Icon: PlanIcon },
-  { href: "/compare", label: "Compare", Icon: CompareIcon },
+  { href: "/plan", label: "My plan", Icon: PlanIcon },
   { href: "/help", label: "Get help", Icon: HelpIcon },
 ];
 

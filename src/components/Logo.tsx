@@ -27,7 +27,7 @@ export function Logo({ size = "md" }: { size?: "md" | "lg" }) {
       <BubbleMark className={lg ? "h-12 w-12" : "h-9 w-9"} />
       <span className="flex flex-col">
         <span className={`font-bold uppercase leading-none tracking-[0.08em] text-brand ${lg ? "text-2xl" : "text-lg"}`}>Afueni</span>
-        <span className={`mt-1 uppercase leading-none tracking-[0.22em] text-[#c99a08] ${lg ? "text-[11px]" : "text-[8.5px]"}`}>by Risk Radar</span>
+        <span className={`mt-1 italic leading-none tracking-[0.06em] text-[#c99a08] ${lg ? "text-[13px]" : "text-[10.5px]"}`}>by Risk Radar</span>
       </span>
     </span>
   );

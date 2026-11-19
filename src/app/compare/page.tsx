@@ -6,6 +6,8 @@ import products from "@/data/lender-products.json";
 import { allOffers, compareLoan, detailsOf, quoteOffer, type LoanComparison, type Offer, type Quote } from "@/lib/compare";
 import { kes } from "@/lib/finance";
 import { DEFAULT_FEE_PCT, KIND_LABEL, type LenderProduct, type ProductKind } from "@/lib/market";
+import { latestCrb } from "@/lib/myPlan";
+import { canRefinance } from "@/lib/oneplan";
 import { useDb } from "@/lib/useStore";
 
 const offers = allOffers(products as LenderProduct[]);
@@ -21,6 +23,25 @@ export default function Compare() {
     () => db.loans.filter((l) => l.status !== "closed").map((l) => compareLoan(l, offers, f)),
     [db.loans, f],
   );
+
+  const eligible = canRefinance(db.loans, latestCrb(db));
+
+  // Cheaper lenders are only shown to borrowers who could get them: banks do
+  // not refinance listed or arrears borrowers, and showing them raises false
+  // hope (strategy doc, section 7).
+  if (ready && !eligible.ok) {
+    return (
+      <div className="space-y-4 py-2">
+        <h1 className="text-xl font-bold">Compare your loans</h1>
+        <section className="card space-y-2">
+          <p className="font-semibold">A cheaper loan is unlikely right now</p>
+          <p className="text-sm text-muted">{eligible.reason}</p>
+          <p className="text-sm text-muted">Taking a new loan to pay an old one usually makes things worse. Afueni One Plan works with the lenders you already have, and Clean Slate can fix a wrong listing. Lender prices open here again once you are up to date.</p>
+          <div className="flex gap-2"><Link href="/plan" className="btn">See my One Plan</Link><Link href="/plan/clean-slate" className="btn-ghost">Clean Slate</Link></div>
+        </section>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-4 py-2">

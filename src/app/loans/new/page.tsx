@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { Suspense } from "react";
 import { Gate } from "@/components/Gate";
@@ -36,6 +37,9 @@ function Form() {
   } : undefined;
   return (
     <>
+      {!fromCrb ? (
+        <p className="card text-sm text-muted">Faster: add your <Link className="text-brand underline" href="/profile#crb">CRB report</Link> or <Link className="text-brand underline" href="/profile#mpesa">M-PESA statement</Link> and we find your loans for you. Typing is fine too.</p>
+      ) : null}
       <p className="text-sm text-muted">
         {fromCrb ? "We filled in what your CRB report shows. Add the repayment terms from your loan agreement or the lender's SMS."
           : "Copy the figures from your loan agreement, statement or the lender's SMS."}

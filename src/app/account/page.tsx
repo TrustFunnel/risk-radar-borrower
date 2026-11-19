@@ -4,13 +4,14 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Gate } from "@/components/Gate";
+import { BrandText } from "@/components/BrandText";
 import { useSession } from "@/components/Session";
 import { supabase } from "@/lib/supabase";
 import { store } from "@/lib/store";
 import { CONSENT_TEXT, type ConsentPurpose } from "@/lib/types";
 import { useDb } from "@/lib/useStore";
 
-const TOGGLES: ConsentPurpose[] = ["analyse", "ai_read", "reminders", "sms_read"];
+const TOGGLES: ConsentPurpose[] = ["analyse", "ai_read", "reminders", "sms_read", "share_plan", "act_for_me"];
 
 export default function Account() {
   return <Gate><AccountInner /></Gate>;
@@ -76,7 +77,7 @@ function AccountInner() {
           const on = store.hasConsent(p, db);
           return (
             <div key={p} className="flex items-start justify-between gap-3">
-              <div><p className="text-sm font-medium">{CONSENT_TEXT[p].title}</p><p className="text-xs text-muted">{CONSENT_TEXT[p].body}</p></div>
+              <div><p className="text-sm font-medium">{CONSENT_TEXT[p].title}</p><p className="text-xs text-muted"><BrandText>{CONSENT_TEXT[p].body}</BrandText></p></div>
               <button className={on ? "btn" : "btn-ghost"} onClick={() => (p === "sms_read" && on ? store.stopMoney() : store.setConsent(p, !on))}>{on ? "On" : "Off"}</button>
             </div>
           );
@@ -90,6 +91,11 @@ function AccountInner() {
           </ul>
         </details>
       </section>
+
+      <Link href="/graduates" className="card flex items-center justify-between gap-3 text-sm">
+        <span><span className="block font-medium">Afueni Graduates</span><span className="text-xs text-muted">For people who finished their plan</span></span>
+        <span className="text-brand">Open</span>
+      </Link>
 
       <section className="card space-y-2">
         <h2 className="font-semibold">Your data</h2>

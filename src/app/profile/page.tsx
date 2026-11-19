@@ -177,7 +177,7 @@ function CrbCard() {
   const { db } = useDb();
   const latest = [...db.documents].reverse().find((d) => d.kind === "crb" && d.crb);
   return (
-    <section className="card space-y-3">
+    <section id="crb" className="card scroll-mt-4 space-y-3">
       <h2 className="font-semibold">CRB report</h2>
       <p className="text-xs text-muted">
         You can get one free report a year from each credit bureau: Metropol, TransUnion and Creditinfo. Ask for the PDF report
@@ -210,6 +210,7 @@ function CrbResult({ report }: { report: CrbReport }) {
         <div><p className="text-xs text-muted">Negative listings</p><p className={`num font-bold ${report.accounts.some((a) => a.negative) ? "text-bad" : "text-good"}`}>{report.accounts.filter((a) => a.negative).length}</p></div>
       </div>
       {missing.length ? <p className="text-sm text-warn">{missing.length} open loan{missing.length === 1 ? " is" : "s are"} on your report but not in your wallet. Add {missing.length === 1 ? "it" : "them"} so your plan is complete.</p> : null}
+      {report.accounts.some((a) => a.negative) ? <Link href="/plan/clean-slate" className="btn-ghost">Check my listings with Clean Slate</Link> : null}
       {disputes.length ? <p className="text-sm text-bad">{disputes.length} loan{disputes.length === 1 ? "" : "s"} you marked as closed {disputes.length === 1 ? "is" : "are"} still listed as unpaid. Ask the lender for a clearance letter and the bureau to update it.</p> : null}
       <ul className="divide-y divide-line text-sm">
         {checks.map((c, i) => (
@@ -238,7 +239,7 @@ function CrbResult({ report }: { report: CrbReport }) {
 function MpesaCard() {
   const [done, setDone] = useState("");
   return (
-    <section className="card space-y-3">
+    <section id="mpesa" className="card scroll-mt-4 space-y-3">
       <h2 className="font-semibold">M-PESA statement</h2>
       <ol className="list-decimal space-y-1 pl-5 text-xs text-muted">
         <li>Dial <span className="num font-medium text-foreground">*334#</span> or open the M-PESA app, go to <em>My Account → M-PESA Statement → Request Statement</em>, and choose the full statement for the last 6 months.</li>

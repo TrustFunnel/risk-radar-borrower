@@ -1,6 +1,6 @@
-// The two remediation options on the Get help screen:
+// Remediation maths used by Get help and Afueni One Plan:
 //   1. an affordable repayment plan worked out from the borrower's own income
-//   2. refinancing (a buyout) by a cheaper lender from the Compare data
+//   2. refinancing by a cheaper lender from the Compare data
 
 import { installment, type LoanTerms } from "./finance";
 import { DEFAULT_FEE_PCT, type LenderProduct } from "./market";
@@ -168,7 +168,7 @@ function toMonth(s: string): string | null {
   return null;
 }
 
-// ---------- 2. Refinance (buyout) offers ----------
+// ---------- 2. Refinance offers ----------
 
 export interface RefinanceOffer {
   lender: LenderProduct;

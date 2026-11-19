@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { BrandText } from "@/components/BrandText";
 import { useSession } from "@/components/Session";
 import { store } from "@/lib/store";
 import { CONSENT_TEXT, CONSENT_VERSION, type ConsentPurpose } from "@/lib/types";
@@ -20,7 +21,7 @@ export default function Welcome() {
     if (session.status === "signedOut") router.replace("/login");
   }, [session.status, router]);
   const [income, setIncome] = useState("");
-  const [picked, setPicked] = useState<Record<ConsentPurpose, boolean>>({ store: false, analyse: true, ai_read: false, reminders: true, share_partner: false, sms_read: false });
+  const [picked, setPicked] = useState<Record<ConsentPurpose, boolean>>({ store: false, analyse: true, ai_read: false, reminders: true, share_partner: false, sms_read: false, share_plan: false, act_for_me: false, graduates: false });
 
   const canStart = picked.store && name.trim().length > 0;
 
@@ -43,11 +44,12 @@ export default function Welcome() {
   return (
     <div className="space-y-5 py-4">
       <section>
-        <h1 className="text-2xl font-bold">All your loans, one honest view</h1>
+        <h1 className="text-2xl font-bold">A helping hand towards debt freedom</h1>
         <p className="mt-2 text-sm text-muted">
-          Add the loans you have, from banks, SACCOs, microfinance or mobile apps. We show what each one really costs,
-          when every payment is due, and warn you early if things are getting tight. We never lend to you and never sell your data.
+          Send us your statement. We find all your loans, work out what you can really pay, and talk to your lenders for you.
+          You make one payment you can afford, the penalties and the calls stop, and you see the day you&apos;ll be free.
         </p>
+        <p className="mt-2 text-sm text-muted">It costs you nothing. We never lend to you, never ask for your contacts and never sell your data.</p>
       </section>
 
       <section className="card space-y-3">
@@ -58,7 +60,7 @@ export default function Welcome() {
         <div>
           <label className="label" htmlFor="income">Monthly take-home income (KES), optional</label>
           <input id="income" className="input num" inputMode="numeric" value={income} onChange={(e) => setIncome(e.target.value.replace(/[^\d]/g, ""))} placeholder="e.g. 45000" />
-          <p className="mt-1 text-xs text-muted">Used only to work out how much of your income goes to loans.</p>
+          <p className="mt-1 text-xs text-muted">Used only to work out a payment you can afford.</p>
         </div>
       </section>
 
@@ -75,11 +77,11 @@ export default function Welcome() {
               <span className="block text-sm font-medium">
                 {CONSENT_TEXT[p].title} {CONSENT_TEXT[p].required ? <span className="text-xs text-muted">(required)</span> : null}
               </span>
-              <span className="block text-xs text-muted">{CONSENT_TEXT[p].body}</span>
+              <span className="block text-xs text-muted"><BrandText>{CONSENT_TEXT[p].body}</BrandText></span>
             </span>
           </label>
         ))}
-        <p className="text-xs text-muted">Sharing a loan with a help partner is asked separately, each time you request help. Consent version {CONSENT_VERSION}.</p>
+        <p className="text-xs text-muted">Sharing your plan with lenders, and letting us talk to them for you, are asked separately when you build your plan. Consent version {CONSENT_VERSION}.</p>
       </section>
 
       {demo ? (
@@ -90,7 +92,7 @@ export default function Welcome() {
       ) : null}
       {importError ? <p className="text-sm text-bad">{importError}</p> : null}
 
-      <button className="btn w-full" disabled={!canStart} onClick={start}>Start my loan wallet</button>
+      <button className="btn w-full" disabled={!canStart} onClick={start}>Start</button>
       {session.status === "demo" ? <p className="text-center text-xs text-muted">Demo mode: your data stays in this browser until accounts are switched on.</p> : null}
     </div>
   );
