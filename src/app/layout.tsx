@@ -14,7 +14,13 @@ import { SaveErrors, SessionProvider } from "@/components/Session";
 export const metadata: Metadata = {
   title: "Afueni by Risk Radar",
   description: "See all your loans in one place, know what they really cost, and get help before a loan goes bad.",
+  applicationName: "Afueni",
   manifest: "/manifest.webmanifest",
+  icons: {
+    icon: [{ url: "/icon.svg", type: "image/svg+xml" }, { url: "/icons/icon-192.png", sizes: "192x192", type: "image/png" }],
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
+  },
+  appleWebApp: { capable: true, title: "Afueni", statusBarStyle: "black" },
 };
 
 export const viewport: Viewport = {
