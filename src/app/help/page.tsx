@@ -16,6 +16,8 @@ import { MIN_REFINANCE_BALANCE, MIN_REFINANCE_MONTHS, refinanceOffers } from "@/
 import { store } from "@/lib/store";
 import type { DistressRequest, Loan } from "@/lib/types";
 import { useDb } from "@/lib/useStore";
+import { ChatIcon, CheckCircle, CompareIcon, HelpIcon, PauseIcon, PlanIcon, ScaleIcon, SendIcon, SparkleIcon } from "@/components/Icons";
+import { More, PageHeader, RowLink, Segmented } from "@/components/ui";
 
 // Refinance offers are priced as bank personal loans.
 const personalProducts = (products as LenderProduct[]).filter((p) => kindOf(p) === "personal");
@@ -31,18 +33,17 @@ function HelpInner() {
   const [tab, setTab] = useState<Tab>((params.get("tab") as Tab) ?? "plan");
   const [sent, setSent] = useState<string | null>(null);
   return (
-    <div className="space-y-4 py-2">
-      <h1 className="text-xl font-bold">Get help with your loans</h1>
+    <div className="mx-auto max-w-3xl space-y-5 py-2">
+      <PageHeader icon={HelpIcon} title="Get help" sub="Pick what fits you. It is free." />
       <WhatsAppLink />
-      <div className="grid grid-cols-3 gap-1 rounded-xl border border-line bg-card p-1 text-sm">
-        {([["plan", "One Plan"], ["refinance", "Cheaper lender"], ["talk", "Talk to us"]] as const).map(([k, label]) => (
-          <button key={k} onClick={() => { setTab(k); setSent(null); }} className={`rounded-lg py-2 font-medium ${tab === k ? "bg-brand text-[#181a20]" : "text-muted"}`}>{label}</button>
-        ))}
+      <div className="glass sticky top-[4.25rem] z-10 rounded-[1.15rem] p-1 md:top-4">
+        <Segmented label="Kind of help" value={tab} onChange={(k) => { setTab(k); setSent(null); }}
+          options={[{ value: "plan", label: "One Plan", icon: PlanIcon }, { value: "refinance", label: "Cheaper", icon: CompareIcon }, { value: "talk", label: "Talk to us", icon: ChatIcon }]} />
       </div>
       {sent ? (
-        <section className="card border-good">
-          <p className="font-semibold text-good">Request sent</p>
-          <p className="mt-1 text-sm text-muted"><BrandText>{sent}</BrandText></p>
+        <section className="card space-y-2 !border-good/40 !bg-good-soft">
+          <p className="flex items-center gap-2 text-lg font-bold text-good"><CheckCircle className="h-6 w-6" />Request sent</p>
+          <p className="text-sm text-foreground/80"><BrandText>{sent}</BrandText></p>
         </section>
       ) : tab === "plan" ? <OnePlanTab /> : tab === "refinance" ? <RefinanceTab onSent={setSent} preselect={params.get("loan")} /> : <TalkTab onSent={setSent} preselect={params.get("loan")} />}
     </div>
@@ -53,8 +54,8 @@ const PILOT_NOTE = "During the pilot, the Afueni by Risk Radar team reviews ever
 
 function ShareConsent({ checked, onChange, who }: { checked: boolean; onChange: (v: boolean) => void; who: string }) {
   return (
-    <label className="flex gap-3 rounded-xl border border-line p-3 text-sm">
-      <input type="checkbox" className="mt-1" checked={checked} onChange={(e) => onChange(e.target.checked)} />
+    <label className="choice text-sm">
+      <input type="checkbox" className="mt-0.5" checked={checked} onChange={(e) => onChange(e.target.checked)} />
       <span><BrandText>{`I agree to share the details of the loans named here, my name and phone number with ${who} for this request only. My other loans stay private.`}</BrandText></span>
     </label>
   );
@@ -66,13 +67,11 @@ function OnePlanTab() {
   const { db } = useDb();
   const plan = store.livePlan(db);
   return (
-    <div className="space-y-2">
-      <Link href="/plan" className="card block border-brand">
-        <p className="font-semibold">Afueni One Plan</p>
-        <p className="mt-1 text-sm text-muted">{plan && plan.status !== "draft" ? `You are on plan ${plan.ref}. See your Freedom Date and next payment.` : "One payment you can afford, shared across all your lenders. We ask them to freeze penalties and stop the calls, and you see the day you'll be debt free. It costs you nothing."}</p>
-      </Link>
-      <Link href="/plan/pause" className="card block"><p className="font-semibold">Afueni Pause</p><p className="mt-1 text-sm text-muted">Up to 30 days&apos; breathing space after illness, a death, job loss or another shock.</p></Link>
-      <Link href="/plan/clean-slate" className="card block"><p className="font-semibold">Afueni Clean Slate</p><p className="mt-1 text-sm text-muted">We check every CRB listing against the rules and dispute the ones that break them.</p></Link>
+    <div className="space-y-3">
+      <RowLink href="/plan" icon={PlanIcon} className="!border-gold ring-4 ring-gold/15" title="Afueni One Plan"
+        sub={plan && plan.status !== "draft" ? `You are on plan ${plan.ref}. See your Freedom Date and next payment.` : "One payment you can afford, shared across all your lenders. We ask them to freeze penalties and stop the calls. Free."} />
+      <RowLink href="/plan/pause" icon={PauseIcon} title="Afueni Pause" sub="Up to 30 days' breathing space after illness, a death, job loss or another shock." />
+      <RowLink href="/plan/clean-slate" icon={SparkleIcon} title="Afueni Clean Slate" sub="We check every CRB listing against the rules and dispute the ones that break them." />
     </div>
   );
 }
@@ -99,11 +98,11 @@ function RefinanceTab({ onSent, preselect }: { onSent: (s: string) => void; pres
     onSent(`We'll ask ${chosen.lender} for a quote to refinance your ${chosen.loan.lender} loan. If they approve, they pay off ${chosen.loan.lender} directly and you repay them instead, at a lower cost. ${PILOT_NOTE}`);
   }
 
-  if (!loans.length) return <p className="card text-sm text-muted">Add your loans first.</p>;
+  if (!loans.length) return <p className="card text-center text-sm text-muted">Add your loans first.</p>;
   if (!eligible.ok) {
     return (
       <section className="card space-y-2">
-        <p className="font-semibold">A cheaper lender is unlikely right now</p>
+        <p className="flex items-center gap-2 font-semibold"><ScaleIcon className="h-5 w-5 text-warn" />A cheaper lender is unlikely right now</p>
         <p className="text-sm text-muted">{eligible.reason}</p>
         <p className="text-sm text-muted">Afueni One Plan works whether or not you are behind or listed, and Clean Slate can fix a wrong listing.</p>
         <Link href="/plan" className="btn">See my One Plan</Link>
@@ -112,17 +111,18 @@ function RefinanceTab({ onSent, preselect }: { onSent: (s: string) => void; pres
   }
   return (
     <div className="space-y-4">
-      <p className="text-sm text-muted">
-        A cheaper lender can pay off your current loan, and you repay them at a lower rate instead. Savings below are over your remaining term, after an assumed {feePct}% in new-loan fees.
-      </p>
+      <div>
+        <p className="text-[0.9375rem]">A cheaper lender pays off your loan. You repay them, for less.</p>
+        <More>Savings below are over your remaining term, after an assumed {feePct}% in new-loan fees.</More>
+      </div>
       <label className="card block"><span className="label">Assumed fees on the new loan (% of balance)</span>
         <input className="input num" inputMode="decimal" value={feePct} onChange={(e) => setFeePct(e.target.value.replace(/[^\d.]/g, ""))} />
       </label>
       {withOffers.map(({ loan, v, offers }) => (
         <section key={loan.id} className="card space-y-2">
-          <div className="flex items-baseline justify-between">
+          <div className="flex flex-wrap items-baseline justify-between gap-x-3">
             <p className="font-semibold">{loan.lender}</p>
-            <p className="num text-sm text-muted">{kes(v.balance)} at {v.apr.toFixed(1)}% · {v.monthsLeft} months left</p>
+            <p className="num text-xs text-muted">{kes(v.balance)} at {v.apr.toFixed(1)}% · {v.monthsLeft} months left</p>
           </div>
           {offers.length === 0 ? (
             <p className="text-sm text-muted">
@@ -131,26 +131,26 @@ function RefinanceTab({ onSent, preselect }: { onSent: (s: string) => void; pres
                 : "No reporting lender beats this loan after fees."}
             </p>
           ) : offers.map((o) => (
-            <label key={o.lender.lenderId} className={`flex cursor-pointer items-center justify-between gap-3 rounded-xl border p-3 ${chosen?.loan.id === loan.id && chosen.lender === o.lender.lender ? "border-brand bg-brand-soft" : "border-line"}`}>
+            <label key={o.lender.lenderId} data-on={chosen?.loan.id === loan.id && chosen.lender === o.lender.lender} className="choice items-center justify-between">
               <input type="radio" name="offer" className="sr-only" onChange={() => setChosen({ loan, lender: o.lender.lender, monthly: o.newMonthly })} />
               <span className="min-w-0">
                 <span className="block truncate text-sm font-medium">{o.lender.lender}</span>
                 <span className="block text-xs text-muted">about {o.rate.toFixed(1)}% · {kes(o.newMonthly)}/month</span>
               </span>
-              <span className="num shrink-0 text-sm font-bold text-good">Save {kes(o.saving)}</span>
+              <span className="badge badge-good num shrink-0 !text-xs">Save {kes(o.saving)}</span>
             </label>
           ))}
         </section>
       ))}
       {chosen ? (
-        <section className="card space-y-3">
+        <section className="glass sticky bottom-28 z-10 space-y-3 rounded-[1.25rem] p-4 md:bottom-4">
           <p className="text-sm">Ask <b>{chosen.lender}</b> to refinance your <b>{chosen.loan.lender}</b> loan at about {kes(chosen.monthly)} a month.</p>
           <p className="text-xs text-muted">The new lender will check your credit as usual. Offers are priced at the middle of the rates each bank reports to KBA; your actual quote depends on your credit record.</p>
           <ShareConsent checked={share} onChange={setShare} who={`Afueni by Risk Radar and ${chosen.lender}`} />
-          <button className="btn w-full" disabled={!share} onClick={send}>Ask for a refinance quote</button>
+          <button className="btn w-full" disabled={!share} onClick={send}><SendIcon className="h-5 w-5" />Ask for a refinance quote</button>
         </section>
       ) : null}
-      <p className="text-center text-xs text-muted">Rates from the <Link className="underline" href="/compare">Compare</Link> page.</p>
+      <p className="text-center text-xs text-muted">Rates from the <Link className="link" href="/compare">Compare</Link> page.</p>
     </div>
   );
 }
@@ -170,7 +170,7 @@ function TalkTab({ onSent, preselect }: { onSent: (s: string) => void; preselect
   const [message, setMessage] = useState("");
   const [share, setShare] = useState(false);
 
-  if (!open.length) return <p className="card text-sm text-muted">You have no open loans.</p>;
+  if (!open.length) return <p className="card text-center text-sm text-muted">You have no open loans.</p>;
   return (
     <section className="card space-y-3">
       <label className="block"><span className="label">Which loan?</span>
@@ -179,8 +179,8 @@ function TalkTab({ onSent, preselect }: { onSent: (s: string) => void; preselect
         </select>
       </label>
       {GOALS.map((g) => (
-        <label key={g.value} className={`flex gap-3 rounded-xl border p-3 ${goal === g.value ? "border-brand bg-brand-soft" : "border-line"}`}>
-          <input type="radio" name="goal" className="mt-1" checked={goal === g.value} onChange={() => setGoal(g.value)} />
+        <label key={g.value} className="choice">
+          <input type="radio" name="goal" className="mt-0.5" checked={goal === g.value} onChange={() => setGoal(g.value)} />
           <span><span className="block text-sm font-medium">{g.label}</span><span className="block text-xs text-muted">{g.body}</span></span>
         </label>
       ))}
@@ -188,7 +188,7 @@ function TalkTab({ onSent, preselect }: { onSent: (s: string) => void; preselect
         <textarea className="input min-h-20" value={message} onChange={(e) => setMessage(e.target.value)} placeholder="e.g. I lost my job in August and can pay KES 3,000 a month" />
       </label>
       <ShareConsent checked={share} onChange={setShare} who="an Afueni by Risk Radar resolution partner" />
-      <button className="btn w-full" disabled={!loanId || !share} onClick={() => { store.setConsent("share_partner", true); store.addRequest({ loanId, goal, message }); onSent(PILOT_NOTE); }}>Ask for help</button>
+      <button className="btn w-full" disabled={!loanId || !share} onClick={() => { store.setConsent("share_partner", true); store.addRequest({ loanId, goal, message }); onSent(PILOT_NOTE); }}><SendIcon className="h-5 w-5" />Ask for help</button>
     </section>
   );
 }

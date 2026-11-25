@@ -1,5 +1,6 @@
 // Afueni by Risk Radar mark: a speech bubble holding an open hand reaching forward,
-// "we're here to talk and to help". Gold on dark.
+// "we're here to talk and to help". Gold on dark, so on light screens it sits
+// on a deep ink tile, like an app icon.
 export function BubbleMark({ className = "h-8 w-8" }: { className?: string }) {
   return (
     <svg viewBox="6 6 88 88" className={className} aria-hidden>
@@ -17,18 +18,28 @@ export function BubbleMark({ className = "h-8 w-8" }: { className?: string }) {
   );
 }
 
+export function MarkTile({ className = "h-10 w-10" }: { className?: string }) {
+  return (
+    <span className={`inline-flex shrink-0 items-center justify-center rounded-[30%] bg-[linear-gradient(155deg,#1f2532,#0d1016)] shadow-[inset_0_1px_0_rgba(255,255,255,.12),0_6px_14px_-6px_rgba(16,20,28,.5)] ${className}`}>
+      <BubbleMark className="h-[74%] w-[74%]" />
+    </span>
+  );
+}
+
 // Borrower-facing brand. "Risk Radar EWS" stays the lender-facing platform name.
 export const BRAND = "Afueni by Risk Radar";
 
-export function Logo({ size = "md" }: { size?: "md" | "lg" }) {
+export function Logo({ size = "md", compact = false }: { size?: "md" | "lg"; compact?: boolean }) {
   const lg = size === "lg";
   return (
     <span className="inline-flex items-center gap-2.5" aria-label={BRAND}>
-      <BubbleMark className={lg ? "h-12 w-12" : "h-9 w-9"} />
-      <span className="flex flex-col">
-        <span className={`font-bold uppercase leading-none tracking-[0.08em] text-brand ${lg ? "text-2xl" : "text-lg"}`}>Afueni</span>
-        <span className={`mt-1 italic leading-none tracking-[0.06em] text-[#c99a08] ${lg ? "text-[13px]" : "text-[10.5px]"}`}>by Risk Radar</span>
-      </span>
+      <MarkTile className={lg ? "h-14 w-14" : "h-10 w-10"} />
+      {compact ? null : (
+        <span className="flex flex-col">
+          <span className={`font-extrabold uppercase leading-none tracking-[0.1em] text-brand ${lg ? "text-2xl" : "text-[1.05rem]"}`}>Afueni</span>
+          <span className={`mt-1 italic leading-none tracking-[0.04em] text-muted ${lg ? "text-[13px]" : "text-[10.5px]"}`}>by Risk Radar</span>
+        </span>
+      )}
     </span>
   );
 }

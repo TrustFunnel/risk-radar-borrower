@@ -3,6 +3,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { store } from "@/lib/store";
 import { accountsEnabled, supabase } from "@/lib/supabase";
+import { AlertIcon } from "./Icons";
 
 type Status = "demo" | "loading" | "signedOut" | "signedIn";
 
@@ -58,9 +59,9 @@ export function SaveErrors() {
   }, []);
   if (!msg) return null;
   return (
-    <div role="alert" className="mx-4 mb-2 flex items-start justify-between gap-3 rounded-xl border border-bad bg-card p-3 text-sm text-bad">
-      <span>{msg} Check your connection and try again.</span>
-      <button className="text-xs underline" onClick={() => setMsg(null)}>Dismiss</button>
+    <div role="alert" className="alert alert-bad mb-3 items-center justify-between text-bad">
+      <span className="flex items-start gap-2"><AlertIcon className="mt-0.5 h-5 w-5 shrink-0" /><span>{msg} Check your connection and try again.</span></span>
+      <button className="btn-ghost btn-sm" onClick={() => setMsg(null)}>Dismiss</button>
     </div>
   );
 }

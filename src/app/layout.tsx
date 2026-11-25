@@ -1,15 +1,10 @@
 import type { Metadata, Viewport } from "next";
-import "@fontsource/ibm-plex-sans/latin-400.css";
-import "@fontsource/ibm-plex-sans/latin-500.css";
-import "@fontsource/ibm-plex-sans/latin-600.css";
-import "@fontsource/ibm-plex-sans/latin-700.css";
+import "@fontsource-variable/inter";
 import "./globals.css";
-import Link from "next/link";
-import { HeartIcon, UserIcon } from "@/components/Icons";
-import { Logo } from "@/components/Logo";
 import { MoneyCapture } from "@/components/MoneyCapture";
-import { Nav } from "@/components/Nav";
-import { SaveErrors, SessionProvider } from "@/components/Session";
+import { Shell } from "@/components/Nav";
+import { SessionProvider } from "@/components/Session";
+import { themeScript } from "@/lib/theme";
 
 export const metadata: Metadata = {
   title: "Afueni by Risk Radar",
@@ -20,36 +15,29 @@ export const metadata: Metadata = {
     icon: [{ url: "/icon.svg", type: "image/svg+xml" }, { url: "/icons/icon-192.png", sizes: "192x192", type: "image/png" }],
     apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
   },
-  appleWebApp: { capable: true, title: "Afueni", statusBarStyle: "black" },
+  appleWebApp: { capable: true, title: "Afueni", statusBarStyle: "default" },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0b0e11",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#f4f2ed" },
+    { media: "(prefers-color-scheme: dark)", color: "#0a0c10" },
+  ],
   width: "device-width",
   initialScale: 1,
+  viewportFit: "cover",
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+      </head>
       <body className="antialiased">
         <SessionProvider>
-        <div className="mx-auto min-h-screen max-w-3xl pb-24">
-          <header className="sticky top-0 z-10 flex items-center justify-between bg-background/95 px-4 py-3 backdrop-blur">
-            <Link href="/"><Logo /></Link>
-            <Link href="/account" aria-label="Account" className="flex h-9 w-9 items-center justify-center rounded-full bg-raised text-muted hover:text-brand">
-              <UserIcon />
-            </Link>
-          </header>
-          <p className="mx-4 mb-2 flex items-center justify-center gap-1.5 rounded-lg bg-brand-soft px-3 py-1.5 text-xs text-brand">
-            <HeartIcon className="h-3.5 w-3.5" />
-            <span><span className="font-semibold">We care.</span> We&apos;re on your side with every loan.</span>
-          </p>
-          <SaveErrors />
-          <main className="px-4">{children}</main>
-        </div>
-        <Nav />
-        <MoneyCapture />
+          <Shell>{children}</Shell>
+          <MoneyCapture />
         </SessionProvider>
       </body>
     </html>

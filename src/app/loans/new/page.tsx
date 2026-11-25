@@ -5,13 +5,15 @@ import { useSearchParams } from "next/navigation";
 import { Suspense } from "react";
 import { Gate } from "@/components/Gate";
 import { LoanForm, type LoanDraft } from "@/components/LoanForm";
+import { PlusIcon, SparkleIcon } from "@/components/Icons";
+import { PageHeader } from "@/components/ui";
 import { LENDER_TYPES, type LenderType, type LoanStatus } from "@/lib/types";
 
 export default function NewLoan() {
   return (
     <Gate>
-      <div className="space-y-3 py-2">
-        <h1 className="text-xl font-bold">Add a loan</h1>
+      <div className="mx-auto max-w-3xl space-y-5 py-2">
+        <PageHeader back={{ href: "/loans", label: "My loans" }} icon={PlusIcon} title="Add a loan" />
         <Suspense fallback={null}><Form /></Suspense>
       </div>
     </Gate>
@@ -38,9 +40,12 @@ function Form() {
   return (
     <>
       {!fromCrb ? (
-        <p className="card text-sm text-muted">Faster: add your <Link className="text-brand underline" href="/profile#crb">CRB report</Link> or <Link className="text-brand underline" href="/profile#mpesa">M-PESA statement</Link> and we find your loans for you. Typing is fine too.</p>
+        <div className="card-flat flex items-center gap-3 text-sm">
+          <SparkleIcon className="h-5 w-5 shrink-0 text-brand" />
+          <span>Faster: add your <Link className="link" href="/profile#crb">CRB report</Link> or <Link className="link" href="/profile#mpesa">M-PESA statement</Link>. We find your loans.</span>
+        </div>
       ) : null}
-      <p className="text-sm text-muted">
+      <p className="text-[0.9375rem] text-muted">
         {fromCrb ? "We filled in what your CRB report shows. Add the repayment terms from your loan agreement or the lender's SMS."
           : "Copy the figures from your loan agreement, statement or the lender's SMS."}
       </p>

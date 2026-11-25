@@ -11,6 +11,8 @@ import { PdfPasswordError } from "@/lib/pdfText";
 import { store } from "@/lib/store";
 import { CONSENT_TEXT, type CrbReport, type DocKind, type DocRecord, type WorkDetails } from "@/lib/types";
 import { useDb } from "@/lib/useStore";
+import { AlertIcon, BankIcon, BriefcaseIcon, CheckCircle, CheckIcon, DocIcon, MessageIcon, PhoneIcon, PlusIcon, SparkleIcon, TrashIcon, UploadIcon } from "@/components/Icons";
+import { IconTile, More, PageHeader, RowLink } from "@/components/ui";
 
 export default function Profile() {
   return <Gate><ProfileInner /></Gate>;
@@ -19,18 +21,21 @@ export default function Profile() {
 function ProfileInner() {
   const { db } = useDb();
   return (
-    <div className="space-y-4 py-2">
-      <h1 className="text-xl font-bold">My details</h1>
-      <p className="text-sm text-muted">The more we know, the earlier we can warn you. Files are opened on your phone and the file itself is never uploaded. For CRB reports and bank statements, the text is read by our AI provider, Anthropic, in the United States, only if you agree. We keep only the figures. M-PESA statements are read on your phone.</p>
-      <WorkCard />
-      <CrbCard />
-      <Link href="/money" className="card flex items-center justify-between gap-3 text-sm">
-        <span><span className="block font-medium">Money messages</span><span className="text-xs text-muted">Read M-PESA, bank and lender SMS as they arrive, instead of a monthly statement</span></span>
-        <span className="text-brand">Open</span>
-      </Link>
-      <MpesaCard />
-      <BankCard />
-      {db.documents.length ? <DocList docs={db.documents} /> : null}
+    <div className="space-y-5 py-2">
+      <PageHeader icon={DocIcon} title="My details" sub="The more we know, the earlier we can warn you." />
+      <More label="Where do my files go?">The more we know, the earlier we can warn you. Files are opened on your phone and the file itself is never uploaded. For CRB reports and bank statements, the text is read by our AI provider, Anthropic, in the United States, only if you agree. We keep only the figures. M-PESA statements are read on your phone.</More>
+      <div className="grid gap-5 lg:grid-cols-2 lg:items-start">
+        <div className="space-y-5">
+          <WorkCard />
+          <CrbCard />
+        </div>
+        <div className="space-y-5">
+          <RowLink href="/money" icon={MessageIcon} title="Money messages" sub="Read M-PESA, bank and lender SMS as they arrive" />
+          <MpesaCard />
+          <BankCard />
+          {db.documents.length ? <DocList docs={db.documents} /> : null}
+        </div>
+      </div>
     </div>
   );
 }
@@ -73,8 +78,8 @@ function WorkCard() {
   }
 
   return (
-    <section className="card space-y-3">
-      <h2 className="font-semibold">Your work</h2>
+    <section className="card space-y-4">
+      <CardTitle icon={BriefcaseIcon} title="Your work" />
       <label className="block"><span className="label">How do you earn?</span>
         <select className="input" value={type} onChange={(e) => { setType(e.target.value as EmploymentType); setSaved(false); }}>
           {EMPLOYMENT_TYPES.map((t) => <option key={t.value} value={t.value}>{t.label}</option>)}
@@ -101,8 +106,8 @@ function WorkCard() {
           {INDUSTRIES.map((i) => <option key={i} value={i}>{i}</option>)}
         </select>
       </label>
-      <p className="text-xs text-muted">We watch for news that affects your industry, like layoffs or delayed pay, so we can warn you before a repayment is at risk.</p>
-      <button className="btn" disabled={!industry} onClick={save}>{saved ? "Saved" : "Save work details"}</button>
+      <p className="text-xs leading-relaxed text-muted">We watch for news that affects your industry, like layoffs or delayed pay, so we can warn you before a repayment is at risk.</p>
+      <button className="btn w-full sm:w-auto" disabled={!industry} onClick={save}>{saved ? <><CheckCircle className="h-5 w-5" />Saved</> : <><CheckIcon className="h-5 w-5" />Save work details</>}</button>
     </section>
   );
 }
@@ -144,8 +149,13 @@ function Upload({ accept, passwordLabel, passwordHint, otp, ai, onRead, cta }: {
   }
 
   return (
-    <div className="space-y-2">
-      <input key={inputKey} type="file" accept={accept} className="block w-full text-sm" onChange={(e) => { setFile(e.target.files?.[0] ?? null); setError(""); }} />
+    <div className="space-y-3">
+      <label className="flex cursor-pointer flex-col items-center gap-2 rounded-2xl border-2 border-dashed border-line bg-raised px-4 py-5 text-center transition-colors hover:border-gold">
+        <UploadIcon className="h-7 w-7 text-brand" />
+        <span className="text-sm font-semibold">{file ? file.name : "Choose a file"}</span>
+        <span className="text-xs text-muted">{file ? "Tap to change" : "PDF or CSV from your phone"}</span>
+        <input key={inputKey} type="file" accept={accept} className="sr-only" onChange={(e) => { setFile(e.target.files?.[0] ?? null); setError(""); }} />
+      </label>
       {needsPassword ? (
         <label className="block"><span className="label">{passwordLabel}</span>
           <input className="input num" value={password} onChange={(e) => setPassword(e.target.value)}
@@ -154,13 +164,13 @@ function Upload({ accept, passwordLabel, passwordHint, otp, ai, onRead, cta }: {
         </label>
       ) : null}
       {askConsent ? (
-        <label className="flex items-start gap-3 rounded-xl border border-line p-3">
-          <input type="checkbox" className="mt-1 h-4 w-4 accent-[var(--brand)]" checked={agree} onChange={(e) => setAgree(e.target.checked)} />
+        <label className="choice">
+          <input type="checkbox" className="mt-0.5" checked={agree} onChange={(e) => setAgree(e.target.checked)} />
           <span><span className="block text-sm font-medium">{CONSENT_TEXT.ai_read.title}</span><span className="block text-xs text-muted">{CONSENT_TEXT.ai_read.body}</span></span>
         </label>
       ) : null}
-      <button className="btn-ghost" disabled={!file || busy || (askConsent && !agree) || (otp && !password && /\.pdf$/i.test(file.name))} onClick={go}>{busy ? "Reading…" : cta}</button>
-      {error ? <p className="text-xs text-bad">{error}</p> : null}
+      <button className="btn w-full" disabled={!file || busy || (askConsent && !agree) || (otp && !password && /\.pdf$/i.test(file.name))} onClick={go}>{busy ? <><span className="h-4 w-4 animate-spin rounded-full border-2 border-on-gold/30 border-t-on-gold" aria-hidden />Reading…</> : cta}</button>
+      {error ? <p className="flex items-start gap-1.5 text-sm text-bad" role="alert"><AlertIcon className="mt-0.5 h-4 w-4 shrink-0" />{error}</p> : null}
     </div>
   );
 }
@@ -177,12 +187,12 @@ function CrbCard() {
   const { db } = useDb();
   const latest = [...db.documents].reverse().find((d) => d.kind === "crb" && d.crb);
   return (
-    <section id="crb" className="card scroll-mt-4 space-y-3">
-      <h2 className="font-semibold">CRB report</h2>
-      <p className="text-xs text-muted">
+    <section id="crb" className="card scroll-mt-24 space-y-4">
+      <CardTitle icon={DocIcon} title="CRB report" sub="One free report a year from each bureau" />
+      <More label="How to get it">
         You can get one free report a year from each credit bureau: Metropol, TransUnion and Creditinfo. Ask for the PDF report
         through their app, website or SMS service, then upload it here. We&apos;ll check it against your loans and flag anything missing or wrong.
-      </p>
+      </More>
       <Upload accept="application/pdf,.pdf" passwordLabel="Report password" passwordHint="Bureaus often use your ID number." ai={() => true} cta="Read my CRB report"
         onRead={async (file, pw) => {
           const crb = await readCrbFile(file, pw);
@@ -204,14 +214,14 @@ function CrbResult({ report }: { report: CrbReport }) {
   const missing = checks.filter((c) => c.issue === "missing");
   const disputes = checks.filter((c) => c.issue === "listed_after_close");
   return (
-    <div className="space-y-3 border-t border-line pt-3">
+    <div className="space-y-3 border-t border-line pt-4">
       <div className="grid grid-cols-2 gap-3 text-sm">
-        <div><p className="text-xs text-muted">{report.bureau} score</p><p className="num font-bold">{report.score ?? "Not shown"}{report.scoreBand ? ` · ${report.scoreBand}` : ""}</p></div>
-        <div><p className="text-xs text-muted">Negative listings</p><p className={`num font-bold ${report.accounts.some((a) => a.negative) ? "text-bad" : "text-good"}`}>{report.accounts.filter((a) => a.negative).length}</p></div>
+        <div className="card-flat"><p className="eyebrow">{report.bureau} score</p><p className="num text-lg font-bold">{report.score ?? "Not shown"}{report.scoreBand ? ` · ${report.scoreBand}` : ""}</p></div>
+        <div className="card-flat"><p className="eyebrow">Negative listings</p><p className={`num text-lg font-bold ${report.accounts.some((a) => a.negative) ? "text-bad" : "text-good"}`}>{report.accounts.filter((a) => a.negative).length}</p></div>
       </div>
-      {missing.length ? <p className="text-sm text-warn">{missing.length} open loan{missing.length === 1 ? " is" : "s are"} on your report but not in your wallet. Add {missing.length === 1 ? "it" : "them"} so your plan is complete.</p> : null}
-      {report.accounts.some((a) => a.negative) ? <Link href="/plan/clean-slate" className="btn-ghost">Check my listings with Clean Slate</Link> : null}
-      {disputes.length ? <p className="text-sm text-bad">{disputes.length} loan{disputes.length === 1 ? "" : "s"} you marked as closed {disputes.length === 1 ? "is" : "are"} still listed as unpaid. Ask the lender for a clearance letter and the bureau to update it.</p> : null}
+      {missing.length ? <p className="alert alert-warn"><AlertIcon className="h-5 w-5 shrink-0 text-warn" /><span>{missing.length} open loan{missing.length === 1 ? " is" : "s are"} on your report but not in your wallet. Add {missing.length === 1 ? "it" : "them"} so your plan is complete.</span></p> : null}
+      {report.accounts.some((a) => a.negative) ? <Link href="/plan/clean-slate" className="btn-ghost w-full"><SparkleIcon className="h-5 w-5" />Check my listings with Clean Slate</Link> : null}
+      {disputes.length ? <p className="alert alert-bad"><AlertIcon className="h-5 w-5 shrink-0 text-bad" /><span>{disputes.length} loan{disputes.length === 1 ? "" : "s"} you marked as closed {disputes.length === 1 ? "is" : "are"} still listed as unpaid. Ask the lender for a clearance letter and the bureau to update it.</span></p> : null}
       <ul className="divide-y divide-line text-sm">
         {checks.map((c, i) => (
           <li key={i} className="flex items-start justify-between gap-3 py-2">
@@ -224,7 +234,7 @@ function CrbResult({ report }: { report: CrbReport }) {
             </div>
             <div className="shrink-0 text-right">
               <p className="num">{kes(c.account.balance)}</p>
-              {c.issue === "missing" ? <Link className="text-xs text-brand underline" href={`/loans/new?${loanDraftQuery(c.account)}`}>Add to my loans</Link>
+              {c.issue === "missing" ? <Link className="badge badge-gold mt-1" href={`/loans/new?${loanDraftQuery(c.account)}`}><PlusIcon className="h-3 w-3" />Add to my loans</Link>
                 : c.loan ? <Link className="text-xs text-muted underline" href={`/loans/${c.loan.id}`}>In wallet</Link> : null}
             </div>
           </li>
@@ -239,12 +249,12 @@ function CrbResult({ report }: { report: CrbReport }) {
 function MpesaCard() {
   const [done, setDone] = useState("");
   return (
-    <section id="mpesa" className="card scroll-mt-4 space-y-3">
-      <h2 className="font-semibold">M-PESA statement</h2>
-      <ol className="list-decimal space-y-1 pl-5 text-xs text-muted">
-        <li>Dial <span className="num font-medium text-foreground">*334#</span> or open the M-PESA app, go to <em>My Account → M-PESA Statement → Request Statement</em>, and choose the full statement for the last 6 months.</li>
-        <li>Enter your email address. Safaricom emails the statement as a PDF and texts you a code that opens it.</li>
-        <li>Upload the PDF here and type the code from the SMS. The file is opened on your phone; the code is never saved.</li>
+    <section id="mpesa" className="card scroll-mt-24 space-y-4">
+      <CardTitle icon={PhoneIcon} title="M-PESA statement" sub="Last 6 months, read on your phone" />
+      <ol className="space-y-2 text-[0.8125rem] text-muted [counter-reset:step]">
+        <li className="flex gap-2.5 before:flex before:h-6 before:w-6 before:shrink-0 before:items-center before:justify-center before:rounded-full before:bg-brand-soft before:text-xs before:font-bold before:text-brand before:content-[counter(step)] [counter-increment:step]"><span>Dial <span className="num font-medium text-foreground">*334#</span> or open the M-PESA app, go to <em>My Account → M-PESA Statement → Request Statement</em>, and choose the full statement for the last 6 months.</span></li>
+        <li className="flex gap-2.5 before:flex before:h-6 before:w-6 before:shrink-0 before:items-center before:justify-center before:rounded-full before:bg-brand-soft before:text-xs before:font-bold before:text-brand before:content-[counter(step)] [counter-increment:step]"><span>Enter your email address. Safaricom emails the statement as a PDF and texts you a code that opens it.</span></li>
+        <li className="flex gap-2.5 before:flex before:h-6 before:w-6 before:shrink-0 before:items-center before:justify-center before:rounded-full before:bg-brand-soft before:text-xs before:font-bold before:text-brand before:content-[counter(step)] [counter-increment:step]"><span>Upload the PDF here and type the code from the SMS. The file is opened on your phone; the code is never saved.</span></li>
       </ol>
       <Upload accept="application/pdf,.pdf,.csv,text/csv" otp passwordLabel="Code from the M-PESA SMS" cta="Read my M-PESA statement"
         onRead={async (file, code) => {
@@ -252,7 +262,7 @@ function MpesaCard() {
           saveStatement("mpesa", file.name, r);
           setDone(`Read ${flowsSummary(r.flows)}. Your affordable plan on Get help now uses it.`);
         }} />
-      {done ? <p className="text-xs text-good">{done}</p> : null}
+      {done ? <p className="flex items-start gap-1.5 text-sm text-good"><CheckCircle className="mt-0.5 h-4 w-4 shrink-0" />{done}</p> : null}
     </section>
   );
 }
@@ -262,16 +272,16 @@ function MpesaCard() {
 function BankCard() {
   const [done, setDone] = useState("");
   return (
-    <section className="card space-y-3">
-      <h2 className="font-semibold">Bank statement</h2>
-      <p className="text-xs text-muted">Download 3 to 6 months of statements from your bank app or internet banking (PDF or CSV). If the PDF has a password, your bank&apos;s email usually says what it is, often your ID number.</p>
+    <section className="card space-y-4">
+      <CardTitle icon={BankIcon} title="Bank statement" sub="3 to 6 months, PDF or CSV" />
+      <More label="How to get it">Download 3 to 6 months of statements from your bank app or internet banking (PDF or CSV). If the PDF has a password, your bank&apos;s email usually says what it is, often your ID number.</More>
       <Upload accept="application/pdf,.pdf,.csv,text/csv" passwordLabel="Statement password" ai={(f) => !/\.csv$/i.test(f.name) && f.type !== "text/csv"} cta="Read my bank statement"
         onRead={async (file, pw) => {
           const r = await readBankFile(file, pw);
           saveStatement("bank", file.name, r);
           setDone(`Read ${flowsSummary(r.flows)}. Your affordable plan on Get help now uses it.`);
         }} />
-      {done ? <p className="text-xs text-good">{done}</p> : null}
+      {done ? <p className="flex items-start gap-1.5 text-sm text-good"><CheckCircle className="mt-0.5 h-4 w-4 shrink-0" />{done}</p> : null}
     </section>
   );
 }
@@ -283,15 +293,25 @@ const KIND: Record<DocKind, string> = { crb: "CRB report", mpesa: "M-PESA statem
 function DocList({ docs }: { docs: DocRecord[] }) {
   return (
     <section className="card">
-      <h2 className="mb-2 text-sm font-medium text-muted">Read so far</h2>
+      <h2 className="mb-1 font-semibold">Read so far</h2>
       <ul className="divide-y divide-line text-sm">
         {[...docs].reverse().map((d) => (
           <li key={d.id} className="flex items-center justify-between gap-3 py-2">
-            <div className="min-w-0"><p className="font-medium">{KIND[d.kind]}</p><p className="truncate text-xs text-muted">{d.summary} · {new Date(d.createdAt).toLocaleDateString("en-KE")}</p></div>
-            <button className="text-xs text-bad underline" onClick={() => store.deleteDocument(d.id)}>Remove</button>
+            <span className="tile tile-good !h-9 !w-9 !rounded-xl"><CheckIcon className="h-[18px] w-[18px]" /></span>
+            <div className="min-w-0 flex-1"><p className="font-medium">{KIND[d.kind]}</p><p className="truncate text-xs text-muted">{d.summary} · {new Date(d.createdAt).toLocaleDateString("en-KE")}</p></div>
+            <button aria-label="Remove" className="flex h-9 w-9 items-center justify-center rounded-full text-muted hover:bg-bad-soft hover:text-bad" onClick={() => store.deleteDocument(d.id)}><TrashIcon className="h-[18px] w-[18px]" /></button>
           </li>
         ))}
       </ul>
     </section>
+  );
+}
+
+function CardTitle({ icon, title, sub }: { icon: typeof DocIcon; title: string; sub?: string }) {
+  return (
+    <div className="flex items-center gap-3">
+      <IconTile icon={icon} />
+      <div><h2 className="text-lg font-bold leading-tight">{title}</h2>{sub ? <p className="text-[0.8125rem] text-muted">{sub}</p> : null}</div>
+    </div>
   );
 }
