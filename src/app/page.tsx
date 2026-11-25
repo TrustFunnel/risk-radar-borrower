@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { Gate } from "@/components/Gate";
-import { HelpIcon, PlanIcon, PlusIcon, WalletIcon } from "@/components/Icons";
+import { ArrowRight, CalendarIcon, DocIcon, HeartIcon, HelpIcon, MessageIcon, PauseIcon, PhoneIcon, PlanIcon, PlusIcon, WalletIcon } from "@/components/Icons";
+import { IconTile, Meter, RowLink } from "@/components/ui";
 import { StatusCard } from "@/components/StatusCard";
 import { kes } from "@/lib/finance";
 import { daysUntil, fmtDate, view } from "@/lib/loanView";
@@ -31,67 +32,73 @@ function Dashboard() {
   const plan = store.livePlan(db);
 
   return (
-    <div className="space-y-4 py-2">
-      <h1 className="text-lg font-semibold">Hi {db.profile?.displayName}</h1>
+    <div className="space-y-5 py-2">
+      <div className="flex flex-wrap items-end justify-between gap-2">
+        <h1 className="text-[1.75rem] font-bold leading-tight md:text-3xl">Hi {db.profile?.displayName}</h1>
+        <p className="inline-flex items-center gap-1.5 rounded-full bg-brand-soft px-3 py-1 text-xs font-semibold text-brand lg:hidden">
+          <HeartIcon className="h-3.5 w-3.5" />We care. We&apos;re on your side.
+        </p>
+      </div>
 
-      {active.length === 0 && !plan ? <FindLoans /> : <WayOut />}
+      <div className="grid gap-5 lg:grid-cols-[minmax(0,1.35fr)_minmax(0,1fr)] lg:items-start">
+        <div className="space-y-5">
+          {active.length === 0 && !plan ? <FindLoans /> : <WayOut />}
 
-      {active.length ? (
-        <>
-          <nav className="grid grid-cols-4 gap-2 text-center text-xs font-medium" aria-label="Quick actions">
-            {ACTIONS.map(({ href, label, Icon }) => (
-              <Link key={href} href={href} className="flex flex-col items-center gap-1.5 rounded-xl py-2 hover:bg-card">
-                <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-raised text-brand"><Icon /></span>
-                {label}
-              </Link>
-            ))}
-          </nav>
-
-          <StatusCard s={status(db)} owed={owed} loans={active.length} />
-
-          {!plan ? (
+          {active.length && !plan ? (
             <section className="card">
-              <h2 className="mb-2 text-sm font-medium text-muted">Next payments</h2>
+              <h2 className="mb-1 flex items-center gap-2 font-semibold"><CalendarIcon className="h-5 w-5 text-brand" />Next payments</h2>
               <ul className="divide-y divide-line">
                 {upcoming.map((v) => {
                   const d = daysUntil(v.nextDue!);
                   return (
-                    <li key={v.loan.id} className="flex items-center justify-between py-2.5">
-                      <Link href={`/loans/${v.loan.id}`} className="min-w-0">
-                        <p className="truncate font-medium">{v.loan.lender}</p>
-                        <p className="text-xs text-muted">
-                          {v.loan.arrearsDays > 0 ? <span className="font-semibold text-bad">{v.loan.arrearsDays} days overdue · </span> : null}
-                          {fmtDate(v.nextDue)} · {d <= 0 ? "due today" : `in ${d} day${d === 1 ? "" : "s"}`}
-                        </p>
+                    <li key={v.loan.id}>
+                      <Link href={`/loans/${v.loan.id}`} className="-mx-2 flex items-center justify-between gap-3 rounded-xl px-2 py-3 hover:bg-raised">
+                        <span className="min-w-0">
+                          <span className="block truncate font-semibold">{v.loan.lender}</span>
+                          <span className="block text-xs text-muted">
+                            {v.loan.arrearsDays > 0 ? <span className="font-semibold text-bad">{v.loan.arrearsDays} days overdue · </span> : null}
+                            {fmtDate(v.nextDue)} · {d <= 0 ? "due today" : `in ${d} day${d === 1 ? "" : "s"}`}
+                          </span>
+                        </span>
+                        <span className={`num shrink-0 font-bold ${d <= 3 ? "text-warn" : ""}`}>{kes(v.installment)}</span>
                       </Link>
-                      <span className={`num font-semibold ${d <= 3 ? "text-warn" : ""}`}>{kes(v.installment)}</span>
                     </li>
                   );
                 })}
               </ul>
             </section>
           ) : null}
-        </>
-      ) : null}
+        </div>
 
-      {!db.profile?.work || !db.documents.length ? (
-        <Link href="/profile" className="card block">
-          <p className="font-semibold">Complete your details</p>
-          <p className="mt-1 text-sm text-muted">Add your CRB report and M-PESA or bank statements. We find loans you may have forgotten and check every listing is correct.</p>
-        </Link>
-      ) : null}
+        <div className="space-y-5">
+          {active.length ? (
+            <>
+              <nav className="grid grid-cols-4 gap-2" aria-label="Quick actions">
+                {ACTIONS.map(({ href, label, Icon }) => (
+                  <Link key={href} href={href} className="group flex flex-col items-center gap-2 rounded-2xl py-2 text-center text-xs font-semibold">
+                    <span className="flex h-14 w-14 items-center justify-center rounded-[1.1rem] border border-line bg-card text-brand shadow-[var(--shadow-card)] transition-transform group-hover:-translate-y-0.5 group-active:scale-95">
+                      <Icon className="h-6 w-6" />
+                    </span>
+                    {label}
+                  </Link>
+                ))}
+              </nav>
+              <StatusCard s={status(db)} owed={owed} loans={active.length} />
+            </>
+          ) : null}
 
-      {!store.hasConsent("sms_read", db) ? (
-        <Link href="/money" className="card block">
-          <p className="font-semibold">Read my money messages</p>
-          <p className="mt-1 text-sm text-muted">Let Afueni read your M-PESA, bank and lender SMS as they arrive, so your plan stays up to date without a monthly statement.</p>
-        </Link>
-      ) : (
-        <Link href="/money" className="card flex items-center justify-between text-sm">
-          <span><span className="block font-medium">Money messages</span><span className="text-xs text-muted">{db.money.length} transactions captured</span></span>
-          <span className="text-brand">Open</span>
-        </Link>
-      )}
+          <div className="space-y-3">
+            {!db.profile?.work || !db.documents.length ? (
+              <RowLink href="/profile" icon={DocIcon} title="Complete your details" sub="CRB report and statements find forgotten loans" />
+            ) : null}
+            {!store.hasConsent("sms_read", db) ? (
+              <RowLink href="/money" icon={MessageIcon} title="Read my money messages" sub="Your plan stays up to date by itself" />
+            ) : (
+              <RowLink href="/money" icon={MessageIcon} tone="plain" title="Money messages" sub={`${db.money.length} transactions captured`} />
+            )}
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
@@ -106,13 +113,19 @@ function WayOut() {
   if (plan && plan.status !== "draft") {
     const p = progress(plan);
     return (
-      <Link href="/plan" className="card block border-brand">
-        <p className="text-sm text-muted">{plan.status === "completed" ? "You did it" : plan.status === "paused" ? "Your plan is paused" : "Your Freedom Date"}</p>
-        <p className="num mt-1 text-4xl font-bold tracking-tight text-brand">{plan.status === "completed" ? "Debt free" : fmtMonth(p.freedom)}</p>
-        <div className="mt-3 h-2 overflow-hidden rounded-full bg-line" aria-hidden><div className="h-full rounded-full bg-brand" style={{ width: `${p.pct}%` }} /></div>
-        <p className="num mt-2 text-sm text-muted">{kes(p.repaid)} of {kes(p.owed)} repaid · plan {plan.ref}</p>
+      <Link href="/plan" className="hero block transition-transform hover:-translate-y-0.5">
+        <div className="flex items-center justify-between gap-2">
+          <p className="hero-muted text-sm font-medium">{plan.status === "completed" ? "You did it" : plan.status === "paused" ? "Your plan is paused" : "Your Freedom Date"}</p>
+          <span className="hero-chip num whitespace-nowrap">{plan.ref}</span>
+        </div>
+        <p className="num hero-gold mt-2 text-[2.6rem] font-bold leading-none tracking-tight md:text-5xl">{plan.status === "completed" ? "Debt free" : fmtMonth(p.freedom)}</p>
+        <div className="mt-5"><Meter pct={p.pct} label="Repaid so far" /></div>
+        <p className="num hero-muted mt-2 text-sm">{kes(p.repaid)} of {kes(p.owed)} repaid</p>
         {plan.status === "active" ? (
-          <p className="num mt-2 text-sm">Next: <b>{kes(plan.amount)}</b> {p.daysToNext <= 0 ? "due today" : `in ${p.daysToNext} day${p.daysToNext === 1 ? "" : "s"}`}</p>
+          <div className="mt-4 flex items-center justify-between gap-3 rounded-2xl bg-white/[0.07] px-4 py-3 ring-1 ring-white/10">
+            <span className="hero-muted text-sm">Next payment</span>
+            <span className="num text-right font-bold">{kes(plan.amount)} <span className="hero-muted text-sm font-medium">· {p.daysToNext <= 0 ? "due today" : `in ${p.daysToNext} day${p.daysToNext === 1 ? "" : "s"}`}</span></span>
+          </div>
         ) : null}
       </Link>
     );
@@ -123,23 +136,27 @@ function WayOut() {
   const owed = views.reduce((s, v) => s + v.balance, 0);
   const draft = m.safe ? draftFor(db, m.safe, "monthly", "fair") : null;
   return (
-    <section className="card border-brand">
-      <p className="text-sm text-muted">Your way out</p>
+    <section className="hero">
+      <p className="hero-muted text-sm font-medium">Your way out</p>
       {draft?.feasible ? (
         <>
-          <p className="mt-1 text-sm">With one payment of <b className="num">{kes(m.safe!)}</b> a month across all your lenders, you could be debt free by</p>
-          <p className="num mt-1 text-4xl font-bold tracking-tight text-brand">{fmtMonth(freedomDate(defaultStart(), "monthly", draft.totalPayments))}</p>
-          <Link href="/plan" className="btn mt-3">{plan ? "Finish my One Plan" : "Build my One Plan"}</Link>
+          <p className="hero-muted mt-3 text-sm">Debt free by</p>
+          <p className="num hero-gold text-[2.6rem] font-bold leading-none tracking-tight md:text-5xl">{fmtMonth(freedomDate(defaultStart(), "monthly", draft.totalPayments))}</p>
+          <p className="mt-3 text-[0.9375rem]">One payment of <b className="num">{kes(m.safe!)}</b> a month, shared across all your lenders.</p>
+          <Link href="/plan" className="btn mt-5 w-full sm:w-auto">{plan ? "Finish my One Plan" : "Build my One Plan"}<ArrowRight className="h-5 w-5" /></Link>
         </>
       ) : m.safe === 0 ? (
         <>
-          <p className="mt-1 text-sm">Right now there is nothing left after your essentials to pay your loans of <b className="num">{kes(owed)}</b>. That is not your fault, and a plan that fails won&apos;t help.</p>
-          <Link href="/plan/pause" className="btn mt-3">Ask for breathing space</Link>
+          <p className="num mt-2 text-3xl font-bold tracking-tight">{kes(owed)}</p>
+          <p className="mt-2 text-[0.9375rem]">Right now nothing is left after essentials to pay your loans. That is not your fault, and a plan that fails won&apos;t help.</p>
+          <Link href="/plan/pause" className="btn mt-5 w-full sm:w-auto"><PauseIcon className="h-5 w-5" />Ask for breathing space</Link>
         </>
       ) : (
         <>
-          <p className="mt-1 text-sm">You owe <b className="num">{kes(owed)}</b>. Tell us what comes in and what you must spend, and we&apos;ll show the day you can be debt free with one payment you can afford.</p>
-          <Link href="/plan" className="btn mt-3">See my Freedom Date</Link>
+          <p className="hero-muted mt-3 text-sm">You owe</p>
+          <p className="num hero-gold text-[2.6rem] font-bold leading-none tracking-tight md:text-5xl">{kes(owed)}</p>
+          <p className="mt-3 text-[0.9375rem]">Tell us what comes in and what you must spend. We show the day you can be debt free.</p>
+          <Link href="/plan" className="btn mt-5 w-full sm:w-auto">See my Freedom Date<ArrowRight className="h-5 w-5" /></Link>
         </>
       )}
     </section>
@@ -149,15 +166,16 @@ function WayOut() {
 // No loans yet: fill the list from documents first, typing is the fallback.
 function FindLoans() {
   return (
-    <section className="card space-y-3 border-brand">
-      <div>
-        <p className="font-semibold">Let&apos;s find all your loans</p>
-        <p className="mt-1 text-sm text-muted">Send us your documents and we build the list for you. You only confirm each loan.</p>
+    <section className="space-y-3">
+      <div className="hero">
+        <IconTile icon={WalletIcon} />
+        <p className="mt-4 text-2xl font-bold tracking-tight">Let&apos;s find all your loans</p>
+        <p className="hero-muted mt-1 text-[0.9375rem]">Send a document. We build the list. You only confirm.</p>
       </div>
-      <Link href="/profile#crb" className="flex items-center justify-between rounded-xl border border-line p-3 text-sm"><span><b>CRB report</b><span className="block text-xs text-muted">Finds every loan and listing, even ones you forgot</span></span><span className="text-brand">Add</span></Link>
-      <Link href="/profile#mpesa" className="flex items-center justify-between rounded-xl border border-line p-3 text-sm"><span><b>M-PESA statement</b><span className="block text-xs text-muted">Shows Fuliza, M-Shwari and loan apps, and your income</span></span><span className="text-brand">Add</span></Link>
-      <Link href="/money" className="flex items-center justify-between rounded-xl border border-line p-3 text-sm"><span><b>Loan SMS</b><span className="block text-xs text-muted">Balances and due dates from your lenders&apos; messages</span></span><span className="text-brand">Add</span></Link>
-      <Link href="/loans/new" className="block text-center text-xs text-muted underline">Or type a loan in yourself</Link>
+      <RowLink href="/profile#crb" icon={DocIcon} title="CRB report" sub="Finds every loan, even forgotten ones" />
+      <RowLink href="/profile#mpesa" icon={PhoneIcon} title="M-PESA statement" sub="Fuliza, M-Shwari, loan apps and income" />
+      <RowLink href="/money" icon={MessageIcon} title="Loan SMS" sub="Balances and due dates from lender messages" />
+      <Link href="/loans/new" className="btn-ghost w-full"><PlusIcon className="h-5 w-5" />Type a loan in myself</Link>
     </section>
   );
 }

@@ -5,6 +5,8 @@ import { useMemo, useState } from "react";
 import { apr, installment, kes, totalCostOfCredit, type Frequency, type LoanTerms, type RateType } from "@/lib/finance";
 import { store } from "@/lib/store";
 import { LENDER_TYPES, type Loan, type LenderType, type LoanStatus } from "@/lib/types";
+import { BankIcon, CalendarIcon, CheckIcon, ClockIcon, TrashIcon } from "./Icons";
+import { Segmented } from "./ui";
 
 const RATE_TYPES: { value: RateType; label: string }[] = [
   { value: "reducing_annual", label: "% per year, reducing balance (most banks)" },
@@ -77,7 +79,8 @@ export function LoanForm({ loan, draft }: { loan?: Loan; draft?: LoanDraft }) {
 
   return (
     <form onSubmit={submit} className="space-y-4">
-      <section className="card grid gap-3 sm:grid-cols-2">
+      <section className="card grid gap-4 sm:grid-cols-2">
+        <Heading icon={BankIcon} title="Who lent it" />
         <Field label="Lender"><input className="input" value={f.lender} onChange={(e) => set("lender", e.target.value)} placeholder="e.g. KCB, Stima SACCO, Tala" required /></Field>
         <Field label="Type of lender">
           <select className="input" value={f.lenderType} onChange={(e) => set("lenderType", e.target.value as LenderType)}>
@@ -88,7 +91,8 @@ export function LoanForm({ loan, draft }: { loan?: Loan; draft?: LoanDraft }) {
         <Field label="Amount borrowed (KES)"><input className="input num" inputMode="decimal" value={f.principal} onChange={(e) => set("principal", e.target.value)} required /></Field>
       </section>
 
-      <section className="card grid gap-3 sm:grid-cols-2">
+      <section className="card grid gap-4 sm:grid-cols-2">
+        <Heading icon={CalendarIcon} title="How you repay" />
         <Field label="How do you repay?">
           <select className="input" value={f.frequency} onChange={(e) => set("frequency", e.target.value as Frequency)}>
             <option value="monthly">Monthly installments</option>
@@ -103,10 +107,8 @@ export function LoanForm({ loan, draft }: { loan?: Loan; draft?: LoanDraft }) {
         )}
         <div className="sm:col-span-2">
           <span className="label">What do you know about the cost?</span>
-          <div className="flex gap-2">
-            <button type="button" className={f.knowsInstallment ? "btn" : "btn-ghost"} onClick={() => set("knowsInstallment", true)}>My repayment amount</button>
-            <button type="button" className={!f.knowsInstallment ? "btn" : "btn-ghost"} onClick={() => set("knowsInstallment", false)}>The interest rate</button>
-          </div>
+          <Segmented label="What do you know about the cost?" value={f.knowsInstallment ? "amount" : "rate"} onChange={(v) => set("knowsInstallment", v === "amount")}
+            options={[{ value: "amount", label: "My repayment amount" }, { value: "rate", label: "The interest rate" }]} />
         </div>
         {f.knowsInstallment ? (
           <Field label={f.frequency === "bullet" ? "Total to repay (KES)" : "Each installment (KES)"}><input className="input num" inputMode="decimal" value={f.installmentAmount} onChange={(e) => set("installmentAmount", e.target.value)} /></Field>
@@ -123,7 +125,8 @@ export function LoanForm({ loan, draft }: { loan?: Loan; draft?: LoanDraft }) {
         <Field label="Fees paid upfront, incl. insurance and excise (KES)"><input className="input num" inputMode="decimal" value={f.upfrontFees} onChange={(e) => set("upfrontFees", e.target.value)} placeholder="0" /></Field>
       </section>
 
-      <section className="card grid gap-3 sm:grid-cols-2">
+      <section className="card grid gap-4 sm:grid-cols-2">
+        <Heading icon={ClockIcon} title="Where it stands" />
         <Field label="Date received"><input type="date" className="input" value={f.disbursedOn} onChange={(e) => set("disbursedOn", e.target.value)} /></Field>
         {f.frequency !== "bullet" ? <Field label="First repayment date"><input type="date" className="input" value={f.firstDueDate} onChange={(e) => set("firstDueDate", e.target.value)} /></Field> : null}
         <Field label="Balance on latest statement (KES, optional)"><input className="input num" inputMode="decimal" value={f.outstandingBalance} onChange={(e) => set("outstandingBalance", e.target.value)} /></Field>
@@ -138,7 +141,7 @@ export function LoanForm({ loan, draft }: { loan?: Loan; draft?: LoanDraft }) {
       </section>
 
       {valid ? (
-        <section className="card grid grid-cols-3 gap-2 bg-brand-soft text-center">
+        <section className="hero grid grid-cols-3 gap-2 text-center">
           <Stat label="Repayment" value={kes(installment(terms))} />
           <Stat label="Total cost of credit" value={kes(totalCostOfCredit(terms))} />
           <Stat label="True APR" value={`${apr(terms).toFixed(1)}%`} />
@@ -146,8 +149,8 @@ export function LoanForm({ loan, draft }: { loan?: Loan; draft?: LoanDraft }) {
       ) : null}
 
       <div className="flex gap-2">
-        <button className="btn flex-1" disabled={!valid}>{loan ? "Save changes" : "Add loan"}</button>
-        {loan ? <button type="button" className="btn-ghost text-bad" onClick={() => { if (confirm("Delete this loan and everything linked to it?")) { store.deleteLoan(loan.id); router.push("/loans"); } }}>Delete</button> : null}
+        <button className="btn flex-1" disabled={!valid}><CheckIcon className="h-5 w-5" />{loan ? "Save changes" : "Add loan"}</button>
+        {loan ? <button type="button" className="btn-danger" onClick={() => { if (confirm("Delete this loan and everything linked to it?")) { store.deleteLoan(loan.id); router.push("/loans"); } }}><TrashIcon className="h-5 w-5" />Delete</button> : null}
       </div>
     </form>
   );
@@ -164,5 +167,9 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
 }
 
 function Stat({ label, value }: { label: string; value: string }) {
-  return <div><p className="text-[11px] text-muted">{label}</p><p className="num text-sm font-bold">{value}</p></div>;
+  return <div><p className="hero-muted text-[11px] font-medium">{label}</p><p className="num hero-gold mt-0.5 text-base font-bold sm:text-lg">{value}</p></div>;
+}
+
+function Heading({ icon: Icon, title }: { icon: typeof BankIcon; title: string }) {
+  return <h2 className="flex items-center gap-2.5 font-semibold sm:col-span-2"><span className="tile !h-9 !w-9 !rounded-xl"><Icon className="h-[18px] w-[18px]" /></span>{title}</h2>;
 }

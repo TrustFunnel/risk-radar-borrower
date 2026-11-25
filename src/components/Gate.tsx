@@ -18,7 +18,16 @@ export function Gate({ children }: { children: React.ReactNode }) {
     if (session.status === "signedOut") router.replace("/login");
     else if (ready && sessionReady && !ok) router.replace("/welcome");
   }, [session.status, ready, sessionReady, ok, router]);
-  if (session.error) return <p className="card my-4 text-sm text-bad">We couldn&apos;t load your loans: {session.error}</p>;
-  if (!ok) return <p className="py-10 text-center text-sm text-muted">Loading…</p>;
+  if (session.error) return <p className="alert alert-bad my-4 text-bad">We couldn&apos;t load your loans: {session.error}</p>;
+  if (!ok) return <Loading />;
   return <>{children}</>;
+}
+
+export function Loading() {
+  return (
+    <div className="flex flex-col items-center gap-3 py-16 text-sm text-muted" role="status">
+      <span className="h-8 w-8 animate-spin rounded-full border-[3px] border-line border-t-gold" aria-hidden />
+      Loading…
+    </div>
+  );
 }

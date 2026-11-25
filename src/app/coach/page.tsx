@@ -3,6 +3,8 @@
 // Coach inbox for Afueni WhatsApp hand-offs. Coaches see waiting cases,
 // read the chat, reply on WhatsApp, and hand the chat back to the bot.
 import { useCallback, useEffect, useState } from "react";
+import { ArrowLeft, ChatIcon, LockIcon, SendIcon } from "@/components/Icons";
+import { Segmented } from "@/components/ui";
 
 type CaseItem = {
   id: string; reason: string; priority: "normal" | "high" | "urgent"; note: string | null; createdAt: string; closedAt: string | null;
@@ -19,7 +21,7 @@ const REASONS: Record<string, string> = {
   asked_for_person: "Asked for a person", assessment: "Assessment flagged", document: "Sent a document", voice_note: "Sent a voice note",
   consent_followup: "Permission to follow up", safety: "Safety risk", stuck: "Bot couldn't help",
 };
-const PRIORITY_STYLE = { urgent: "bg-bad text-white", high: "bg-warn text-[#181a20]", normal: "bg-raised text-muted" } as const;
+const PRIORITY_STYLE = { urgent: "badge-bad", high: "badge-warn", normal: "" } as const;
 const time = (iso: string) => new Date(iso).toLocaleString("en-KE", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" });
 
 export default function CoachInbox() {
@@ -80,7 +82,7 @@ export default function CoachInbox() {
   if (!key) {
     return (
       <form className="card mx-auto my-8 max-w-sm space-y-3" onSubmit={(e) => { e.preventDefault(); try { sessionStorage.setItem(KEY, draftKey.trim()); } catch {} setKey(draftKey.trim()); }}>
-        <h1 className="text-lg font-bold">Afueni coach inbox</h1>
+        <h1 className="flex items-center gap-2 text-xl font-bold"><LockIcon className="h-5 w-5 text-brand" />Afueni coach inbox</h1>
         <p className="text-sm text-muted">Enter the coach access key. It is kept in this browser tab only and cleared when you close it.</p>
         <input className="input" type="password" autoComplete="off" value={draftKey} onChange={(e) => setDraftKey(e.target.value)} placeholder="Coach access key" />
         <button className="btn w-full" disabled={draftKey.trim().length < 24}>Open inbox</button>
@@ -91,26 +93,22 @@ export default function CoachInbox() {
   return (
     <div className="space-y-4 py-2">
       <div className="flex items-center justify-between">
-        <h1 className="text-xl font-bold">WhatsApp cases</h1>
-        <button className="text-xs text-muted underline" onClick={() => { try { sessionStorage.removeItem(KEY); } catch {} setKey(null); }}>Lock</button>
+        <h1 className="flex items-center gap-2 text-2xl font-bold"><ChatIcon className="h-6 w-6 text-brand" />WhatsApp cases</h1>
+        <button className="btn-ghost btn-sm" onClick={() => { try { sessionStorage.removeItem(KEY); } catch {} setKey(null); }}><LockIcon className="h-4 w-4" />Lock</button>
       </div>
-      {error && <p className="card border-bad text-sm text-bad">{error}</p>}
+      {error && <p className="alert alert-bad text-bad" role="alert">{error}</p>}
 
       {!selected ? (
         <>
-          <div className="grid grid-cols-2 gap-1 rounded-xl border border-line bg-card p-1 text-sm">
-            {(["open", "closed"] as const).map((k) => (
-              <button key={k} onClick={() => setTab(k)} className={`rounded-lg py-2 font-medium ${tab === k ? "bg-brand text-[#181a20]" : "text-muted"}`}>{k === "open" ? "Waiting" : "Closed"}</button>
-            ))}
-          </div>
-          {cases.length === 0 && <p className="py-8 text-center text-sm text-muted">{tab === "open" ? "No one is waiting. 🎉" : "No closed cases yet."}</p>}
+          <Segmented label="Cases" value={tab} onChange={setTab} options={[{ value: "open", label: "Waiting" }, { value: "closed", label: "Closed" }]} />
+          {cases.length === 0 && <p className="py-8 text-center text-sm text-muted">{tab === "open" ? "No one is waiting." : "No closed cases yet."}</p>}
           <ul className="space-y-2">
             {cases.map((c) => (
               <li key={c.id}>
-                <button onClick={() => { setSelected(c); setConv(null); setReply(""); }} className="card w-full text-left hover:border-brand">
+                <button onClick={() => { setSelected(c); setConv(null); setReply(""); }} className="card w-full text-left">
                   <div className="flex items-center justify-between gap-2">
                     <span className="font-semibold">{c.contact.name ?? "No name yet"} <span className="text-xs text-muted">···{c.contact.phoneEnd}</span></span>
-                    <span className={`rounded px-2 py-0.5 text-[11px] font-semibold uppercase ${PRIORITY_STYLE[c.priority]}`}>{c.priority}</span>
+                    <span className={`badge uppercase ${PRIORITY_STYLE[c.priority]}`}>{c.priority}</span>
                   </div>
                   <p className="mt-1 text-sm">{REASONS[c.reason] ?? c.reason}{c.contact.level ? ` · ${c.contact.level}` : ""} · {c.contact.lang === "sw" ? "Kiswahili" : "English"}</p>
                   <p className="mt-0.5 text-xs text-muted">{c.note} · {time(c.createdAt)}{!c.contact.windowOpen ? " · 24h window closed" : ""}</p>
@@ -121,7 +119,7 @@ export default function CoachInbox() {
         </>
       ) : (
         <section className="space-y-3">
-          <button className="text-sm text-brand" onClick={() => { setSelected(null); setConv(null); loadCases(); }}>← All cases</button>
+          <button className="inline-flex items-center gap-1.5 text-sm font-semibold text-brand" onClick={() => { setSelected(null); setConv(null); loadCases(); }}><ArrowLeft className="h-4 w-4" />All cases</button>
           {!conv ? <p className="text-sm text-muted">Loading…</p> : (
             <>
               <div className="card space-y-1 text-sm">
@@ -136,7 +134,7 @@ export default function CoachInbox() {
 
               <ol className="space-y-2">
                 {conv.messages.map((m) => (
-                  <li key={m.id} className={`max-w-[85%] rounded-xl px-3 py-2 text-sm ${m.direction === "in" ? "bg-raised" : m.author === "coach" ? "ml-auto bg-brand-soft" : "ml-auto bg-card border border-line"}`}>
+                  <li key={m.id} className={`max-w-[85%] rounded-2xl px-3.5 py-2.5 text-sm ${m.direction === "in" ? "rounded-bl-md bg-card border border-line" : m.author === "coach" ? "ml-auto rounded-br-md bg-brand-soft" : "ml-auto rounded-br-md bg-raised"}`}>
                     <p className="whitespace-pre-wrap break-words">{m.body ?? <span className="italic text-muted">[text cleared after 90 days]</span>}</p>
                     {m.hasMedia && <button className="mt-1 text-xs text-brand underline" onClick={() => downloadFile(m.id, m.fileName)}>Download {m.type}{m.fileName ? ` (${m.fileName})` : ""}</button>}
                     <p className="mt-1 text-[11px] text-muted">{m.author} · {time(m.at)}{m.direction === "out" ? ` · ${m.status}` : ""}{m.error ? ` · ${m.error}` : ""}</p>
@@ -149,7 +147,7 @@ export default function CoachInbox() {
               ) : conv.contact.windowOpen ? (
                 <form className="space-y-2" onSubmit={(e) => { e.preventDefault(); act(async () => { await api(`/api/coach/conversations/${conv.contact.id}/reply`, { method: "POST", body: JSON.stringify({ text: reply }) }); setReply(""); await loadConv(conv.contact.id); }); }}>
                   <textarea className="input min-h-24" value={reply} onChange={(e) => setReply(e.target.value)} placeholder={conv.contact.lang === "sw" ? "Andika jibu kwa Kiswahili…" : "Write your reply…"} />
-                  <button className="btn w-full" disabled={busy || !reply.trim()}>Send on WhatsApp</button>
+                  <button className="btn w-full" disabled={busy || !reply.trim()}><SendIcon className="h-5 w-5" />Send on WhatsApp</button>
                 </form>
               ) : (
                 <div className="card space-y-2 text-sm">

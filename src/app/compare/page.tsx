@@ -9,6 +9,8 @@ import { DEFAULT_FEE_PCT, KIND_LABEL, type LenderProduct, type ProductKind } fro
 import { latestCrb } from "@/lib/myPlan";
 import { canRefinance } from "@/lib/oneplan";
 import { useDb } from "@/lib/useStore";
+import { ChevronDown, CompareIcon, InfoIcon, PlanIcon, PlusIcon, ScaleIcon, SearchIcon, SparkleIcon } from "@/components/Icons";
+import { IconTile, More, PageHeader } from "@/components/ui";
 
 const offers = allOffers(products as LenderProduct[]);
 const lastChecked = offers.map((o) => o.checkedOn).sort().at(-1);
@@ -31,24 +33,26 @@ export default function Compare() {
   // hope (strategy doc, section 7).
   if (ready && !eligible.ok) {
     return (
-      <div className="space-y-4 py-2">
-        <h1 className="text-xl font-bold">Compare your loans</h1>
-        <section className="card space-y-2">
-          <p className="font-semibold">A cheaper loan is unlikely right now</p>
-          <p className="text-sm text-muted">{eligible.reason}</p>
-          <p className="text-sm text-muted">Taking a new loan to pay an old one usually makes things worse. Afueni One Plan works with the lenders you already have, and Clean Slate can fix a wrong listing. Lender prices open here again once you are up to date.</p>
-          <div className="flex gap-2"><Link href="/plan" className="btn">See my One Plan</Link><Link href="/plan/clean-slate" className="btn-ghost">Clean Slate</Link></div>
+      <div className="mx-auto max-w-3xl space-y-5 py-2">
+        <PageHeader icon={CompareIcon} title="Compare prices" />
+        <section className="card space-y-4">
+          <div className="flex items-start gap-3">
+            <IconTile icon={ScaleIcon} tone="warn" />
+            <div>
+              <p className="text-lg font-bold">A cheaper loan is unlikely right now</p>
+              <p className="mt-1 text-sm text-muted">{eligible.reason}</p>
+            </div>
+          </div>
+          <More>Taking a new loan to pay an old one usually makes things worse. Afueni One Plan works with the lenders you already have, and Clean Slate can fix a wrong listing. Lender prices open here again once you are up to date.</More>
+          <div className="grid gap-2 sm:grid-cols-2"><Link href="/plan" className="btn"><PlanIcon className="h-5 w-5" />See my One Plan</Link><Link href="/plan/clean-slate" className="btn-ghost"><SparkleIcon className="h-5 w-5" />Clean Slate</Link></div>
         </section>
       </div>
     );
   }
 
   return (
-    <div className="space-y-4 py-2">
-      <h1 className="text-xl font-bold">Compare your loans</h1>
-      <p className="text-sm text-muted">
-        How other lenders price the same kind of loan you hold, on what you still owe. Tap a lender to see what they ask for, how fast they pay out, and every cost.
-      </p>
+    <div className="space-y-6 py-2">
+      <PageHeader icon={CompareIcon} title="Compare prices" sub="Other lenders, same kind of loan. Tap one to see every cost." />
 
       {!ready ? null : comparisons.length ? (
         comparisons.map((c) => <LoanCompare key={c.loan.id} c={c} />)
@@ -56,14 +60,14 @@ export default function Compare() {
         <section className="card">
           <p className="font-semibold">Add your loans to compare them</p>
           <p className="mt-1 text-sm text-muted">Once your loans are in your wallet, we show how each one compares with the same product at other lenders.</p>
-          <Link href="/loans/new" className="btn mt-3">Add a loan</Link>
+          <Link href="/loans/new" className="btn mt-3"><PlusIcon className="h-5 w-5" />Add a loan</Link>
         </section>
       )}
 
       <Shop feePct={feePct} setFeePct={setFeePct} />
 
-      <p className="text-center text-xs text-muted">
-        Bank rates from the Kenya Bankers Association Total Cost of Credit report{lastChecked ? `, collected ${lastChecked}` : ""}. Mobile lender and SACCO prices are from each lender&apos;s own page. Always confirm the final quote with the lender.
+      <p className="mx-auto flex max-w-2xl gap-2 text-xs text-muted">
+        <InfoIcon className="h-4 w-4 shrink-0" />Bank rates from the Kenya Bankers Association Total Cost of Credit report{lastChecked ? `, collected ${lastChecked}` : ""}. Mobile lender and SACCO prices are from each lender&apos;s own page. Always confirm the final quote with the lender.
       </p>
     </div>
   );
@@ -79,30 +83,30 @@ function LoanCompare({ c }: { c: LoanComparison }) {
   const rows = all ? c.rows : c.rows.slice(0, SHOWN);
 
   return (
-    <section className="space-y-2">
-      <div className="card border-brand/40">
-        <div className="flex items-baseline justify-between gap-2">
-          <p className="min-w-0 truncate font-semibold">{c.loan.lender}</p>
-          <span className="shrink-0 rounded bg-brand-soft px-1.5 py-0.5 text-xs text-brand">{KIND_LABEL[c.kind]}</span>
+    <section className="space-y-3">
+      <div className="hero">
+        <div className="flex items-center justify-between gap-2">
+          <p className="min-w-0 truncate text-lg font-bold">{c.loan.lender}</p>
+          <span className="hero-chip shrink-0">{KIND_LABEL[c.kind]}</span>
         </div>
-        <p className="num mt-1 text-sm text-muted">
+        <p className="num hero-muted mt-1 text-sm">
           {mobile
             ? `Borrowing ${kes(c.amount)} for 30 days costs you ${kes(c.current.totalCost)}.`
             : `${kes(c.amount)} left over ${c.months} month${c.months === 1 ? "" : "s"} at ${kes(c.current.monthly)}/month, about ${kes(c.current.totalCost)} still to pay in interest and charges.`}
         </p>
         {best ? (
           best.saving > 0 ? (
-            <p className="mt-2 text-sm">
-              <span className="font-semibold text-good">{best.offer.lender}</span> would cost about <span className="num font-semibold text-good">{kes(best.saving)} less</span>{mobile ? " for the same 30 days." : " over the same months."}
+            <p className="mt-3 rounded-2xl bg-white/[0.07] px-4 py-3 text-[0.9375rem] ring-1 ring-white/10">
+              <span className="font-semibold text-[#5ee0a6]">{best.offer.lender}</span> would cost about <span className="num font-bold text-[#5ee0a6]">{kes(best.saving)} less</span>{mobile ? " for the same 30 days." : " over the same months."}
               {sacco ? <> If you can join <span className="font-semibold">{sacco.offer.lender}</span>, it could save <span className="num">{kes(sacco.saving)}</span>.</> : null}
             </p>
           ) : (
-            <p className="mt-2 text-sm text-good">You already have one of the cheapest {KIND_LABEL[c.kind].toLowerCase()}s we track.</p>
+            <p className="mt-3 text-sm text-[#5ee0a6]">You already have one of the cheapest {KIND_LABEL[c.kind].toLowerCase()}s we track.</p>
           )
-        ) : <p className="mt-2 text-sm text-muted">We don&apos;t track other lenders for this kind of loan yet.</p>}
+        ) : <p className="hero-muted mt-2 text-sm">We don&apos;t track other lenders for this kind of loan yet.</p>}
       </div>
 
-      <ul className="space-y-2">
+      <ul className="grid gap-3 lg:grid-cols-2">
         {rows.map((r, i) => (
           <OfferRow key={r.offer.id} offer={r.offer} quote={r.quote} amount={c.amount} months={c.months} rank={i}
             saving={r.yours ? undefined : r.saving} yours={r.yours} />
@@ -135,9 +139,9 @@ function Shop({ feePct, setFeePct }: { feePct: string; setFeePct: (v: string) =>
   const shown = all ? rows : rows.slice(0, SHOWN);
 
   return (
-    <section className="space-y-2 pt-2">
-      <h2 className="text-lg font-bold">Shopping for a new loan?</h2>
-      <div className="card grid grid-cols-2 gap-3 sm:grid-cols-4">
+    <section className="space-y-3 border-t border-line pt-6">
+      <h2 className="flex items-center gap-2 text-xl font-bold"><SearchIcon className="h-5 w-5 text-brand" />Shopping for a new loan?</h2>
+      <div className="glass grid grid-cols-2 gap-3 rounded-[1.25rem] p-4 sm:grid-cols-4">
         <label className="block"><span className="label">Loan type</span>
           <select className="input" value={kind} onChange={(e) => { setKind(e.target.value as ProductKind); setAll(false); }}>
             {KINDS.map((k) => <option key={k} value={k}>{KIND_LABEL[k]}</option>)}
@@ -151,11 +155,11 @@ function Shop({ feePct, setFeePct }: { feePct: string; setFeePct: (v: string) =>
         )}
         <label className="block"><span className="label">Bank fees (% of loan)</span><input className="input num" inputMode="decimal" value={feePct} onChange={(e) => setFeePct(e.target.value.replace(/[^\d.]/g, ""))} /></label>
       </div>
-      <p className="text-xs text-muted">
+      <More label="About fees">
         Banks report interest only, so we add {f}% for processing, insurance and excise duty; change it if your lender quotes differently. This applies to your loans above too.
         Lenders with their own published fees use those instead.
-      </p>
-      <ul className="space-y-2">
+      </More>
+      <ul className="grid gap-3 lg:grid-cols-2">
         {shown.map(({ offer, quote }, i) => <OfferRow key={offer.id} offer={offer} quote={quote} amount={a} months={m} rank={i} />)}
       </ul>
       {rows.length > SHOWN ? (
@@ -175,27 +179,27 @@ function OfferRow({ offer, quote, amount, months, rank, saving, yours }: {
   const range = offer.rateMin != null && offer.rateMax != null && offer.rateMin !== offer.rateMax ? `${pct(offer.rateMin)} to ${pct(offer.rateMax)}` : null;
 
   return (
-    <li className={`card ${open ? "border-brand/60" : ""}`}>
+    <li className={`card !p-4 ${open ? "!border-gold lg:col-span-2" : ""}`}>
       <button className="block w-full text-left" onClick={() => setOpen(!open)} aria-expanded={open}>
         <div className="flex items-baseline justify-between gap-2">
           <p className="min-w-0 truncate font-semibold">
-            {yours ? <span className="mr-1 rounded bg-raised px-1.5 py-0.5 text-xs text-muted">Your lender</span>
-              : rank === 0 && !quote.overLimit ? <span className="mr-1 rounded bg-brand-soft px-1.5 py-0.5 text-xs text-brand">Cheapest</span> : null}
+            {yours ? <span className="badge mr-1.5 align-middle">Your lender</span>
+              : rank === 0 && !quote.overLimit ? <span className="badge badge-solid mr-1.5 align-middle">Cheapest</span> : null}
             {offer.lender}
           </p>
           <p className="num shrink-0 font-bold">{pct(offer.rate)}</p>
         </div>
-        <p className="text-xs text-muted">{offer.detail?.product ?? offer.product} · {pct(offer.rate)} {offer.rateNote}{range ? `, range ${range}` : ""}</p>
-        <div className="num mt-2 grid grid-cols-2 text-sm">
+        <p className="mt-0.5 text-xs text-muted">{offer.detail?.product ?? offer.product} · {pct(offer.rate)} {offer.rateNote}{range ? `, range ${range}` : ""}</p>
+        <div className="num mt-3 grid grid-cols-2 rounded-xl bg-raised px-3 py-2 text-sm font-medium">
           <span>{mobile ? `Repay ${kes(quote.monthly)}` : `${kes(quote.monthly)}/month`}</span>
           <span className="text-right">Cost {kes(quote.totalCost)}</span>
         </div>
         <div className="mt-1 flex items-center justify-between gap-2 text-xs">
-          {quote.overLimit ? <span className="text-warn">Above this lender&apos;s limit</span>
+          {quote.overLimit ? <span className="badge badge-warn">Above this lender&apos;s limit</span>
             : saving == null ? <span />
-            : saving > 0 ? <span className="num font-semibold text-good">Save {kes(saving)}</span>
-            : <span className="num text-bad">{kes(-saving)} more than now</span>}
-          <span className="text-brand">{open ? "Hide details ▲" : "Details ▼"}</span>
+            : saving > 0 ? <span className="badge badge-good num">Save {kes(saving)}</span>
+            : <span className="badge badge-bad num">{kes(-saving)} more than now</span>}
+          <span className="inline-flex items-center gap-1 font-semibold text-brand">{open ? "Hide" : "Details"}<ChevronDown className={`h-4 w-4 transition-transform ${open ? "rotate-180" : ""}`} /></span>
         </div>
       </button>
       {open ? <OfferDetails offer={offer} quote={quote} amount={amount} months={months} /> : null}

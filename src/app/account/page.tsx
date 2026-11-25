@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Gate } from "@/components/Gate";
@@ -10,6 +9,8 @@ import { supabase } from "@/lib/supabase";
 import { store } from "@/lib/store";
 import { CONSENT_TEXT, type ConsentPurpose } from "@/lib/types";
 import { useDb } from "@/lib/useStore";
+import { DocIcon, DownloadIcon, GradIcon, LockIcon, LogoutIcon, PhoneIcon, ShieldIcon, SunIcon, TrashIcon, UploadIcon, UserIcon, WalletIcon, AlertIcon } from "@/components/Icons";
+import { IconTile, PageHeader, RowLink, Switch, ThemeSwitch } from "@/components/ui";
 
 const TOGGLES: ConsentPurpose[] = ["analyse", "ai_read", "reminders", "sms_read", "share_plan", "act_for_me"];
 
@@ -45,45 +46,56 @@ function AccountInner() {
   }
 
   return (
-    <div className="space-y-4 py-2">
-      <h1 className="text-xl font-bold">Account and privacy</h1>
+    <div className="space-y-5 py-2">
+      <PageHeader icon={UserIcon} title="Account and privacy" />
+      <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.25fr)] lg:items-start">
+      <div className="space-y-5">
       {session.status === "signedIn" ? (
-        <section className="card flex items-center justify-between gap-3">
-          <div><p className="text-xs text-muted">Signed in as</p><p className="num font-semibold">{db.profile?.phone ?? session.phone}</p></div>
-          <button className="btn-ghost" onClick={() => supabase?.auth.signOut()}>Sign out</button>
+        <section className="card flex items-center gap-3">
+          <IconTile icon={PhoneIcon} tone="plain" />
+          <div className="min-w-0 flex-1"><p className="eyebrow">Signed in as</p><p className="num font-semibold">{db.profile?.phone ?? session.phone}</p></div>
+          <button className="btn-ghost btn-sm" onClick={() => supabase?.auth.signOut()}><LogoutIcon className="h-4 w-4" />Sign out</button>
         </section>
       ) : null}
       {localDemo ? (
-        <section className="card flex items-center justify-between gap-3 text-sm">
-          <span>{localDemo.loans.length} loan(s) from before you signed in are still on this phone.</span>
-          <button className="btn-ghost" onClick={() => store.importLocal().catch((e) => setDeleteError((e as Error).message))}>Copy to account</button>
+        <section className="card space-y-3 text-sm">
+          <p className="flex items-center gap-2"><UploadIcon className="h-5 w-5 text-brand" />{localDemo.loans.length} loan(s) from before you signed in are still on this phone.</p>
+          <button className="btn-ghost w-full" onClick={() => store.importLocal().catch((e) => setDeleteError((e as Error).message))}>Copy to account</button>
         </section>
       ) : null}
-      <Link href="/profile" className="card flex items-center justify-between gap-3 text-sm">
-        <span><span className="block font-medium">My details</span><span className="text-xs text-muted">Work, CRB report, M-PESA and bank statements</span></span>
-        <span className="text-brand">Open</span>
-      </Link>
+      <RowLink href="/profile" icon={DocIcon} title="My details" sub="Work, CRB report, M-PESA and bank statements" />
 
-      <section className="card space-y-2">
+      <section className="card space-y-3">
         <label className="block"><span className="label">Monthly take-home income (KES)</span>
           <input className="input num" inputMode="numeric" value={income} onChange={(e) => setIncome(e.target.value.replace(/[^\d]/g, ""))} />
         </label>
-        <button className="btn-ghost" onClick={() => db.profile && store.saveProfile({ ...db.profile, monthlyIncome: Number(income) || 0 })}>Save income</button>
+        <button className="btn-ghost w-full sm:w-auto" onClick={() => db.profile && store.saveProfile({ ...db.profile, monthlyIncome: Number(income) || 0 })}><WalletIcon className="h-5 w-5" />Save income</button>
       </section>
 
       <section className="card space-y-3">
-        <h2 className="font-semibold">Consents</h2>
+        <h2 className="flex items-center gap-2 font-semibold"><SunIcon className="h-5 w-5 text-brand" />Look</h2>
+        <ThemeSwitch />
+      </section>
+
+      <RowLink href="/graduates" icon={GradIcon} tone="good" title="Afueni Graduates" sub="For people who finished their plan" />
+      </div>
+
+      <div className="space-y-5">
+      <section className="card space-y-1">
+        <h2 className="mb-2 flex items-center gap-2 font-semibold"><ShieldIcon className="h-5 w-5 text-brand" />Consents</h2>
+        <ul className="divide-y divide-line">
         {TOGGLES.map((p) => {
           const on = store.hasConsent(p, db);
           return (
-            <div key={p} className="flex items-start justify-between gap-3">
-              <div><p className="text-sm font-medium">{CONSENT_TEXT[p].title}</p><p className="text-xs text-muted"><BrandText>{CONSENT_TEXT[p].body}</BrandText></p></div>
-              <button className={on ? "btn" : "btn-ghost"} onClick={() => (p === "sms_read" && on ? store.stopMoney() : store.setConsent(p, !on))}>{on ? "On" : "Off"}</button>
-            </div>
+            <li key={p} className="flex items-start justify-between gap-4 py-3">
+              <div className="min-w-0"><p className="font-semibold">{CONSENT_TEXT[p].title}</p><p className="mt-0.5 text-xs leading-relaxed text-muted"><BrandText>{CONSENT_TEXT[p].body}</BrandText></p></div>
+              <Switch on={on} label={CONSENT_TEXT[p].title} onChange={() => (p === "sms_read" && on ? store.stopMoney() : store.setConsent(p, !on))} />
+            </li>
           );
         })}
-        <details className="text-xs text-muted">
-          <summary>Consent history ({db.consents.length} records)</summary>
+        </ul>
+        <details className="border-t border-line pt-3 text-xs text-muted">
+          <summary className="font-semibold text-brand">Consent history ({db.consents.length} records)</summary>
           <ul className="mt-2 space-y-1">
             {[...db.consents].reverse().map((c, i) => (
               <li key={i}>{new Date(c.at).toLocaleString("en-KE")} · {CONSENT_TEXT[c.purpose].title} · {c.granted ? "granted" : "withdrawn"} · v{c.version}</li>
@@ -92,20 +104,17 @@ function AccountInner() {
         </details>
       </section>
 
-      <Link href="/graduates" className="card flex items-center justify-between gap-3 text-sm">
-        <span><span className="block font-medium">Afueni Graduates</span><span className="text-xs text-muted">For people who finished their plan</span></span>
-        <span className="text-brand">Open</span>
-      </Link>
-
-      <section className="card space-y-2">
-        <h2 className="font-semibold">Your data</h2>
+      <section className="card space-y-3">
+        <h2 className="flex items-center gap-2 font-semibold"><LockIcon className="h-5 w-5 text-brand" />Your data</h2>
         <p className="text-xs text-muted">Download a copy of everything we hold about you, or delete it all. Deleting also withdraws the consent to store your loans.</p>
-        <div className="flex gap-2">
-          <button className="btn-ghost" onClick={download}>Download my data</button>
-          <button className="btn-ghost text-bad" onClick={deleteEverything}>{session.status === "signedIn" ? "Delete my account" : "Delete everything"}</button>
+        <div className="grid gap-2 sm:grid-cols-2">
+          <button className="btn-ghost" onClick={download}><DownloadIcon className="h-5 w-5" />Download my data</button>
+          <button className="btn-danger" onClick={deleteEverything}><TrashIcon className="h-5 w-5" />{session.status === "signedIn" ? "Delete my account" : "Delete everything"}</button>
         </div>
-        {deleteError ? <p className="text-xs text-bad">{deleteError}</p> : null}
+        {deleteError ? <p className="flex items-center gap-1.5 text-sm text-bad" role="alert"><AlertIcon className="h-4 w-4" />{deleteError}</p> : null}
       </section>
+      </div>
+      </div>
     </div>
   );
 }
